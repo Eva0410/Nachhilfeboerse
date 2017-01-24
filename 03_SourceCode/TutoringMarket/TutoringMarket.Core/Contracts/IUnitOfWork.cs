@@ -9,7 +9,7 @@ namespace TutoringMarket.Core.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<Tutor> MovieRepository { get; }
+        IGenericRepository<Tutor> TutorRepository { get; }
 
         void Save();
 
