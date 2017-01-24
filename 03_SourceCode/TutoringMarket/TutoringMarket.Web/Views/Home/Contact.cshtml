@@ -1,17 +1,82 @@
 ﻿@{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+    <title>Nachhilfebörse</title>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="mycss.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--   <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body style="background-size: cover">
+
+  <!--  <div id="navback2">
+        <ul>
+
+            <a style="color: white;" class="navbar-brand">Nachhilfebörse</a>
+            <li><a href="profil.html">Profile</a></li>
+            <li><a href="Contact.html" class="selected">Kontaktiere uns </a></li>
+            <li><a href="UeberUns.html">Über uns</a></li>
+            <li><a href="NachhilfebörseLogIn.html">Log In</a></li>
+        </ul>
+    </div> -->
+
+    <h1 class="page-header">Anfrage einreichen</h1>
+
+    <div class="form">
+
+        <form id="new_request" data-form="" class="request-form" action="/hc/de/requests" accept-charset="UTF-8" method="post">
+            <input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="CYT3WSzer7+RWRLru50xzADR6KVSD7ZsjDmJ5FgXQenkn7KlDX6FLGZnMaM3QbDCOSQatkVM/UAQrWz6tBpwfg==" />
+
+            <div class="e-mail" style="width:10.5cm">
+                <label for="request_subject">E-mail *</label>
+                <input type="text" placeholder="Anmeldename" class="form-control">
+            </div>
+
+
+            <div class="e-mail" style="width:10.5cm">
+                <label for="request_subject">Betreff *</label>
+                <input type="text" placeholder="Betreff" class="form-control">
+            </div>
+
+            <div class="suggestion-list" data-hc-class="searchbox" data-hc-suggestion-list="true"></div>
+
+            <div class="e-mail" style="width:10.5cm">
+                <label for="request_subject">Beschreibung *</label>
+                <textarea type="text" placeholder="Beschreibung" class="form-control2"></textarea>
+
+                <p class="test">Geben Sie Details zu Ihrer Anfrage ein. Ein Mitglied unseres Supportteams wird umgehend antworten.</p>
+            </div>
+
+            <!--	<footer><input type="submit" name="commit" value="Einreichen" /></footer>	-->
+            <footer><a href="#" class="myButton">Einreichen</a></footer>
+
+        </form>
+
+    </div>
+
+</body>
