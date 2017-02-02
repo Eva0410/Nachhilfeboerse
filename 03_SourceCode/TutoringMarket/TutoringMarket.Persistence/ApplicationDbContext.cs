@@ -10,6 +10,7 @@ namespace TutoringMarket.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
+        //TODO add further DBSets
         public DbSet<Tutor> tutors { get; set; }
 
         public ApplicationDbContext() : base("name=DefaultConnection")

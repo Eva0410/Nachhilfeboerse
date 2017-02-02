@@ -27,7 +27,7 @@ namespace TutoringMarket.Core
             }).ToList();
 
             _unitOfWork.DeleteDatabase();
-            //_unitOfWork.CategoryRepository.InsertMany(categories);
+            _unitOfWork.TutorRepository.InsertMany(tutors);
             _unitOfWork.Save();
         }
     }
