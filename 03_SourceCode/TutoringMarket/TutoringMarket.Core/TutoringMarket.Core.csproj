@@ -52,7 +52,10 @@
     <Compile Include="Contracts\IEntityObject.cs" />
     <Compile Include="Contracts\IGenericRepository.cs" />
     <Compile Include="Contracts\IUnitOfWork.cs" />
+    <Compile Include="Enities\Class.cs" />
+    <Compile Include="Enities\Department.cs" />
     <Compile Include="Enities\EntityObject.cs" />
+    <Compile Include="Enities\Subject.cs" />
     <Compile Include="Enities\Tutor.cs" />
     <Compile Include="MyString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -20,7 +20,7 @@ namespace TutoringMarket.FillDbTest
                 var tutors = uow.TutorRepository.Get();
                 foreach (var tutor in tutors)
                 {
-                    Console.WriteLine(tutor.Name);
+                    Console.WriteLine(tutor.LastName);
                 }
                 Console.ReadKey();
             }

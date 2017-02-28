@@ -23,7 +23,7 @@ namespace TutoringMarket.Core
             List<Tutor> tutors = csvTutors.Select(l =>
             new Tutor()
             {
-                Name = l[0]
+                LastName = l[0]
             }).ToList();
 
             _unitOfWork.DeleteDatabase();

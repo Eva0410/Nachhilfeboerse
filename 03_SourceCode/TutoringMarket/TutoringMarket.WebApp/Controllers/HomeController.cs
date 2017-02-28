@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TutoringMarket.Core.Contracts;
 
-namespace TutoringMarket.Web.Controllers
+namespace TutoringMarket.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        IUnitOfWork _uow;
-        public HomeController(IUnitOfWork uow)
-        {
-            _uow = uow;
-        }
-
         public IActionResult Index()
         {
-            
             return View();
         }
 
