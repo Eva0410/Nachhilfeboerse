@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TutoringMarket.Core.Contracts;
+using TutoringMarket.Persistence;
 
 namespace TutoringMarket.Web
 {
@@ -35,7 +37,7 @@ namespace TutoringMarket.Web
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
-
+            services.AddTransient<IUnitOfWork, UnitOfWork>(p => new UnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
         }
 

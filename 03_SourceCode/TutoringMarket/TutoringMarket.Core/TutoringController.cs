@@ -19,7 +19,7 @@ namespace TutoringMarket.Core
         public void FillDatabaseFromCsv()
         {
             string[][] csvTutors = FILENAME.ReadStringMatrixFromCsv(true);
-
+            
             List<Tutor> tutors = csvTutors.Select(l =>
             new Tutor()
             {

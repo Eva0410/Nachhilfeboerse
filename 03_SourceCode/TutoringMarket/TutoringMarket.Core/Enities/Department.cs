@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TutoringMarket.Core.Enities
 {
-    public class Department
+    public class Department : EntityObject
     {
         public String Name { get; set; }
     }

@@ -17,7 +17,7 @@ namespace TutoringMarket.Web.Controllers
 
         public IActionResult Index()
         {
-            
+            var li = _uow.TutorRepository.Get().ToList();
             return View();
         }
 
