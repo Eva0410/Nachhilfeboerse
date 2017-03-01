@@ -55,6 +55,7 @@
     <Compile Include="Enities\Class.cs" />
     <Compile Include="Enities\Department.cs" />
     <Compile Include="Enities\EntityObject.cs" />
+    <Compile Include="Enities\Review.cs" />
     <Compile Include="Enities\Subject.cs" />
     <Compile Include="Enities\Tutor.cs" />
     <Compile Include="MyString.cs" />

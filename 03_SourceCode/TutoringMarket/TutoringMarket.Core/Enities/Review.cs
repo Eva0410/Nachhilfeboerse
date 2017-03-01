@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace TutoringMarket.Core.Enities
 {
-    public class Class : EntityObject
+    public class Review : EntityObject
     {
-        [Required,Display(Name="Klasse")]
-        public String Name { get; set; }
+        [Required, Display(Name ="Bücher")]
+        public int Books { get; set; }
+        [Required, Display(Name="Kommentar")]
+        public String Comment { get; set; }
     }
 }

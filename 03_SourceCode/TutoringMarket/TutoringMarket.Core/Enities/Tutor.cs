@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,17 @@ namespace TutoringMarket.Core.Enities
 {
     public class Tutor : EntityObject
     {
+        //TOOD Weitere [] einfügen
         //TODO Bild einfügen
+        [Required, Display(Name ="Vorname")]
         public String FirstName { get; set; }
+        [Required, Display(Name ="Nachname")]
         public String LastName { get; set; }
+        //TODO Regex einfügen
+        [Required]
         public String EMail { get; set; }
+        //TODO Regex
+        [Required]
         public String PhoneNumber { get; set; }
         public String Description { get; set; }
         [Column(TypeName ="datetime2")] //sonst SQL-Exception
