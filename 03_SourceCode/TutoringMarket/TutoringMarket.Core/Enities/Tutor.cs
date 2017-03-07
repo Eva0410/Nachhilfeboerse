@@ -11,31 +11,38 @@ namespace TutoringMarket.Core.Enities
 {
     public class Tutor : EntityObject
     {
-        //TOOD Weitere [] einfügen
         //TODO Bild einfügen
         [Required, Display(Name ="Vorname")]
         public String FirstName { get; set; }
+
         [Required, Display(Name ="Nachname")]
         public String LastName { get; set; }
-        //TODO Regex einfügen
-        [Required]
+
+        [Required, RegularExpression("^[_a-Z0-9-]+(.[a-Z0-9-]+)@[a-Z0-9-]+(.[a-Z0-9-]+)*(.[a-Z]{2,4})$"),Display(Name ="E-Mail")]
         public String EMail { get; set; }
-        //TODO Regex
-        [Required]
+
+        [RegularExpression("^[0-9]*$"), Display(Name ="Telefonnummer")]
         public String PhoneNumber { get; set; }
+
+        [Display(Name ="Beschreibung"), StringLength(300)]
         public String Description { get; set; }
-        [Column(TypeName ="datetime2")] //sonst SQL-Exception
+
+        [Required, Column(TypeName ="datetime2"), Display(Name ="Geburtsdatum")] //sonst SQL-Exception
         public DateTime Birthday { get; set; }
+
+        [Required, Display(Name ="Zeit")]
         public String[] Time { get; set; }
+
+        [Required, Display(Name ="Preis")]
         public double Price { get; set; }
-        //TODO M-M Relation implementieren
-        public Subject[] Subjects { get; set; }
+
         //TODO Testdatensätze einfügen
-        //[ForeignKey("Department_Id")]
-        //public Department Department { get; set; }
-        //public int Department_Id { get; set; }
-        //[ForeignKey("Class_Id")]
-        //public Class Class { get; set; }
-        //public int Class_Id { get; set; }
+        [Display(Name="Abteilung"), Required, ForeignKey("Department_Id")]
+        public Department Department { get; set; }
+        public int Department_Id { get; set; }
+
+        [ForeignKey("Class_Id"), Display(Name ="Klasse"), Required]
+        public Class Class { get; set; }
+        public int Class_Id { get; set; }
     }
 }

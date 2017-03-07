@@ -9,9 +9,15 @@ namespace TutoringMarket.Core.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {
-        //TODO add further repositories
-
+        //TODO maybe add further repositories
+        
         IGenericRepository<Tutor> TutorRepository { get; }
+        IGenericRepository<Class> ClassRepository { get; }
+        IGenericRepository<Department> DepartmentRepository { get; }
+        IGenericRepository<Review> ReviewRepository { get; }
+        IGenericRepository<Subject> SubjectRepository { get; }
+        IGenericRepository<Tutor_Subject> TutorSubjectRepository { get; }
+
 
         void Save();
 

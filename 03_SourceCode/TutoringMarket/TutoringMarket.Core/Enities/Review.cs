@@ -11,6 +11,7 @@ namespace TutoringMarket.Core.Enities
     {
         [Required, Display(Name ="Bücher")]
         public int Books { get; set; }
+
         [Required, Display(Name="Kommentar")]
         public String Comment { get; set; }
     }

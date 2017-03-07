@@ -16,7 +16,7 @@ namespace TutoringMarket.Persistence
         /// <summary>
         ///     Konkrete Repositories. Keine Ableitung erforderlich
         /// </summary>
-        /// TODO add further Repositories
+        /// TODO maybe add further Repositories
         private GenericRepository<Tutor> _tutorRepository;
 
         public IGenericRepository<Tutor> TutorRepository
@@ -28,6 +28,62 @@ namespace TutoringMarket.Persistence
                 return _tutorRepository;
             }
         }
+        private GenericRepository<Class> _classRepository;
+
+        public IGenericRepository<Class> ClassRepository
+        {
+            get
+            {
+                if (_classRepository == null)
+                    _classRepository = new GenericRepository<Class>(_context);
+                return _classRepository;
+            }
+        }
+        private GenericRepository<Department> _departmentRepository;
+
+        public IGenericRepository<Department> DepartmentRepository
+        {
+            get
+            {
+                if (_departmentRepository == null)
+                    _departmentRepository = new GenericRepository<Department>(_context);
+                return _departmentRepository;
+            }
+        }
+        private GenericRepository<Review> _reviewRepository;
+
+        public IGenericRepository<Review> ReviewRepository
+        {
+            get
+            {
+                if (_reviewRepository == null)
+                    _reviewRepository = new GenericRepository<Review>(_context);
+                return _reviewRepository;
+            }
+        }
+        private GenericRepository<Subject> _subjectRepository;
+
+        public IGenericRepository<Subject> SubjectRepository
+        {
+            get
+            {
+                if (_subjectRepository == null)
+                    _subjectRepository = new GenericRepository<Subject>(_context);
+                return _subjectRepository;
+            }
+        }
+        private GenericRepository<Tutor_Subject> _tutorSubjectRepository;
+
+        public IGenericRepository<Tutor_Subject> TutorSubjectRepository
+        {
+            get
+            {
+                if (_tutorSubjectRepository == null)
+                    _tutorSubjectRepository = new GenericRepository<Tutor_Subject>(_context);
+                return _tutorSubjectRepository;
+            }
+        }
+
 
         public UnitOfWork(string connectionString)
         {
