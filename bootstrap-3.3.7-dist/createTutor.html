@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Nachhilfebörse</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="mycss.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+ <!--   <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	
+	<SCRIPT language=Javascript>
+      <!--
+      function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
+      //-->
+   </SCRIPT>
+   
+  </head>
+  
+  <body style="background-size: cover">
+  
+	<div id="navback2">
+		<ul>
+			
+			<a style="color: white;" class="navbar-brand" >Nachhilfebörse</a>
+			<li><a href="profil.html">Profile</a></li>
+			<li><a href="Contact.html" class="selected">Kontaktiere uns </a></li>
+			<li><a href="UeberUns.html">Über uns</a></li>
+			<li><a href="NachhilfebörseLogIn.html">Log In</a></li>
+		</ul>
+	</div>
+  
+    <h1 class="page-header">Profil erstellen</h1>
+
+	<div class="form">
+  
+		<form id="new_request" data-form="" class="request-form" action="/hc/de/requests" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="CYT3WSzer7+RWRLru50xzADR6KVSD7ZsjDmJ5FgXQenkn7KlDX6FLGZnMaM3QbDCOSQatkVM/UAQrWz6tBpwfg==" />
+
+			<div class="e-mail" style="width:10.5cm">
+				<label for="request_subject">Name *</label>
+				<input type="text" placeholder="Name" class="form-control">
+			</div>
+			
+			<div class="e-mail" style="width:10.5cm">
+				<label for="request_subject">Vorname *</label>
+				<input type="text" placeholder="Vorname" class="form-control">
+			</div>
+			
+			<div class="e-mail" style="width:10.5cm">
+				<label for="request_subject">E-mail *</label>
+				<input type="text" placeholder="E-mail" class="form-control">
+			</div>
+			
+			<div class="e-mail" style="width:10.5cm">
+				<label for="request_subject">Handynummer</label>
+				<input onkeypress="return isNumberKey(event)" type="text" placeholder="Handynummer" class="form-control">
+			</div>
+			
+			<div class="e-mail" style="width:10.5cm">
+				<label for="request_subject">Preis *</label>
+				<input type="number" step=".01" placeholder="Preis" class="form-control">
+			</div>
+
+			<select>
+				<option value="mathe">Mathe</option>
+				<option value="deutsch">Deutsch</option>
+				<option value="englisch">Englisch</option>
+				<option value="programmieren">Programmieren</option>
+			</select>
+			
+			<select>
+				<option value="informatik">Informatik</option>
+				<option value="medientechnik">Medientechnik</option>
+				<option value="elektronik">Elektronik</option>
+				<option value="biomedizin">Biomedizin</option>
+			</select>
+		
+				<div class="e-mail" style="width:10.5cm">
+					<label for="request_subject">Beschreibung *</label>
+					<textarea type="text" placeholder="Zitat / Motto" class="form-control2"></textarea>
+				</div>
+
+			<!--	<footer><input type="submit" name="commit" value="Einreichen" /></footer>	-->
+			<footer><a href="#" class="myButton">Einreichen</a></footer>
+
+		</form>
+
+	</div>
+  
+  </body>

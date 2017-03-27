@@ -18,12 +18,12 @@ namespace TutoringMarket.Web.Controllers
 
         public IActionResult Index()
         {
-            string user = "in130021";
+            /*string user = "in130021";
             string pw = "yuchdybu";
 
             int? n = CheckLogin(user, pw).Result;
 
-            //var li = _uow.TutorRepository.Get().ToList();
+            //var li = _uow.TutorRepository.Get().ToList();*/
             return View();
         }
         async Task<int?> CheckLogin(string user, string pw)
