@@ -532,9 +532,10 @@ div#test2{
 
 
 
-
-
 body {
+    background-image: url(../Images/bestBackground3.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;
     padding-top: 50px;
     padding-bottom: 20px;
 }

@@ -23,7 +23,7 @@ namespace TutoringMarket.Web.Controllers
 
             //int? n = CheckLogin(user, pw).Result;
 
-            //var li = _uow.TutorRepository.Get().ToList();
+            //var li = _uow.TutorRepository.Get().ToList();*/
             return View();
         }
         async Task<int?> CheckLogin(string user, string pw)
