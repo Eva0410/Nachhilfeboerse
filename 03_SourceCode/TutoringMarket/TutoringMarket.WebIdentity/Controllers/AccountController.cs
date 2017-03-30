@@ -60,7 +60,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                //var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                //var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
 
                 //if (result.Succeeded)
                 //{
@@ -81,7 +81,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 //    return View(model);
                 //}
-                int result = await GetResult(model.Email, model.Password);
+                int result = await GetResult(model.UserName, model.Password);
                 if (result == 0)
                 {
                     _logger.LogInformation(1, "User logged in.");
@@ -140,7 +140,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                    //await _emailSender.SendEmailAsync(model.UserName, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
@@ -300,7 +300,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 // Send an email with this link
                 //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                //await _emailSender.SendEmailAsync(model.UserName, "Reset Password",
                 //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
                 //return View("ForgotPasswordConfirmation");
             }
@@ -404,7 +404,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
 
             var message = "Your security code is: " + code;
-            if (model.SelectedProvider == "Email")
+            if (model.SelectedProvider == "UserName")
             {
                 await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
             }

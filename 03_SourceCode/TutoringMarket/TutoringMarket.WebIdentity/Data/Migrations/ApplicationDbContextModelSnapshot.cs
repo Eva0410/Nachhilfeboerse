@@ -132,7 +132,7 @@ namespace TutoringMarket.WebIdentity.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Email")
+                    b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");

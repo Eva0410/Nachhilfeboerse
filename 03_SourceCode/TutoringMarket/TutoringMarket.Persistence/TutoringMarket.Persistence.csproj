@@ -51,6 +51,11 @@
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="GenericRepository.cs" />
+    <Compile Include="Migrations\201702281854166_InitialCreate.cs" />
+    <Compile Include="Migrations\201702281854166_InitialCreate.Designer.cs">
+      <DependentUpon>201702281854166_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
@@ -63,6 +68,11 @@
       <Project>{E7CAE8E1-5DD7-4576-95B8-97CFAA85DE89}</Project>
       <Name>TutoringMarket.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702281854166_InitialCreate.resx">
+      <DependentUpon>201702281854166_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

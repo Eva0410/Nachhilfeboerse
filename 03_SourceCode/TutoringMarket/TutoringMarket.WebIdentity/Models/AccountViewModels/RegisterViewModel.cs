@@ -10,7 +10,7 @@ namespace TutoringMarket.WebIdentity.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "UserName")]
         public string Email { get; set; }
 
         [Required]
