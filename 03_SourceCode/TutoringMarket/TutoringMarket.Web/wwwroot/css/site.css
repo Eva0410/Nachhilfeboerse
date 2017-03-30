@@ -42,6 +42,7 @@
 
 
 .anmeldename{
+    
 	padding-bottom: 3px;
 }
 
@@ -60,16 +61,17 @@
 }
 
 @font-face { font-family: 'meine-schrift';
-             src: url('fonts/Moon Flower.ttf') format('truetype'); }
+             src: url('Moon Flower.ttf') format('truetype'); }
  
 @font-face { font-family: 'htl';
-             src: url('fonts/htl2.ttf') format('truetype'); }
+             src: url('htl2.ttf') format('truetype'); 
+}
 			 
 @font-face { font-family: 'htl2';
-             src: url('fonts/CODE Light.otf') format('truetype'); }
+             src: url('CODE Light.otf') format('truetype'); }
 			 
 @font-face { font-family: 'school';
-             src: url('fonts/school.ttf') format('truetype'); }
+             src: url('school.ttf') format('truetype'); }
 			 
 
 #irwos{
@@ -88,6 +90,8 @@
 #quote{
 	line-height: 13vh;
 	font-size: 10vh;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 #loginFormular{
 	margin-left: 200px;
@@ -97,6 +101,7 @@
 	display: inline;
 	float: left;
 }
+
 #navback{	
 	background-image: url("bestBackground3.jpg");
 	width: 100%;
