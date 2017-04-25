@@ -16,7 +16,6 @@ namespace TutoringMarket.Persistence
         /// <summary>
         ///     Konkrete Repositories. Keine Ableitung erforderlich
         /// </summary>
-        /// TODO maybe add further Repositories
         private GenericRepository<Tutor> _tutorRepository;
 
         public IGenericRepository<Tutor> TutorRepository
@@ -28,14 +27,14 @@ namespace TutoringMarket.Persistence
                 return _tutorRepository;
             }
         }
-        private GenericRepository<Class> _classRepository;
+        private GenericRepository<SchoolClass> _classRepository;
 
-        public IGenericRepository<Class> ClassRepository
+        public IGenericRepository<SchoolClass> ClassRepository
         {
             get
             {
                 if (_classRepository == null)
-                    _classRepository = new GenericRepository<Class>(_context);
+                    _classRepository = new GenericRepository<SchoolClass>(_context);
                 return _classRepository;
             }
         }

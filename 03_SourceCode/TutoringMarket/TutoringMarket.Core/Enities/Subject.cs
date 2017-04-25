@@ -9,6 +9,7 @@ namespace TutoringMarket.Core.Enities
 {
     public class Subject : EntityObject
     {
+        //TODO Subject Datensätze einfügen
         [Required,Display(Name="Fach")]
         public String Name { get; set; }
     }

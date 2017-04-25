@@ -10,7 +10,6 @@ namespace TutoringMarket.Persistence.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "TutoringMarket.Persistence.ApplicationDbContext";
         }
 
         protected override void Seed(TutoringMarket.Persistence.ApplicationDbContext context)

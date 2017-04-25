@@ -11,14 +11,16 @@ namespace TutoringMarket.Core.Enities
 {
     public class Tutor : EntityObject
     {
-        //TODO Bild einfügen
+        //TODO Bild beim einfügen konvertieren
+        [Display(Name ="Bild")]
+        public byte[] Image { get; set; }
         [Required, Display(Name ="Vorname")]
         public String FirstName { get; set; }
 
         [Required, Display(Name ="Nachname")]
         public String LastName { get; set; }
-
-        [Required, RegularExpression("^[_a-Z0-9-]+(.[a-Z0-9-]+)@[a-Z0-9-]+(.[a-Z0-9-]+)*(.[a-Z]{2,4})$"),Display(Name ="E-Mail")]
+                
+        [Required, RegularExpression("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"),Display(Name ="E-Mail")]
         public String EMail { get; set; }
 
         [RegularExpression("^[0-9]*$"), Display(Name ="Telefonnummer")]
@@ -36,13 +38,12 @@ namespace TutoringMarket.Core.Enities
         [Required, Display(Name ="Preis")]
         public double Price { get; set; }
 
-        //TODO Testdatensätze einfügen
         [Display(Name="Abteilung"), Required, ForeignKey("Department_Id")]
         public Department Department { get; set; }
         public int Department_Id { get; set; }
 
         [ForeignKey("Class_Id"), Display(Name ="Klasse"), Required]
-        public Class Class { get; set; }
+        public SchoolClass Class { get; set; }
         public int Class_Id { get; set; }
     }
 }

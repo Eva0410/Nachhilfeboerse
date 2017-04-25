@@ -7,13 +7,13 @@ namespace TutoringMarket.Persistence.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class Bild : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Bild));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702281854166_InitialCreate"; }
+            get { return "201704251259059_Bild"; }
         }
         
         string IMigrationMetadata.Source

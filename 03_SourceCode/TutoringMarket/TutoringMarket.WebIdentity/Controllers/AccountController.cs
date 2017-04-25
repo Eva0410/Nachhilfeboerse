@@ -87,9 +87,14 @@ namespace TutoringMarket.WebIdentity.Controllers
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
+                else if (result > 0)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt (Username invalid)");
+                    return View(model);
+                }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt (Password invalid");
                     return View(model);
                 }
             }
@@ -97,6 +102,10 @@ namespace TutoringMarket.WebIdentity.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        //TODO: 1 == username false, -1 == password false?? zweimal ändern
+        //TODO: Exceptionhandling
+        //TODO: Delete unnecassary code
+        //TODO: Resultfehler gut zurückgeben
         private async Task<int> GetResult(string name, string password)
         {
             int result = 1;
@@ -104,10 +113,16 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 SVSAuthenticationSoapClient client = new SVSAuthenticationSoapClient(SVSAuthenticationSoapClient.EndpointConfiguration.SVSAuthenticationSoap);
                 result = await client.CheckLdapSchuelerLoginEdvoAsync(name, password);
-                if (result != 0)
+                if (result <= 0)
+                {
+                    return result;
+                    
+                }
+                else if(result > 0)
                 {
                     result = await client.CheckLdapSchuelerLoginElektronikAsync(name, password);
                 }
+                
             }
             return result;
         }
