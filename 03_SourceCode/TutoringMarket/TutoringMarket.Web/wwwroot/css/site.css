@@ -103,14 +103,14 @@
 }
 
 #navback{	
-	background-image: url("bestBackground3.jpg");
+	
 	width: 100%;
 	background-size: cover;
 	position: fixed;
     overflow: hidden;
 }
 #navback2{
-	background-image: url("bestBackground3.jpg");
+	
 	background-size: cover;
 }
 
@@ -272,7 +272,7 @@ h4.team1{
 	#width: 1342px;
 	#margin-top: 3px;
 	#border-radius: 5px;
-	background-image: url("bestBackground3.jpg");
+	
 	background-attachment: fixed;
 	position:relative;
 }
@@ -521,7 +521,7 @@ div#test2{
 
 
 body {
-    background-image: url(../Images/bestBackground3.jpg);
+  
     background-repeat:no-repeat;
     background-size:cover;
     padding-top: 50px;
