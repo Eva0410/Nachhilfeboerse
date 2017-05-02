@@ -106,6 +106,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         //TODO: Exceptionhandling
         //TODO: Delete unnecassary code
         //TODO: Resultfehler gut zurückgeben
+        //TODO: selbstsigniertes Zertifikat verwendet
         private async Task<int> GetResult(string name, string password)
         {
             int result = 1;
