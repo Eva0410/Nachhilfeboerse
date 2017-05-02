@@ -18,7 +18,7 @@
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
-    <div class="navbar navbar-fixed-top">
+
         <!--    <div class="container">
                     <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,20 +29,13 @@
             </button>
                  <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">TutoringMarket.Web</a>
             </div>  -->
-        <div class="navbar-collapse collapse">
-            <ul>
-                <a style="color: white;" class="navbar-brand">Nachhilfebörse</a>
-                <li><a asp-area="" asp-controller="" asp-action="Login">Log In</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktier uns</a></li>
-            </ul>
+        
             <!--     <ul class="nav navbar-nav">
                      <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                      <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                      <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                  </ul> -->
-        </div>
-    </div>
-    </div>
+
     @RenderBody()
 
     <environment names="Development">

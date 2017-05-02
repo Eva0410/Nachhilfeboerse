@@ -47,11 +47,104 @@
 	padding-bottom: 3px;
 }
 
+.greenBack{
+    background-color: #7bbb5e;
+    height: 25vh;
+    width: 100%;
+}
+
+h1.index{
+    position: absolute;
+    margin: -5px 0 6px 0;
+    margin-left: 15vh;
+    margin-top: 6vh;
+    font-size: 72px;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: #fff;
+}
+
+em.index{
+    font-weight: normal;
+    font-style: normal;
+    color: rgba(255,255,255,0.5);
+}
+
+.teacherButton {
+    border:hidden;
+    float: right;
+    width: 200px;
+    display: block;
+    margin-top: 5vh;
+    margin-right: 20vh;
+    padding: 15px 10px;
+    font-size: 12px;
+    font-family: Arial;
+    color: #2e2e2e;
+    line-height: 1.4;
+    text-align: center;
+    background: rgba(232, 232, 232, 0.8);
+    border-radius: 6px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+.teacherButton:hover,
+.teacherButton:active {
+  background-color: #FFFFFF;
+}	
+
+.whiteBox{
+    background-color: #FFF;
+    height: auto;
+    width: 62%;
+    border-radius: 12px;
+    position: absolute;
+    top: 28vh;
+    margin-left: 15vh;
+    margin-bottom: 5vh;
+}
+
+.teacher{
+    background-color: #E8E8E8;
+    height: 60vh;
+    width: 40vh;
+    margin: 5vh 0 0 5vh;
+    margin-bottom: 5vh;
+}
+
+.testPic{
+    height: 30vh;
+    width: 40vh;
+}
+
+#blackFilter1{
+    background-color: #313131;
+    height: 40vh;
+    width: 38vh;
+    border-radius: 7px;
+    margin-right: 15vh;
+    margin-top: 5vh;
+    float: right;
+}
+
+#filterFach{
+    margin: 3vh 0 5px 10px;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: #ccc;
+    border: none;
+    background: none;
+}
+
 .navbar-brand {
   float: left;
   height: 50px;
   padding: 15px 15px;
-  font-size: 30px;
+  font-size: 27px;
   line-height: 20px;
 }
 	
@@ -60,6 +153,9 @@
 	font-size: 40px;
 	margin-bottom: 30px;
 }
+
+@font-face { font-family: 'nachhilfebörse';
+             src: url('Gabrielle.ttf') format('truetype'); }
 
 @font-face { font-family: 'meine-schrift';
              src: url('Moon Flower.ttf') format('truetype'); }
@@ -103,17 +199,7 @@
 	float: left;
 }
 
-#navback{	
-	background-image: url("bestBackground3.jpg");
-	width: 100%;
-	background-size: cover;
-	position: fixed;
-    overflow: hidden;
-}
-#navback2{
-	background-image: url("bestBackground3.jpg");
-	background-size: cover;
-}
+
 
 ul {
     list-style-type: none;
@@ -130,31 +216,25 @@ li {
 
 li a {
     display: block;
-    color: white;
+    color: #999;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 li a:hover {
-    background-color: rgba(255, 255, 255, 0.8);
+    color: #DDD;
 	text-decoration: none;
-}
-li a:focus {
-    background-color: rgba(255, 255, 255, 0.8);
-	text-decoration: none;
-	color: #23527c;
 }
 
 .selected{
-	background-color:rgba(255, 255, 255, 0.8);
-	color: #23527c;	
+	color: #FFF;	
 }
 
 h1.page-header {
 	font-family:'Arial';
 	font-size: 31px;
-	text-align: center;
+	text-align: center; 
 }
 
 #profilePic{
@@ -308,12 +388,6 @@ div#test2{
 	float:right;
 }
 
-.form {
-	margin-top: 50px;
-	margin-left: 500px;
-	max-width: 505px;
-}
-
 .form-field + .form-field {
   margin-top: 25px;
 }
@@ -347,7 +421,7 @@ div#test2{
 
 
 .form-control2 {
-  display: inline-block;
+  display: block;
   width: 100%;
   height: 120px;
   padding: 6px 12px;
