@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="ApplicationDbContext_TutoringMarket.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="Migrations\201704251154317_InitialCreate.cs" />
     <Compile Include="Migrations\201704251154317_InitialCreate.Designer.cs">
@@ -58,6 +58,10 @@
     <Compile Include="Migrations\201704251259059_Bild.cs" />
     <Compile Include="Migrations\201704251259059_Bild.Designer.cs">
       <DependentUpon>201704251259059_Bild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705161217567_Tutor-Id added.cs" />
+    <Compile Include="Migrations\201705161217567_Tutor-Id added.Designer.cs">
+      <DependentUpon>201705161217567_Tutor-Id added.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +83,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704251259059_Bild.resx">
       <DependentUpon>201704251259059_Bild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705161217567_Tutor-Id added.resx">
+      <DependentUpon>201705161217567_Tutor-Id added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

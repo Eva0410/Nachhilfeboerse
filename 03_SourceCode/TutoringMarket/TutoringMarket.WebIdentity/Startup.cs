@@ -12,11 +12,14 @@ using Microsoft.Extensions.Logging;
 using TutoringMarket.WebIdentity.Data;
 using TutoringMarket.WebIdentity.Models;
 using TutoringMarket.WebIdentity.Services;
+using TutoringMarket.Core.Contracts;
+using TutoringMarket.Persistence;
 
 namespace TutoringMarket.WebIdentity
 {
     public class Startup
     {
+        
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -46,14 +49,16 @@ namespace TutoringMarket.WebIdentity
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultIdentityConnection")));
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>(p => new UnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-
+            
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

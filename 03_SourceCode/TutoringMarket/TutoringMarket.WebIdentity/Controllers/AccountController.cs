@@ -84,17 +84,20 @@ namespace TutoringMarket.WebIdentity.Controllers
                 int result = await GetResult(model.UserName, model.Password);
                 if (result == 0)
                 {
+                    var user = new ApplicationUser { UserName = model.UserName };
+                    await _userManager.CreateAsync(user);
+                    await _signInManager.SignInAsync(user, false);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
-                else if (result > 0)
+                else if (result == 1 || result == 2)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt (Username invalid)");
+                    ModelState.AddModelError(string.Empty, "Dein Passwort oder dein Benutzername ist falsch!");
                     return View(model);
                 }
-                else
+                else if (result == 3)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt (Password invalid");
+                    ModelState.AddModelError(string.Empty, "Uups, etwas ist schiefgelaufen!");
                     return View(model);
                 }
             }
@@ -102,28 +105,29 @@ namespace TutoringMarket.WebIdentity.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        //TODO: 1 == username false, -1 == password false?? zweimal ändern
-        //TODO: Exceptionhandling
+        
         //TODO: Delete unnecassary code
-        //TODO: Resultfehler gut zurückgeben
         //TODO: selbstsigniertes Zertifikat verwendet
         private async Task<int> GetResult(string name, string password)
         {
-            int result = 1;
-            if(!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
+            int result = 4;
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
             {
                 SVSAuthenticationSoapClient client = new SVSAuthenticationSoapClient(SVSAuthenticationSoapClient.EndpointConfiguration.SVSAuthenticationSoap);
-                result = await client.CheckLdapSchuelerLoginEdvoAsync(name, password);
-                if (result <= 0)
+                try
                 {
-                    return result;
-                    
+                    result = await client.CheckLdapSchuelerLoginEdvoAsync(name, password);
+                    if (result > 0)
+                    {
+                        result = await client.CheckLdapSchuelerLoginElektronikAsync(name, password);
+                    }
                 }
-                else if(result > 0)
+                catch(Exception e)
                 {
-                    result = await client.CheckLdapSchuelerLoginElektronikAsync(name, password);
+                    result = 3;
+                    Console.WriteLine(e.Message);
                 }
-                
+   
             }
             return result;
         }
