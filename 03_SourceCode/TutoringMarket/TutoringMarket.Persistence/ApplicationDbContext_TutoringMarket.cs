@@ -8,7 +8,7 @@ using TutoringMarket.Core.Enities;
 
 namespace TutoringMarket.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext_TutoringMarket : DbContext
     {
         public DbSet<Tutor> Tutors { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -18,12 +18,12 @@ namespace TutoringMarket.Persistence
         public DbSet<Tutor_Subject> TutorSubjects { get; set; }
 
 
-        public ApplicationDbContext() : base("name=DefaultConnection")
+        public ApplicationDbContext_TutoringMarket() : base("name=DefaultConnection")
         {
 
         }
 
-        public ApplicationDbContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        public ApplicationDbContext_TutoringMarket(string nameOrConnectionString) : base(nameOrConnectionString)
         {
 
         }

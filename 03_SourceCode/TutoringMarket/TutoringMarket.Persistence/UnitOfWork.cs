@@ -10,7 +10,7 @@ namespace TutoringMarket.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext_TutoringMarket _context = new ApplicationDbContext_TutoringMarket();
         private bool _disposed;
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TutoringMarket.Persistence
 
         public UnitOfWork(string connectionString)
         {
-            _context = new ApplicationDbContext(connectionString);
+            _context = new ApplicationDbContext_TutoringMarket(connectionString);
         }
 
         public UnitOfWork() : this("name=DefaultConnection")

@@ -45,5 +45,6 @@ namespace TutoringMarket.Core.Enities
         [ForeignKey("Class_Id"), Display(Name ="Klasse"), Required]
         public SchoolClass Class { get; set; }
         public int Class_Id { get; set; }
+        public string IdentityName { get; set; }
     }
 }

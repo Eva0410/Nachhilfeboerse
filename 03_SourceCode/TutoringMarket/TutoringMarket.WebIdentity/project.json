@@ -14,6 +14,7 @@
     "Microsoft.AspNetCore.Routing": "1.0.1",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
+    "Microsoft.AspNetCore.Session": "1.1.1",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
     "Microsoft.EntityFrameworkCore.SqlServer.Design": {
@@ -60,6 +61,14 @@
         "System.Runtime.Serialization": "4.0.0.0",
         "System.ServiceModel": "4.0.0.0",
         "System.Xml": "4.0.0.0"
+      },
+      "dependencies": {
+        "TutoringMarket.Core": {
+          "target": "project"
+        },
+        "TutoringMarket.Persistence": {
+          "target": "project"
+        }
       }
     }
   },
