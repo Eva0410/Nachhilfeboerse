@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = "GetTutor";
 }
 <head>
     <meta charset="utf-8">
@@ -37,31 +37,42 @@
         </div>
     </div>
 
-        <h1 class="page-header">Anfrage einreichen</h1>
+    <h1 class="page-header">Werde Nachhilfelehrer</h1>
+
 
     <div align="center">
         <form class="anfrageForm" accept-charset="UTF-8" method="post">
 
             <div style="width:10.5cm">
-                
-                <input type="text" placeholder="Anmeldename*" class="form-control">
+                <input type="text" placeholder="Vorname*" class="form-control">
                 <br />
             </div>
 
 
             <div style="width:10.5cm">
-                
-                <input type="text" placeholder="Betreff*" class="form-control">
+                <input type="text" placeholder="Nachname*" class="form-control">
+                <br />
+            </div>
+
+
+            <div style="width:10.5cm">
+                <input type="number" placeholder="Handynummer*" class="form-control">
+                <br />
             </div>
 
             <div style="width:10.5cm">
-                
+
                 <br />
                 <textarea type="text" placeholder="Beschreibung*" class="form-control2"></textarea>
 
-                <p class="test">Geben Sie Details zu Ihrer Anfrage ein. Ein Mitglied unseres Supportteams wird umgehend antworten.</p>
+                <p class="test">Motivationsspruch / Beschreibung</p>
             </div>
 
+            <label for="file">Upload Image:</label>
+            <input type="file" name="file" id="file" style="width: 100%;" />
+            <input type="submit" value="Upload" class="submit" />
+            <br/>
+            <br/>
             <footer><a href="#" class="myButton">Einreichen</a></footer>
 
         </form>

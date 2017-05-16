@@ -27,6 +27,13 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View();
         }
 
+        public IActionResult GetTutor()
+        {
+            ViewData["Message"] = "Your tutor page.";
+
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();

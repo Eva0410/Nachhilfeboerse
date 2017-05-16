@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = "Index";
 }-
 <head>
     <meta charset="utf-8">
@@ -31,7 +31,7 @@
             <ul>
                 <a style="color: white;" class="navbar-brand">Nachhilfebörse</a>
                 <li><a asp-area="" asp-controller="" asp-action="Login">Log In</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktier uns</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Index" class="selected">Index</a></li>
             </ul>
         </div>
@@ -43,7 +43,8 @@
         </h1>
 
         <div>
-            <button style="float:right;" class="teacherButton">Gib auch du Nachhilfe</button>
+            <button style="float:right;" class="teacherButton" type="button"
+                    onclick="location.href='@Url.Action("GetTutor", "Home")'">Werde auch du Lehrer</button>               
         </div>
 
     </div>
