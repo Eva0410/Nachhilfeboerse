@@ -191,22 +191,14 @@ em.index{
     margin-right: 15px;
 }
 
-#loginFormular{
-    height: 60vh;
-	width: 35vw;
-	display: inline;
-	float: left;
-}
 
-@media(min-width:780px){
-    #loginFormular{
-        margin-left: 200px;
-	    margin-top: 130px;
-	    height: 60vh;
-	    width: 35vw;
-	    display: inline;
-	    float: left;
-    }
+#loginFormular {
+    margin-left: 200px;
+    margin-top: 130px;
+    height: 60vh;
+    width: 35vw;
+    display: inline;
+    float: left;
 }
 
 ul {
