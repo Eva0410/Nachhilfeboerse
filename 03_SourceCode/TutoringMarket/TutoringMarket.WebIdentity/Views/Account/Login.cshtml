@@ -76,22 +76,21 @@
                         <section>
                             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
 
-                                <div asp-validation-summary="All" class="text-danger"></div>
+                                
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"></label>
                                     <div class="col-md-10">
                                         <input placeholder="Anmeldename" asp-for="UserName" class="form-control" style="width: 60vh;" />
-                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                      
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"></label>
                                     <div class="col-md-10">
                                         <input placeholder="Passwort" asp-for="Password" class="form-control" style="width: 60vh;" />
-                                        <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
-
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <div style="text-decoration: none;">
                                     <button type="submit" class="ghost-button">Log in</button>
                                 </div>
