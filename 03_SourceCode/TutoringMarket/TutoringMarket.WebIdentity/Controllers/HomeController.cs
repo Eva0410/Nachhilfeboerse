@@ -20,7 +20,14 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult Index()
         {
             IndexModel model = new IndexModel();
-            model.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName)).ToList();
+            model.FillTutors(uow);
+            return View(model);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Index(IndexModel model)
+        {
+            model.FillTutors(uow);
             return View(model);
         }
         [Authorize]
