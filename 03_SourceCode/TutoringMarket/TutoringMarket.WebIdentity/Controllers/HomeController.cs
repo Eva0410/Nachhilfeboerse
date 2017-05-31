@@ -17,7 +17,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow = _uow;
         }
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Index(String SortTextBefore)
         {
             IndexModel model = new IndexModel();
             model.FillTutors(uow);
@@ -27,6 +27,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         [Authorize]
         public IActionResult Index(IndexModel model)
         {
+            ModelState.Clear();
             model.FillTutors(uow);
             return View(model);
         }

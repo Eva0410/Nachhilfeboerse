@@ -63,6 +63,22 @@
     <Compile Include="Migrations\201705161217567_Tutor-Id added.Designer.cs">
       <DependentUpon>201705161217567_Tutor-Id added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705231215379_Gender Added.cs" />
+    <Compile Include="Migrations\201705231215379_Gender Added.Designer.cs">
+      <DependentUpon>201705231215379_Gender Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705231219105_Gender Added2.cs" />
+    <Compile Include="Migrations\201705231219105_Gender Added2.Designer.cs">
+      <DependentUpon>201705231219105_Gender Added2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705301220148_SubjectListAdded.cs" />
+    <Compile Include="Migrations\201705301220148_SubjectListAdded.Designer.cs">
+      <DependentUpon>201705301220148_SubjectListAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705301308325_Tutor_Subject_Relation added.cs" />
+    <Compile Include="Migrations\201705301308325_Tutor_Subject_Relation added.Designer.cs">
+      <DependentUpon>201705301308325_Tutor_Subject_Relation added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -86,6 +102,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705161217567_Tutor-Id added.resx">
       <DependentUpon>201705161217567_Tutor-Id added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705231215379_Gender Added.resx">
+      <DependentUpon>201705231215379_Gender Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705231219105_Gender Added2.resx">
+      <DependentUpon>201705231219105_Gender Added2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705301220148_SubjectListAdded.resx">
+      <DependentUpon>201705301220148_SubjectListAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705301308325_Tutor_Subject_Relation added.resx">
+      <DependentUpon>201705301308325_Tutor_Subject_Relation added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

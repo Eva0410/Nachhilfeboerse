@@ -46,5 +46,9 @@ namespace TutoringMarket.Core.Enities
         public SchoolClass Class { get; set; }
         public int Class_Id { get; set; }
         public string IdentityName { get; set; }
+        [Display(Name ="Geschlecht"), Required, RegularExpression("^(W|M)$")]
+        public string Gender { get; set; }
+
+        public List<Tutor_Subject> Tutor_Subjects { get; set; }
     }
 }

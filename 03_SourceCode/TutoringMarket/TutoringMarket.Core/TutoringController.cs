@@ -35,17 +35,30 @@ namespace TutoringMarket.Core
                 Time = l[5].Split(','),
                 Price = Convert.ToInt32(l[6]),
                 Department = departments.Where(d => d.Name == l[7]).FirstOrDefault(),
-                Class = classes.Where(c => c.Name == l[8]).FirstOrDefault()
+                Class = classes.Where(c => c.Name == l[8]).FirstOrDefault(),
+                Gender = l[9]
 
             }).ToList();
 
+            string[][] csvTutorSubjects = "TestTutor_Subjects.csv".ReadStringMatrixFromCsv(true);
+
+            List<Tutor_Subject> tutor_subjects =csvTutorSubjects.Select(ts =>
+           new Tutor_Subject()
+           {    
+               Tutor = tutors.SingleOrDefault(t => t.LastName == ts[0]),
+               Subject = subjects.SingleOrDefault(s => s.Name == ts[1])
+
+           }).ToList();
+
             _unitOfWork.DeleteDatabase();
+            _unitOfWork.TutorSubjectRepository.InsertMany(tutor_subjects);
             _unitOfWork.ClassRepository.InsertMany(classes);
             _unitOfWork.SubjectRepository.InsertMany(subjects);
             _unitOfWork.DepartmentRepository.InsertMany(departments);
             _unitOfWork.TutorRepository.InsertMany(tutors);
             _unitOfWork.Save();
         }
+
         public List<Subject> GetSubjects(string[][] list)
         {
             return list.Select(l =>

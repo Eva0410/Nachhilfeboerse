@@ -11,31 +11,44 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
     {
         public List<Tutor> Tutors { get; set; }
         public String SortText { get; set; }
+        public String SortTextBefore { get; set; }
+        public void SwitchSort(IUnitOfWork uow)
+        {
+            switch (this.SortText)
+            {
+                case "Geld":
+                    this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.Price).ThenBy(t => t.LastName), includeProperties: "Class,Department, Tutor_Subjects, Tutor_Subjects.Subject").ToList();
+                    break;
+                case "Schulstufe":
+                    this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.Class.Name).ThenBy(t => t.LastName), includeProperties: "Class,Department, Tutor_Subjects").ToList();
+                    break;
+                default:
+                    this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties: "Class,Department, Tutor_Subjects").ToList();
+                    break;
+            }
+        }
         public void FillTutors(IUnitOfWork uow)
         {
-            if (!String.IsNullOrEmpty(this.SortText))
+            //TODO: Sort client-seitig?
+            //TODO: Subjects von tutor_subject mitladen, tutor_subject.subject, weniger laden
+            if (String.IsNullOrEmpty(this.SortTextBefore) || this.SortTextBefore != this.SortText)
             {
-                switch (this.SortText)
-                {
-                    case "Name":
-                        this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName)).ToList();
-                        break;
-                    case "Geld":
-                        this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.Price).ThenBy(t => t.LastName)).ToList();
-                        break;
-                    case "Schulstufe":
-                        this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.Class.Name).ThenBy(t => t.LastName)).ToList();
-                        break;
-                }
+                SwitchSort(uow);
+                this.SortTextBefore = this.SortText;
             }
-
-            else
-                this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName)).ToList();
+            else if (this.SortTextBefore == this.SortText)
+            {
+                this.SortText = "";
+                this.SortTextBefore = "";
+                SwitchSort(uow);
+            }
         }
 
     }
 
 }
+
+
 
 
 

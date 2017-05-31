@@ -68,10 +68,10 @@
     <form asp-action="index">
         <div id="blackFilter1">
             <h3 id="filterFach">Fach</h3>
-            <input asp-for="@Model.SortText" type="submit" value="Name" />
             <input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
             <input asp-for="@Model.SortText" type="submit" value="Geld" />
-
+            <input type="hidden" asp-for="SortTextBefore" />
+            @Html.HiddenFor(t => t.SortTextBefore)
         </div>
     </form>
 

@@ -12,5 +12,6 @@ namespace TutoringMarket.Core.Enities
         //TODO Subject Datensätze einfügen
         [Required,Display(Name="Fach")]
         public String Name { get; set; }
+        public List<Tutor_Subject> Tutor_Subjects { get; set; }
     }
 }
