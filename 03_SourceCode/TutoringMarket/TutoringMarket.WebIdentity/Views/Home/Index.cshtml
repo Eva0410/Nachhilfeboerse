@@ -1,7 +1,7 @@
 ﻿@model TutoringMarket.WebIdentity.Models.ViewModels.IndexModel
 @{
     ViewData["Title"] = "Index";
-}-
+}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,36 +34,35 @@
                 <li><a asp-area="" asp-controller="" asp-action="Login">Log In</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Index" class="selected">Index</a></li>
+                @await Html.PartialAsync("_LoginPartial")
             </ul>
-            @await Html.PartialAsync("_LoginPartial")
         </div>
     </div>
 
     <div class="greenBack">
-
-         <h1 class="index">Lehrer 
-        <em class="index">für Mathe</em>
+        <h1 class="index">
+            Liste
+            <em class="index">aller Lehrer</em>
         </h1>
 
         <div>
             <button style="float:right;" class="teacherButton" type="button"
-                    onclick="location.href='@Url.Action("GetTutor", "Home")'">Werde auch du Lehrer</button>               
+                    onclick="location.href='@Url.Action("GetTutor", "Home")'">
+                Werde auch du Lehrer
+            </button>
         </div>
 
     </div>
 
     <div class="whiteBox">
 
-        <div class="teacher">
-            <img src="../images/testPic2.jpg" alt="Smiley face2" class="testPic">
-            <h3 style="text-align:center;">Michael Medwescheck</h3>
-        </div>
+        @foreach (var item in @Model.Tutors)
+        {
+            <div class="teacher">
+                <h4 style="text-align: center;">@item.FirstName @item.LastName</h4>
+            </div>
+        }
 
-        <div class="teacher">
-            <img src="../images/testPic.jpg" alt="Smiley face" class="testPic">
-            <h3 style="text-align:center;">Danijal Orascanin</h3>
-        </div>
-      
     </div>
     <form asp-action="index">
         <div id="blackFilter1">
@@ -75,4 +74,4 @@
         </div>
     </form>
 
-</body>
+        </body>
