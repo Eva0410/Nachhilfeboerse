@@ -32,6 +32,14 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         [Authorize]
+        //TODO:Fehlerfall??
+        public IActionResult TutorDetails(int id)
+        {
+            TutorModel model = new TutorModel();
+            model.Init(uow,id);
+            return View(model);
+        }
+        [Authorize]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

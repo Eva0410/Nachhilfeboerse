@@ -59,7 +59,7 @@
         @foreach (var item in @Model.Tutors)
         {
             <div class="teacher">
-                <h4 style="text-align: center;">@item.FirstName @item.LastName</h4>
+                <a asp-action="TutorDetails" asp-route-id="@item.Id" style="text-align: center;">@item.FirstName @item.LastName</a>
             </div>
         }
 
