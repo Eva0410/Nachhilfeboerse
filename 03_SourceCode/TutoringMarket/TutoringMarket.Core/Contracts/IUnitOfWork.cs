@@ -21,5 +21,6 @@ namespace TutoringMarket.Core.Contracts
         void Save();
 
         void DeleteDatabase();
+        List<Tutor> GetTutorsByReviews();
     }
 }

@@ -22,6 +22,9 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
                 case "Schulstufe":
                     this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.Class.Name).ThenBy(t => t.LastName), includeProperties: "Class,Department, Tutor_Subjects").ToList();
                     break;
+                case "Bewertung":
+                    this.Tutors = uow.GetTutorsByReviews();
+                    break;
                 default:
                     this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties: "Class,Department, Tutor_Subjects").ToList();
                     break;

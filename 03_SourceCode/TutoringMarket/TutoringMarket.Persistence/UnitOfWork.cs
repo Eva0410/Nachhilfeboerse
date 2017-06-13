@@ -100,12 +100,22 @@ namespace TutoringMarket.Persistence
         public void Save()
         {
             _context.SaveChanges();
+
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Liefert sortierte Liste von Tutoren nach Reviews zurück
+        /// </summary>
+        /// <param name="disposing"></param>
+        public List<Tutor> GetTutorsByReviews()
+        {
+            return _context.Reviews.GroupBy(r => r.Tutor).OrderByDescending(grp => grp.Average(r => r.Books)).Select(grp => grp.Key).ToList();
         }
 
         protected virtual void Dispose(bool disposing)

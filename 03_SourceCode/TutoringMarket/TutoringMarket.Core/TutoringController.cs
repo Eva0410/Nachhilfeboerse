@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,15 +51,29 @@ namespace TutoringMarket.Core
 
            }).ToList();
 
+            List<Review> reviews = GetReviews(tutors);
+
             _unitOfWork.DeleteDatabase();
             _unitOfWork.TutorSubjectRepository.InsertMany(tutor_subjects);
             _unitOfWork.ClassRepository.InsertMany(classes);
             _unitOfWork.SubjectRepository.InsertMany(subjects);
             _unitOfWork.DepartmentRepository.InsertMany(departments);
             _unitOfWork.TutorRepository.InsertMany(tutors);
+            _unitOfWork.ReviewRepository.InsertMany(reviews);
             _unitOfWork.Save();
-        }
 
+        }
+        public List<Review> GetReviews(List<Tutor> tutors)
+        {
+            return "TestReviews.csv".ReadStringMatrixFromCsv(true).Select(l =>
+               new Review()
+               {
+                   Tutor = tutors.SingleOrDefault(t => t.LastName == (l[0])),
+                   Books = Convert.ToInt32(l[1]),
+                   Comment = l[2],
+                   Approved = Convert.ToBoolean(l[3])
+               }).ToList();
+        }
         public List<Subject> GetSubjects(string[][] list)
         {
             return list.Select(l =>
