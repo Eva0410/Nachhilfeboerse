@@ -1,0 +1,27 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.AdministrationsAreaModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form asp-action="AdministrationArea">
+    <h1>Wilkommen im Administrationsbereich</h1>
+    <a class="btn btn-default" asp-action="EditMetadata">Metadaten bearbeiten</a>
+    <a class="btn btn-default" asp-action="EditReviews">Bewertungen bearbeiten</a>
+    <h3>Aktuelle Administratoren:</h3>
+    <table>
+        <tr>
+            <td>Neuen Administrator hinzufügen: (in-Name eingeben)</td>
+            <td><input type="text" asp-for="@Model.NewAdmin" /></td>
+            <td><input type="submit" value="Hinzufügen" /></td>
+        </tr>
+        @foreach (var item in Model.Admins)
+        {
+            <tr>
+                <td>@item</td>
+                <td>Löschen</td>
+            </tr>
+        }
+    </table>
+    <a class="btn btn-default" asp-action="Index">Zurück</a>
+</form>

@@ -1,0 +1,69 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.EditMetadataModel
+    @*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form asp-action="EditDepartments">
+
+        <h3>Abteilungen</h3>
+        <table>
+            <tr>
+                <td>Neue Abteilung hinzufügen:</td>
+                <td><input type="text" asp-for="@Model.NewDepartment.Name" /></td>
+                <td><input type="submit" value="Hinzufügen" /></td>
+            </tr>
+            @foreach (var item in Model.Departments)
+            {
+            <tr>
+                <td>@item.Name</td>
+                
+                <td><input type="submit" asp-for="DepartmentId" value="Löschen" /></td>
+            </tr>
+            }
+
+        </table>
+
+</form>
+<form asp-action="EditClasses">
+
+    <h3>Klassen</h3>
+    <table>
+        <tr>
+            <td>Neue Klasse hinzufügen:</td>
+            <td><input type="text" asp-for="@Model.NewClass.Name" /></td>
+            <td><input type="submit" value="Hinzufügen" /></td>
+        </tr>
+        @foreach (var item in Model.Classes)
+            {
+            <tr>
+                <td>@item.Name</td>
+
+                <td><input type="submit" asp-for="ClassId" value="Löschen" /></td>
+            </tr>
+        }
+
+    </table>
+
+</form>
+<form asp-action="EditSubjects">
+
+    <h3>Fächer</h3>
+    <table>
+        <tr>
+            <td>Neues Fach hinzufügen:</td>
+            <td><input type="text" asp-for="@Model.NewSubject.Name" /></td>
+            <td><input type="submit" value="Hinzufügen" /></td>
+        </tr>
+        @foreach (var item in Model.Subjects)
+            {
+            <tr>
+                <td>@item.Name</td>
+
+                <td><input type="submit" asp-for="SubjectId" value="Löschen" /></td>
+            </tr>
+        }
+
+    </table>
+    <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
+</form>

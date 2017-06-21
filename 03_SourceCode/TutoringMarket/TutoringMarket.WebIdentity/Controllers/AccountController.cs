@@ -58,10 +58,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
+                //This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                //var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                //var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password,false, lockoutOnFailure: false);
 
+                //var user = _userManager.FindByNameAsync(model.UserName);
+                //var result = await _signInManager.SignInAsync(user, true);
                 //if (result.Succeeded)
                 //{
                 //    _logger.LogInformation(1, "User logged in.");
@@ -69,7 +71,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //}
                 //if (result.RequiresTwoFactor)
                 //{
-                //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl});
                 //}
                 //if (result.IsLockedOut)
                 //{
@@ -81,12 +83,14 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 //    return View(model);
                 //}
+                
                 int result = await GetResult(model.UserName, model.Password);
                 if (result == 0)
                 {
                     var user = new ApplicationUser { UserName = model.UserName };
-                    await _userManager.CreateAsync(user);
-                    await _signInManager.SignInAsync(user, false);
+                    if(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
+                        await _userManager.CreateAsync(user);
+                    await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }

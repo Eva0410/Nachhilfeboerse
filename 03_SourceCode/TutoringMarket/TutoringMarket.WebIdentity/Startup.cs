@@ -14,6 +14,7 @@ using TutoringMarket.WebIdentity.Models;
 using TutoringMarket.WebIdentity.Services;
 using TutoringMarket.Core.Contracts;
 using TutoringMarket.Persistence;
+using Microsoft.AspNetCore.Identity;
 
 namespace TutoringMarket.WebIdentity
 {
@@ -63,9 +64,34 @@ namespace TutoringMarket.WebIdentity
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
+        //TODO: rollen + user im code erzeugen
+        
+        public async void CreateRoles(IServiceProvider provider)
+        {
+            var RoleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
 
+            IdentityResult roleResult;
+
+            if (!await RoleManager.RoleExistsAsync("Admin"))
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            await AddUserRole("in130021", UserManager);
+            await AddUserRole("in130019", UserManager);
+
+        }
+        private async Task AddUserRole(string name, UserManager<ApplicationUser> um)
+        {
+            var user = await um.FindByNameAsync(name);
+
+            if (user != null)
+            {
+                await um.AddToRoleAsync(user, "Admin");
+            }
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider provider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -97,6 +123,7 @@ namespace TutoringMarket.WebIdentity
                     name: "default",
                     template: "{controller=Account}/{action=Login}/{id?}");
             });
+           // CreateRoles(provider);
         }
     }
 }
