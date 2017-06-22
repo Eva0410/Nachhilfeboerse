@@ -4,6 +4,7 @@
 *@
 @{
 }
+<h1>Metadaten bearbeiten</h1>
 <form asp-action="EditDepartments">
 
         <h3>Abteilungen</h3>
@@ -12,13 +13,14 @@
                 <td>Neue Abteilung hinzufügen:</td>
                 <td><input type="text" asp-for="@Model.NewDepartment.Name" /></td>
                 <td><input type="submit" value="Hinzufügen" /></td>
+                <td><span asp-validation-for="@Model.NewDepartment.Name"></span></td>
             </tr>
             @foreach (var item in Model.Departments)
             {
             <tr>
                 <td>@item.Name</td>
                 
-                <td><input type="submit" asp-for="DepartmentId" value="Löschen" /></td>
+                <td><a asp-action="EditDepartmentsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie die Abteilung @item.Name wirklich löschen?');">Löschen</a></td>
             </tr>
             }
 
@@ -33,13 +35,14 @@
             <td>Neue Klasse hinzufügen:</td>
             <td><input type="text" asp-for="@Model.NewClass.Name" /></td>
             <td><input type="submit" value="Hinzufügen" /></td>
+            <td><span asp-validation-for="@Model.NewClass.Name"></span></td>
         </tr>
         @foreach (var item in Model.Classes)
             {
             <tr>
                 <td>@item.Name</td>
 
-                <td><input type="submit" asp-for="ClassId" value="Löschen" /></td>
+                <td><a asp-action="EditClassesDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen die Klasse @item.Name wirklich löschen?');">Löschen</a></td>
             </tr>
         }
 
@@ -54,13 +57,14 @@
             <td>Neues Fach hinzufügen:</td>
             <td><input type="text" asp-for="@Model.NewSubject.Name" /></td>
             <td><input type="submit" value="Hinzufügen" /></td>
+            <td><span asp-validation-for="@Model.NewSubject.Name"></span></td>
         </tr>
         @foreach (var item in Model.Subjects)
             {
             <tr>
                 <td>@item.Name</td>
 
-                <td><input type="submit" asp-for="SubjectId" value="Löschen" /></td>
+                <td><a asp-action="EditSubjectsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie das Fach @item.Name wirklich löschen?');">Löschen</a></td>
             </tr>
         }
 

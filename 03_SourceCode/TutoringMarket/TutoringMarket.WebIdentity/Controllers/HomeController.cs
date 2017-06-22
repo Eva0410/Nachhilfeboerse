@@ -58,12 +58,30 @@ namespace TutoringMarket.WebIdentity.Controllers
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
         {
             var user = await um.FindByNameAsync(model.NewAdmin);
-            if(user != null)
+            await model.GetAdmins(um);
+            if (ModelState.IsValid && user != null)
             {
                 await um.AddToRoleAsync(user, "Admin");
             }
-            await model.GetAdmins(um);
+            else
+            {
+                ModelState.AddModelError("NewAdmin", "Zu diesem Namen konnte kein Account gefunden werden! Achtung: Der Benutzer muss sich vorher einmal eingeloggt haben, bevor er zum Admin werden kann!");
+                return View(model);
+            }
+
             return View(model);
+        }
+        //Fehlermeldungen ausgeben
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdministrationAreaDelete(AdministrationsAreaModel model, string id)
+        {
+            var user = await um.FindByNameAsync(id);
+            if (user != null)
+            {
+                await um.RemoveFromRoleAsync(user, "Admin");
+            }
+            await model.GetAdmins(um);
+            return RedirectToAction("AdministrationArea", model);
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -74,27 +92,21 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         [Authorize(Roles = "Admin")]
-        [HttpPost("EditReviewsDelete")]
-        public IActionResult EditReviewsDelete(EditReviewsModel model)
+        public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
         {
-            var review = uow.ReviewRepository.GetById(model.ReviewId);
-            if (review == null)
+            var r = uow.ReviewRepository.GetById(id);
+            if (r == null)
                 return NotFound();
 
-            uow.ReviewRepository.Delete(review);
+            uow.ReviewRepository.Delete(r);
             uow.Save();
             return RedirectToAction("EditReviews");
         }
+
         [Authorize(Roles = "Admin")]
-        public IActionResult DeleteReview()
+        public IActionResult EditReviewsAccept(EditReviewsModel model,int id)
         {
-            return View();
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public IActionResult EditReviews(EditReviewsModel model,bool EditReviewsSave)
-        {
-            var review = uow.ReviewRepository.GetById(model.ReviewId);
+            var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties:"Tutor").FirstOrDefault();
             if (review == null)
                 return NotFound();
 
@@ -112,37 +124,39 @@ namespace TutoringMarket.WebIdentity.Controllers
             model.Init(uow);
             return View(model);
         }
-        //[Authorize(Roles = "Admin")]
-        //[HttpPost]
-        //public IActionResult EditMetadata(EditMetadataModel model)
-        //{
-        //    var dept = uow.DepartmentRepository.GetById(model.DepartmentId);
-        //    if (dept == null)
-        //        return NotFound();
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditDepartmentsDelete(EditMetadataModel model, int id)
+        {
+            var dept = uow.DepartmentRepository.GetById(id);
+            if (dept == null)
+                return NotFound();
 
-        //    uow.DepartmentRepository.Delete(dept);
-        //    uow.Save();
-        //    return RedirectToAction("EditMetadata");
-        //}
+            uow.DepartmentRepository.Delete(dept);
+            uow.Save();
+            return RedirectToAction("EditMetadata");
+        }
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditDepartments(EditMetadataModel model)
         {
-            if (ModelState.IsValid) { 
+            model.Init(uow);
+            if (ModelState.IsValid && model.NewDepartment.Name != null) { 
                 uow.DepartmentRepository.Insert(model.NewDepartment);
                 uow.Save();
                 return RedirectToAction("EditMetadata");
             }
             else
             {
-                return View(model);
+                ModelState.AddModelError("NewDepartment.Name", "Die Bezeichnunsg darf nicht leer sein!");
+                return View("EditMetadata", model);
             }
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditClasses(EditMetadataModel model)
         {
-            if (ModelState.IsValid)
+            model.Init(uow);
+            if (ModelState.IsValid && model.NewClass.Name != "")
             {
                 uow.ClassRepository.Insert(model.NewClass);
                 uow.Save();
@@ -150,14 +164,27 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                return View(model);
+                ModelState.AddModelError("NewClass.Name", "Die Bezeichnung darf nicht leer sein!");
+                return View("EditMetadata", model);
             }
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditClassesDelete(EditMetadataModel model, int id)
+        {
+            var c = uow.ClassRepository.GetById(id);
+            if (c == null)
+                return NotFound();
+
+            uow.ClassRepository.Delete(c);
+            uow.Save();
+            return RedirectToAction("EditMetadata");
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditSubjects(EditMetadataModel model)
         {
-            if (ModelState.IsValid)
+            model.Init(uow);
+            if (ModelState.IsValid && model.NewSubject.Name != "")
             {
                 uow.SubjectRepository.Insert(model.NewSubject);
                 uow.Save();
@@ -165,10 +192,21 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                return View(model);
+                ModelState.AddModelError("NewSubject.Name", "Die Bezeichnung darf nicht leer sein!");
+                return View("EditMetadata", model);
             }
         }
-        
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditSubjectsDelete(EditMetadataModel model, int id)
+        {
+            var sub = uow.SubjectRepository.GetById(id);
+            if (sub == null)
+                return NotFound();
+
+            uow.SubjectRepository.Delete(sub);
+            uow.Save();
+            return RedirectToAction("EditMetadata");
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

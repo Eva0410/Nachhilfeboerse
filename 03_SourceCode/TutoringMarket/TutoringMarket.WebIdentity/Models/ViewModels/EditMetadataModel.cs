@@ -12,9 +12,6 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public List<Department> Departments { get; set; }
         public List<SchoolClass> Classes { get; set; }
         public List<Subject> Subjects { get; set; }
-        public int DepartmentId { get; set; }
-        public int ClassId { get; set; }
-        public int SubjectId { get; set; }
         public Department NewDepartment { get; set; }
         public SchoolClass NewClass { get; set; }
         public Subject NewSubject { get; set; }

@@ -14,12 +14,13 @@
             <td>Neuen Administrator hinzufügen: (in-Name eingeben)</td>
             <td><input type="text" asp-for="@Model.NewAdmin" /></td>
             <td><input type="submit" value="Hinzufügen" /></td>
+            <td><span asp-validation-for="@Model.NewAdmin"></span></td>
         </tr>
         @foreach (var item in Model.Admins)
         {
             <tr>
                 <td>@item</td>
-                <td>Löschen</td>
+                <td><a asp-action="AdministrationAreaDelete" asp-route-id="@item" onclick="return confirm('Wollen Sie diesem Benutzer wirklich alle Administrationsrechte entziehen?');">Löschen</a></td>
             </tr>
         }
     </table>

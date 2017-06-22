@@ -8,6 +8,21 @@
 <h1>Tutor-Details</h1>
 <label>@Model.Tutor.FirstName</label>
 <label>@Model.Tutor.LastName</label>
+<label>@Model.Average</label>
+<!--<p>Fächer</p>
+foreach (var item in Model.Tutor.Tutor_Subjects)
+{
+    <p>item.Subject.Name</p>
+}-->
+<p>@Model.Tutor.Class.Name</p>
+<p>@Model.Tutor.Department.Name</p>
+<p>@Model.Tutor.Description</p>
+<p>@Model.Tutor.EMail</p>
+<p>@Model.Tutor.Gender</p>
+<p>@Model.Tutor.Id</p>
+<p>@Model.Tutor.PhoneNumber</p>
+<p>@Model.Tutor.Price</p>
+<p>@Model.Tutor.Time</p>
 <table>
     @foreach (var item in Model.Reviews)
     {

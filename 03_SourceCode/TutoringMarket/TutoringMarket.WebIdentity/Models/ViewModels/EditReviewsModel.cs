@@ -13,7 +13,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public int ReviewId { get; set; }
         public void Init(IUnitOfWork uow)
         {
-            this.Reviews = uow.ReviewRepository.Get(filter: r => r.Approved == false).ToList();
+            this.Reviews = uow.ReviewRepository.Get(filter: r => r.Approved == false, includeProperties:"Tutor").ToList();
         }
     }
 }
