@@ -16,7 +16,10 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         {
             this.Tutor = uow.TutorRepository.Get(filter: t => t.Id == id, includeProperties:"Department, Class, Tutor_Subjects").FirstOrDefault();
             this.Reviews = uow.ReviewRepository.Get(filter: r => r.Tutor_Id == id && r.Approved == true);
-            this.Average = this.Reviews.Average(r => r.Books);
+            if (this.Reviews != null)
+                this.Average = this.Reviews.Average(r => r.Books);
+            else
+                this.Average = 0;
         }
     }
 }

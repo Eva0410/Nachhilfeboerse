@@ -33,11 +33,12 @@ namespace TutoringMarket.Core
                 EMail = l[2],
                 PhoneNumber = l[3],
                 Birthday = Convert.ToDateTime(l[4]),
-                Time = l[5].Split(','),
+                Time = l[5],
                 Price = Convert.ToInt32(l[6]),
                 Department = departments.Where(d => d.Name == l[7]).FirstOrDefault(),
                 Class = classes.Where(c => c.Name == l[8]).FirstOrDefault(),
-                Gender = l[9]
+                Gender = l[9],
+                IdentityName = l[10]
 
             }).ToList();
 

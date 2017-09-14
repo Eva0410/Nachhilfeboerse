@@ -79,6 +79,14 @@
     <Compile Include="Migrations\201705301308325_Tutor_Subject_Relation added.Designer.cs">
       <DependentUpon>201705301308325_Tutor_Subject_Relation added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709121227290_Gender edited.cs" />
+    <Compile Include="Migrations\201709121227290_Gender edited.Designer.cs">
+      <DependentUpon>201709121227290_Gender edited.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130645314_Times as normal string.cs" />
+    <Compile Include="Migrations\201709130645314_Times as normal string.Designer.cs">
+      <DependentUpon>201709130645314_Times as normal string.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -114,6 +122,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705301308325_Tutor_Subject_Relation added.resx">
       <DependentUpon>201705301308325_Tutor_Subject_Relation added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709121227290_Gender edited.resx">
+      <DependentUpon>201709121227290_Gender edited.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130645314_Times as normal string.resx">
+      <DependentUpon>201709130645314_Times as normal string.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

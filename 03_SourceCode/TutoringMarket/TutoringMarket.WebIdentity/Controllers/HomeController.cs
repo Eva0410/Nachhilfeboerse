@@ -9,6 +9,7 @@ using TutoringMarket.Core.Contracts;
 using TutoringMarket.Core.Enities;
 using Microsoft.AspNetCore.Identity;
 using TutoringMarket.WebIdentity.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -44,6 +45,40 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return NotFound();
             model.Init(uow, id);
             return View(model);
+        }
+        [Authorize]
+        public IActionResult GetTutor()
+        {
+            GetTutorModel model = new GetTutorModel();
+            model.Init(this.uow);
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost] 
+        public IActionResult GetTutor(GetTutorModel model)
+        {
+            model.Tutor.IdentityName = User.Identity.Name;
+            
+            if (ModelState.IsValid)
+            {
+                this.uow.TutorRepository.Insert(model.Tutor);
+                this.uow.Save();
+                foreach (var item in model.SelectedSubjects)
+                {
+                    Tutor_Subject ts = new Tutor_Subject();
+                    ts.Subject_Id = item;
+                    ts.Tutor_Id = model.Tutor.Id;
+                    this.uow.TutorSubjectRepository.Insert(ts);
+                }
+                this.uow.Save();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
+                model.FillList(uow);
+                return View(model);
+            }
         }
        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdministrationArea()
@@ -217,13 +252,6 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult GetTutor()
-        {
-            ViewData["Message"] = "Your tutor page.";
 
             return View();
         }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.GetTutorModel
+@{
     ViewData["Title"] = "GetTutor";
 }
 <head>
@@ -39,42 +40,89 @@
 
     <h1 class="page-header">Werde Nachhilfelehrer</h1>
 
-
     <div align="center">
-        <form class="anfrageForm" accept-charset="UTF-8" method="post">
+        <form class="anfrageForm" accept-charset="UTF-8" asp-action="GetTutor">
 
             <div style="width:10.5cm">
-                <input type="text" placeholder="Vorname*" class="form-control">
+                <input type="text" placeholder="Vorname*" class="form-control" asp-for="@Model.Tutor.FirstName">
+                <span asp-validation-for="@Model.Tutor.FirstName" class="text-danger"></span>
                 <br />
             </div>
 
 
             <div style="width:10.5cm">
-                <input type="text" placeholder="Nachname*" class="form-control">
-                <br />
-            </div>
-
-
-            <div style="width:10.5cm">
-                <input type="number" placeholder="Handynummer*" class="form-control">
+                <input type="text" placeholder="Nachname*" class="form-control" asp-for="@Model.Tutor.LastName">
+                <span asp-validation-for="@Model.Tutor.LastName" class="text-danger"></span>
                 <br />
             </div>
 
             <div style="width:10.5cm">
-
+                <label asp-for="@Model.Tutor.Gender"></label>
+                <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
                 <br />
-                <textarea type="text" placeholder="Beschreibung*" class="form-control2"></textarea>
-
-                <p class="test">Motivationsspruch / Beschreibung</p>
             </div>
 
-            <label for="file">Upload Image:</label>
-            <input type="file" name="file" id="file" style="width: 100%;" />
-            <input type="submit" value="Upload" class="submit" />
-            <br/>
-            <br/>
-            <footer><a href="#" class="myButton">Einreichen</a></footer>
+            <div style="width:10.5cm">
+                <input type="text" placeholder="Handynummer" class="form-control" asp-for="@Model.Tutor.PhoneNumber">
+                <span asp-validation-for="@Model.Tutor.PhoneNumber" class="text-danger"></span>
+                <br />
+            </div>
 
-        </form>
+            <div style="width:10.5cm">
+                <input type="text" placeholder="E-Mail*" class="form-control" asp-for="@Model.Tutor.EMail">
+                <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Birthday"></label>
+                <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
+                <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Time"></label>
+                <textarea type="text" placeholder="z.B.: \n Mo: 12-14 Uhr \n Mi: 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
+                <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Price"></label>
+                <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price">
+                <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
+                <br />
+            </div>
+            
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Department"></label>
+                <select asp-items="@Model.Departments" asp-for="@Model.Tutor.Department_Id"></select>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Class"></label>
+                    <select asp-items="@Model.Classes" asp-for="@Model.Tutor.Class_Id"></select>
+                    <br />
+                </div>
+                <div style="width:10.5cm">
+                    <br />
+                    <textarea type="text" placeholder="Beschreibung*" class="form-control2" asp-for="@Model.Tutor.Description"></textarea>
+
+                    <p class="test">Motivationsspruch / Beschreibung</p>
+                    <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
+                </div>
+            <div style="width:10.5cm">
+                <br />
+                <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" multiple ></select>
+            </div>
+
+                <label for="file">Upload Image:</label>
+                <input type="file" name="file" id="file" style="width: 100%;"/>
+                <!--<input type="submit" value="Upload" class="submit" />-->
+                <br />
+                <br />
+                <footer>
+                    <input type="submit" class="myButton" value="Einreichen" />
+                </footer>
+
+</form>
     </div>
 </body>

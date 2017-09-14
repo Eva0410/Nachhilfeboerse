@@ -85,6 +85,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //}
                 
                 int result = await GetResult(model.UserName, model.Password);
+                //result = 0; //server was offline
                 if (result == 0)
                 {
                     var user = new ApplicationUser { UserName = model.UserName };
