@@ -23,7 +23,7 @@ namespace TutoringMarket.Core.Enities
         [Required(ErrorMessage ="Bitte geben Sie eine E-Mail Adresse ein."), RegularExpression("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", ErrorMessage ="Ihre E-Mail-Adresse ist nicht gültig!"),Display(Name ="E-Mail")]
         public String EMail { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage ="Ihre Telefonnummer darf nur aus Zifferen bestehen!"), Display(Name ="Telefonnummer")]
+        [RegularExpression("^[0-9]*$", ErrorMessage ="Ihre Telefonnummer darf nur aus Zifferen bestehen!"), Display(Name ="Telefonnummer"), MinLength(8,ErrorMessage ="Ihre Telefonnummer ist zu kurz!")]
         public String PhoneNumber { get; set; }
 
         [Display(Name ="Beschreibung"), StringLength(500, ErrorMessage ="Ihre Beschreibung ist zu lange!")]
@@ -35,7 +35,7 @@ namespace TutoringMarket.Core.Enities
         [Required(ErrorMessage ="Bitt geben Sie Ihre möglichen Nachhilfezeiten ein."), Display(Name ="Zeit")]
         public String Time { get; set; }
 
-        [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz")]
+        [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz"), Range(0,100,ErrorMessage ="Der Stundensatz muss zwischen 0 und 100 sein!")]
         public double Price { get; set; }
 
         [Display(Name="Abteilung"), ForeignKey("Department_Id")]

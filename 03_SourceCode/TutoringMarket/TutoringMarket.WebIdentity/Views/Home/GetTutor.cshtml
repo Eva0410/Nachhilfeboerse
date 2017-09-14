@@ -112,6 +112,7 @@
             <div style="width:10.5cm">
                 <br />
                 <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" multiple ></select>
+                <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
             </div>
 
                 <label for="file">Upload Image:</label>

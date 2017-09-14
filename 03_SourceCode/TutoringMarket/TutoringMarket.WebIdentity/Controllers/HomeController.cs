@@ -10,6 +10,7 @@ using TutoringMarket.Core.Enities;
 using Microsoft.AspNetCore.Identity;
 using TutoringMarket.WebIdentity.Models;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -17,10 +18,12 @@ namespace TutoringMarket.WebIdentity.Controllers
     {
         IUnitOfWork uow;
         UserManager<ApplicationUser> um;
-        public HomeController(IUnitOfWork _uow, UserManager<ApplicationUser> _um)
+        SignInManager<ApplicationUser> sim;
+        public HomeController(IUnitOfWork _uow, UserManager<ApplicationUser> _um, SignInManager<ApplicationUser> _sm)
         {
             uow = _uow;
             um = _um;
+            sim = _sm;
         }
         [Authorize]
         public IActionResult Index(String SortTextBefore)
@@ -46,20 +49,20 @@ namespace TutoringMarket.WebIdentity.Controllers
             model.Init(uow, id);
             return View(model);
         }
-        [Authorize]
+        [Authorize(Roles = "Visitor")]
         public IActionResult GetTutor()
         {
             GetTutorModel model = new GetTutorModel();
             model.Init(this.uow);
             return View(model);
         }
-        [Authorize]
-        [HttpPost] 
-        public IActionResult GetTutor(GetTutorModel model)
+        [HttpPost]
+        [Authorize(Roles = "Visitor")]
+        public async Task<IActionResult> GetTutor(GetTutorModel model)
         {
             model.Tutor.IdentityName = User.Identity.Name;
-            
-            if (ModelState.IsValid)
+
+            if (ModelState.IsValid && model.SelectedSubjects != null)
             {
                 this.uow.TutorRepository.Insert(model.Tutor);
                 this.uow.Save();
@@ -71,19 +74,29 @@ namespace TutoringMarket.WebIdentity.Controllers
                     this.uow.TutorSubjectRepository.Insert(ts);
                 }
                 this.uow.Save();
+
+                var user = await um.FindByNameAsync(User.Identity.Name);
+                await um.AddToRoleAsync(user, "Tutor");
+                await um.RemoveFromRoleAsync(user, "Visitor");
+
+                //the cookie must be refreshed
+                await sim.SignOutAsync();
+                await sim.SignInAsync(user, true);
+
                 return RedirectToAction("Index");
             }
             else
             {
+                ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
                 var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
                 model.FillList(uow);
                 return View(model);
             }
         }
-       [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdministrationArea()
         {
-            
+
             AdministrationsAreaModel model = new AdministrationsAreaModel();
             await model.GetAdmins(um);
             return View(model);
@@ -139,9 +152,9 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult EditReviewsAccept(EditReviewsModel model,int id)
+        public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
         {
-            var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties:"Tutor").FirstOrDefault();
+            var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
             if (review == null)
                 return NotFound();
 
@@ -175,7 +188,8 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult EditDepartments(EditMetadataModel model)
         {
             model.Init(uow);
-            if (ModelState.IsValid && model.NewDepartment.Name != null) { 
+            if (ModelState.IsValid && model.NewDepartment.Name != null)
+            {
                 uow.DepartmentRepository.Insert(model.NewDepartment);
                 uow.Save();
                 return RedirectToAction("EditMetadata");

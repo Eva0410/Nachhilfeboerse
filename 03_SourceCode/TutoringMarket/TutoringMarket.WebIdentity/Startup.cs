@@ -66,28 +66,45 @@ namespace TutoringMarket.WebIdentity
         }
         //TODO: rollen + user im code erzeugen
         
-        public async void CreateRoles(IServiceProvider provider)
+        public async void InitRolesAndUsers(IServiceProvider provider)
         {
             var RoleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            IdentityResult roleResult;
-
-            if (!await RoleManager.RoleExistsAsync("Admin"))
-            {
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
-            }
-            await AddUserRole("in130021", UserManager);
-            await AddUserRole("in130019", UserManager);
+            await CreateRole(RoleManager, "Admin");
+            await CreateRole(RoleManager, "Tutor");
+            await CreateRole(RoleManager, "Visitor");
+            await AddUserRole("in130021", "Admin", UserManager, RoleManager);
+            await AddUserRole("in130019", "Admin", UserManager, RoleManager);
 
         }
-        private async Task AddUserRole(string name, UserManager<ApplicationUser> um)
+        private async Task CreateRole(RoleManager<IdentityRole> rm, string roleName)
+        {
+            IdentityResult roleResult = null;
+
+            if (!await rm.RoleExistsAsync(roleName))
+            {
+                roleResult = await rm.CreateAsync(new IdentityRole(roleName));
+            }
+            if(roleResult == null || !roleResult.Succeeded)
+            {
+                Console.WriteLine("Fehler: Rolle " + roleName + "konnte nicht erstellt werden!");
+            }
+        }
+        private async Task AddUserRole(string name, string roleName, UserManager<ApplicationUser> um, RoleManager<IdentityRole> rm)
         {
             var user = await um.FindByNameAsync(name);
+            var role = await rm.FindByNameAsync(roleName);
+            var inRole = await um.IsInRoleAsync(user, roleName);
+            IdentityResult result = null;
 
-            if (user != null)
+            if (user != null && !inRole)
             {
-                await um.AddToRoleAsync(user, "Admin");
+                result = await um.AddToRoleAsync(user, roleName);
+            }
+            if (result == null || !result.Succeeded)
+            {
+                Console.WriteLine("Fehler: User " + name + "konnte nicht zur Rolle " + roleName + " hinzugefügt werden!");
             }
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,7 +140,7 @@ namespace TutoringMarket.WebIdentity
                     name: "default",
                     template: "{controller=Account}/{action=Login}/{id?}");
             });
-           // CreateRoles(provider);
+            InitRolesAndUsers(provider);
         }
     }
 }

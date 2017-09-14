@@ -12,6 +12,8 @@ using TutoringMarket.WebIdentity.Models;
 using TutoringMarket.WebIdentity.Models.AccountViewModels;
 using TutoringMarket.WebIdentity.Services;
 using LoginAuthentication;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using TutoringMarket.WebIdentity.Data;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -89,8 +91,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                 if (result == 0)
                 {
                     var user = new ApplicationUser { UserName = model.UserName };
-                    if(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
+                    if (_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
+                    {
                         await _userManager.CreateAsync(user);
+                        await _userManager.AddToRoleAsync(user, "Visitor");
+                    }
                     await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
