@@ -93,6 +93,50 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return View(model);
             }
         }
+        [Authorize(Roles ="Tutor")]
+        public IActionResult EditTutor()
+        {
+            EditTutorModel model = new EditTutorModel();
+            model.Tutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
+            model.FillList(uow);
+            return View(model);
+        }
+        [Authorize(Roles ="Tutor")]
+        [HttpPost]
+        public IActionResult EditTutor(EditTutorModel model)
+        {
+            var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
+            if (ModelState.IsValid)
+            {
+                var changed = GetChangedProperties(this.uow.TutorRepository.GetById(model.Tutor.Id), model.Tutor);
+                this.uow.TutorRepository.Update(model.Tutor);
+                this.uow.Save();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                model.FillList(uow);
+                return View(model);
+            }
+            
+        }
+        private List<String> GetChangedProperties(Tutor oldTutor, Tutor newTutor)
+        {
+            List<String> changed = new List<string>();
+            List<String> props = new List<string>(typeof(Tutor).GetProperties().Select(p => p.Name).ToList());
+            props.Remove("Timestamp");
+            props.Remove("Id");
+
+            foreach (var item in props)
+            {
+                    if (oldTutor.GetType().GetProperty(item).GetValue(oldTutor, null)?.ToString() != (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()))
+                    {
+                        changed.Add(item);
+                    }
+            }
+            return changed;
+
+        }
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdministrationArea()
         {
@@ -119,7 +163,7 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             return View(model);
         }
-        //Fehlermeldungen ausgeben
+        //TODO: Fehlermeldungen ausgeben
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdministrationAreaDelete(AdministrationsAreaModel model, string id)
         {

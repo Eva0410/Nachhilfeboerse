@@ -80,7 +80,7 @@
     <Compile Include="Enities\Subject.cs" />
     <Compile Include="Enities\Tutor.cs" />
     <Compile Include="Enities\MyString.cs" />
-    <Compile Include="Enities\Tutor_Subject.cs" />
+    <Compile Include="Tutor_Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TutoringController.cs" />
   </ItemGroup>

@@ -1,0 +1,131 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.EditTutorModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Nachhilfebörse</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="mycss.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="navbar-fixed-top" style="background-color:#313131">
+        <div class="navbar-collapse collapse">
+            <ul>
+                <a style="color: white;" class="navbar-brand">Nachhilfebörse</a>
+                <li><a asp-area="" asp-controller="" asp-action="Login">Log In</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Index"> Index</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <h1 class="page-header">Profil bearbeiten</h1>
+
+    <div align="center">
+        <form class="anfrageForm" accept-charset="UTF-8" asp-action="EditTutor">
+
+            <div style="width:10.5cm">
+                <input type="text" placeholder="Vorname*" class="form-control" asp-for="@Model.Tutor.FirstName">
+                <span asp-validation-for="@Model.Tutor.FirstName" class="text-danger"></span>
+                <br />
+            </div>
+
+
+            <div style="width:10.5cm">
+                <input type="text" placeholder="Nachname*" class="form-control" asp-for="@Model.Tutor.LastName">
+                <span asp-validation-for="@Model.Tutor.LastName" class="text-danger"></span>
+                <br />
+            </div>
+
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Gender"></label>
+                <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
+                <br />
+            </div>
+
+            <div style="width:10.5cm">
+                <input type="text" placeholder="Handynummer" class="form-control" asp-for="@Model.Tutor.PhoneNumber">
+                <span asp-validation-for="@Model.Tutor.PhoneNumber" class="text-danger"></span>
+                <br />
+            </div>
+
+            <div style="width:10.5cm">
+                <input type="text" placeholder="E-Mail*" class="form-control" asp-for="@Model.Tutor.EMail">
+                <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Birthday"></label>
+                <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
+                <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Time"></label>
+                <textarea type="text" placeholder="z.B.: \n Mo: 12-14 Uhr \n Mi: 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
+                <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Price"></label>
+                <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price">
+                <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
+                <br />
+            </div>
+
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Department"></label>
+                <select asp-items="@Model.Departments" asp-for="@Model.Tutor.Department_Id"></select>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <label asp-for="@Model.Tutor.Class"></label>
+                <select asp-items="@Model.Classes" asp-for="@Model.Tutor.Class_Id"></select>
+                <br />
+            </div>
+            <div style="width:10.5cm">
+                <br />
+                <textarea type="text" placeholder="Beschreibung*" class="form-control2" asp-for="@Model.Tutor.Description"></textarea>
+
+                <p class="test">Motivationsspruch / Beschreibung</p>
+                <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
+            </div>
+            <div style="width:10.5cm">
+                <br />
+                <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" multiple></select>
+                <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
+            </div>
+
+            <label for="file">Upload Image:</label>
+            <input type="file" name="file" id="file" style="width: 100%;" />
+            <!--<input type="submit" value="Upload" class="submit" />-->
+            <br />
+            <br />
+            <footer>
+                <input type="submit" class="myButton" value="Einreichen" />
+            </footer>
+
+        </form>
+    </div>
+</body>
