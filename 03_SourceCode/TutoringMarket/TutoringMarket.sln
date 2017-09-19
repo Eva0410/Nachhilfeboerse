@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoringMarket.Core", "TutoringMarket.Core\TutoringMarket.Core.csproj", "{E7CAE8E1-5DD7-4576-95B8-97CFAA85DE89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoringMarket.Persistence", "TutoringMarket.Persistence\TutoringMarket.Persistence.csproj", "{31004C40-ABDE-4A32-AB48-90A4EDB818FE}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TutoringMarket.Web", "TutoringMarket.Web\TutoringMarket.Web.xproj", "{3929DE1A-3900-4B96-837F-9779799013DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoringMarket.Web", "TutoringMarket.Web\TutoringMarket.Web.csproj", "{3929DE1A-3900-4B96-837F-9779799013DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoringMarket.FillDbTest", "TutoringMarket.FillDbTest\TutoringMarket.FillDbTest.csproj", "{DE3B3415-BDD7-4528-BD8E-2832C6970B28}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TutoringMarket.WebIdentity", "TutoringMarket.WebIdentity\TutoringMarket.WebIdentity.xproj", "{CD568405-F345-4223-8368-0F34DC2783C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoringMarket.WebIdentity", "TutoringMarket.WebIdentity\TutoringMarket.WebIdentity.csproj", "{CD568405-F345-4223-8368-0F34DC2783C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {391DC367-5612-4BFA-A794-270555106375}
 	EndGlobalSection
 EndGlobal
