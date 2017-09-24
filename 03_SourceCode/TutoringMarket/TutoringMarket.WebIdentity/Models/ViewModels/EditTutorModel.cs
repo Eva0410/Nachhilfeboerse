@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Contracts;
 using TutoringMarket.Core.Enities;
@@ -21,7 +22,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         //not used
         public IFormFile Image { get; set; }
 
-        public void FillList(IUnitOfWork uow)
+        public void FillList(IUnitOfWork uow, ClaimsPrincipal user)
         {
             var depts = uow.DepartmentRepository.Get(orderBy: ord => ord.OrderBy(d => d.Name)).ToList();
             this.Departments = new SelectList(depts, "Id", "Name");
@@ -34,6 +35,10 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
             var subjects = uow.SubjectRepository.Get(orderBy: ord => ord.OrderBy(s => s.Name)).ToList();
             this.AvailableSubjects = new SelectList(subjects, "Id", "Name");
+
+            this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name).FirstOrDefault();
+
+            this.SelectedSubjects = uow.TutorSubjectRepository.Get(ts => ts.Tutor_Id == this.Tutor.Id).Select(ts => ts.Subject_Id).ToList();
         }
     }
 }

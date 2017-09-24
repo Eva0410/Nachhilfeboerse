@@ -20,7 +20,7 @@ namespace TutoringMarket.WebIdentity
 {
     public class Startup
     {
-        
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -59,23 +59,36 @@ namespace TutoringMarket.WebIdentity
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-            
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
         //TODO: rollen + user im code erzeugen
-        
+
         public async void InitRolesAndUsers(IServiceProvider provider)
         {
             var RoleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
+            IUnitOfWork uow = provider.GetRequiredService<IUnitOfWork>();
 
             await CreateRole(RoleManager, "Admin");
             await CreateRole(RoleManager, "Tutor");
             await CreateRole(RoleManager, "Visitor");
+
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021" });
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019" });
+
             await AddUserRole("in130021", "Admin", UserManager, RoleManager);
             await AddUserRole("in130019", "Admin", UserManager, RoleManager);
+            await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
+            await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
+
+            foreach (var item in uow.TutorRepository.Get().Select(t => t.IdentityName))
+            {
+                await UserManager.CreateAsync(new ApplicationUser { UserName = item });
+                await AddUserRole(item, "Tutor", UserManager, RoleManager);
+            }
 
         }
         private async Task CreateRole(RoleManager<IdentityRole> rm, string roleName)
@@ -86,7 +99,7 @@ namespace TutoringMarket.WebIdentity
             {
                 roleResult = await rm.CreateAsync(new IdentityRole(roleName));
             }
-            if(roleResult == null || !roleResult.Succeeded)
+            if (roleResult == null || !roleResult.Succeeded)
             {
                 Console.WriteLine("Fehler: Rolle " + roleName + "konnte nicht erstellt werden!");
             }

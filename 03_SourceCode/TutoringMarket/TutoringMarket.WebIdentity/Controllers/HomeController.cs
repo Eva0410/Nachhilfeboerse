@@ -97,8 +97,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult EditTutor()
         {
             EditTutorModel model = new EditTutorModel();
-            model.Tutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
-            model.FillList(uow);
+            model.FillList(uow, User);
             return View(model);
         }
         [Authorize(Roles ="Tutor")]
@@ -108,17 +107,60 @@ namespace TutoringMarket.WebIdentity.Controllers
             var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
             if (ModelState.IsValid)
             {
-                var changed = GetChangedProperties(this.uow.TutorRepository.GetById(model.Tutor.Id), model.Tutor);
-                this.uow.TutorRepository.Update(model.Tutor);
+                var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
+                var changed = GetChangedProperties(oldTutor, model.Tutor);
+                //overrite changed properties
+                foreach (var item in changed)
+                {
+                    var prop = oldTutor.GetType().GetProperty(item);
+                    var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor,null);
+                    prop.SetValue(oldTutor,value);
+                }
+
+                var oldTutorSubjectIds = this.uow.TutorSubjectRepository.Get(ts => ts.Tutor_Id == oldTutor.Id).Select(ts => ts.Id).ToList();
+                //delete old Tutor_Subjects
+                foreach (var item in oldTutorSubjectIds)
+                {
+                    this.uow.TutorSubjectRepository.Delete(item);
+                }
+                //add new Tutor_Subjects
+                foreach (var item in model.SelectedSubjects)
+                {
+                    Tutor_Subject ts = new Tutor_Subject();
+                    ts.Tutor_Id = oldTutor.Id;
+                    ts.Subject_Id = item;
+                    this.uow.TutorSubjectRepository.Insert(ts);
+                }
+                this.uow.TutorRepository.Update(oldTutor);
                 this.uow.Save();
                 return RedirectToAction("Index");
             }
             else
             {
-                model.FillList(uow);
+                model.FillList(uow, User);
                 return View(model);
             }
             
+        }
+        [HttpPost]
+        [Authorize(Roles ="Tutor")]
+        public async Task<IActionResult> DeleteTutoringProfile()
+        {
+            var tutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
+            if (tutor == null)
+                return NotFound();
+            this.uow.TutorRepository.Delete(tutor.Id);
+            this.uow.Save();
+
+            var user = await um.FindByNameAsync(User.Identity.Name);
+            await um.AddToRoleAsync(user, "Visitor");
+            await um.RemoveFromRoleAsync(user, "Tutor");
+
+            //the cookie must be refreshed
+            await sim.SignOutAsync();
+            await sim.SignInAsync(user, true);
+
+            return RedirectToAction("Index");
         }
         private List<String> GetChangedProperties(Tutor oldTutor, Tutor newTutor)
         {
@@ -129,7 +171,7 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             foreach (var item in props)
             {
-                    if (oldTutor.GetType().GetProperty(item).GetValue(oldTutor, null)?.ToString() != (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()))
+                    if (oldTutor.GetType().GetProperty(item).GetValue(oldTutor, null)?.ToString() != (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()) && (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()) != null)
                     {
                         changed.Add(item);
                     }
@@ -299,6 +341,13 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow.SubjectRepository.Delete(sub);
             uow.Save();
             return RedirectToAction("EditMetadata");
+        }
+        [Authorize(Roles ="Admin")]
+        public IActionResult EditTutors()
+        {
+            EditTutorsModel model = new EditTutorsModel();
+            model.Init(this.uow);
+            return View(model);
         }
         public IActionResult About()
         {

@@ -32,6 +32,14 @@ foreach (var item in Model.Tutor.Tutor_Subjects)
          </tr>
     }
 </table>
+<table>
+    @foreach (var item in Model.Subjects)
+    {
+        <tr>
+            <td>@item.Name</td>
+        </tr>
+    }
+</table>
 <a class="btn btn-default" asp-action="Index">Zurück</a>
 
     
