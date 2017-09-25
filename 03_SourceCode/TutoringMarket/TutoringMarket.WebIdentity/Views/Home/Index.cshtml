@@ -71,9 +71,11 @@
     <form asp-action="index">
         <div id="blackFilter1">
             <h3 id="filterFach">Fach</h3>
-            <input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
+            <!--<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
             <input asp-for="@Model.SortText" type="submit" value="Geld" />
-            <input asp-for="@Model.SortText" type="submit" value="Bewertung" />
+            <input asp-for="@Model.SortText" type="submit" value="Bewertung" />-->
+            <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
+            <input type="submit" value="Filtern" />
             <input type="hidden" asp-for="SortTextBefore" />
             @Html.HiddenFor(t => t.SortTextBefore)
         </div>

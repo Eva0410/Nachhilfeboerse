@@ -14,6 +14,7 @@ using TutoringMarket.WebIdentity.Services;
 using LoginAuthentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TutoringMarket.WebIdentity.Data;
+using System.DirectoryServices.Protocols;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -86,9 +87,9 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    return View(model);
                 //}
                 
-                int result = await GetResult(model.UserName, model.Password);
-                //result = 0; //server was offline
-                if (result == 0)
+                bool result = GetResult(model.UserName, model.Password);
+                //result = true; //server was offline
+                if (result)
                 {
                     var user = new ApplicationUser { UserName = model.UserName };
                     if (_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
@@ -100,16 +101,6 @@ namespace TutoringMarket.WebIdentity.Controllers
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
-                else if (result == 1 || result == 2)
-                {
-                    ModelState.AddModelError(string.Empty, "Dein Passwort oder dein Benutzername ist falsch!");
-                    return View(model);
-                }
-                else if (result == 3)
-                {
-                    ModelState.AddModelError(string.Empty, "Uups, etwas ist schiefgelaufen!");
-                    return View(model);
-                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -118,23 +109,20 @@ namespace TutoringMarket.WebIdentity.Controllers
         
         //TODO: Delete unnecassary code
         //TODO: selbstsigniertes Zertifikat verwendet
-        private async Task<int> GetResult(string name, string password)
+        private bool GetResult(string name, string password)
         {
-            int result = 4;
+            bool result = true;
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
             {
-                SVSAuthenticationSoapClient client = new SVSAuthenticationSoapClient(SVSAuthenticationSoapClient.EndpointConfiguration.SVSAuthenticationSoap);
                 try
                 {
-                    result = await client.CheckLdapSchuelerLoginEdvoAsync(name, password);
-                    if (result > 0)
-                    {
-                        result = await client.CheckLdapSchuelerLoginElektronikAsync(name, password);
-                    }
+                    LdapConnection con = new LdapConnection(new LdapDirectoryIdentifier("addc01.edu.htl-leonding.ac.at:636"), new System.Net.NetworkCredential(name + "@EDU", password));
+                    con.Bind();
                 }
                 catch(Exception e)
                 {
-                    result = 3;
+                    ModelState.AddModelError(String.Empty, e.Message);
+                    result = false;
                     Console.WriteLine(e.Message);
                 }
    

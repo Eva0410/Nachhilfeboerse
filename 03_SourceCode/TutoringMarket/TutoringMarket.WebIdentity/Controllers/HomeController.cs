@@ -68,9 +68,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                 this.uow.Save();
                 foreach (var item in model.SelectedSubjects)
                 {
-                    Tutor_Subject ts = new Tutor_Subject();
-                    ts.Subject_Id = item;
-                    ts.Tutor_Id = model.Tutor.Id;
+                    Tutor_Subject ts = new Tutor_Subject()
+                    {
+                        Subject_Id = item,
+                        Tutor_Id = model.Tutor.Id
+                    };
                     this.uow.TutorSubjectRepository.Insert(ts);
                 }
                 this.uow.Save();
@@ -126,9 +128,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //add new Tutor_Subjects
                 foreach (var item in model.SelectedSubjects)
                 {
-                    Tutor_Subject ts = new Tutor_Subject();
-                    ts.Tutor_Id = oldTutor.Id;
-                    ts.Subject_Id = item;
+                    Tutor_Subject ts = new Tutor_Subject()
+                    {
+                        Tutor_Id = oldTutor.Id,
+                        Subject_Id = item
+                    };
                     this.uow.TutorSubjectRepository.Insert(ts);
                 }
                 this.uow.TutorRepository.Update(oldTutor);

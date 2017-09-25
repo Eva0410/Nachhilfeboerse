@@ -79,11 +79,13 @@ namespace TutoringMarket.WebIdentity
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021" });
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019" });
 
+            //TODO: Keck adden
             await AddUserRole("in130021", "Admin", UserManager, RoleManager);
             await AddUserRole("in130019", "Admin", UserManager, RoleManager);
             await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
             await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
 
+            //TODO: Rollen für Test-Tutoren
             foreach (var item in uow.TutorRepository.Get().Select(t => t.IdentityName))
             {
                 await UserManager.CreateAsync(new ApplicationUser { UserName = item });
