@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -19,20 +20,47 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public SelectList Gender { get; set; }
         //not used
         public IFormFile Image { get; set; }
-        public void Init(IUnitOfWork uow)
+        public async Task Init(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
             this.Tutor = new Tutor();
             this.SelectedSubjects = new List<int>();
 
-            FillList(uow);
+            await FillList(uow, um, name);
         }
-        public void FillList(IUnitOfWork uow)
+        public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
-            var depts = uow.DepartmentRepository.Get(orderBy: ord => ord.OrderBy(d => d.Name)).ToList();
-            this.Departments = new SelectList(depts, "Id", "Name");
+            ApplicationUser CurrentUser = await um.FindByNameAsync(name);
+            this.Tutor.FirstName = CurrentUser.FirstName;
+            this.Tutor.LastName = CurrentUser.LastName;
+            var existingClass = uow.ClassRepository.Get(c => c.Name == CurrentUser.SchoolClass).FirstOrDefault();
+            if (existingClass != null)
+            {
+                this.Tutor.Class = existingClass;
+                this.Tutor.Class_Id = existingClass.Id;
+            }
+            else
+            {
+                SchoolClass newClass = new SchoolClass() { Name = CurrentUser.SchoolClass };
+                uow.ClassRepository.Insert(newClass);
+                uow.Save();
+                this.Tutor.Class = newClass;
+                this.Tutor.Class_Id = uow.ClassRepository.Get(c => c.Name == newClass.Name).FirstOrDefault().Id;
+            }
 
-            var classes = uow.ClassRepository.Get(orderBy: ord => ord.OrderBy(c => c.Name)).ToList();
-            this.Classes = new SelectList(classes, "Id", "Name");
+            var existingDepartment = uow.DepartmentRepository.Get(d => d.Name == CurrentUser.Department).FirstOrDefault();
+            if (existingDepartment != null)
+            {
+                this.Tutor.Department = existingDepartment;
+                this.Tutor.Department_Id = existingDepartment.Id;
+            }
+            else
+            {
+                Department newDeparment = new Department() { Name = CurrentUser.Department };
+                uow.DepartmentRepository.Insert(newDeparment);
+                uow.Save();
+                this.Tutor.Department = newDeparment;
+                this.Tutor.Department_Id = uow.DepartmentRepository.Get(d => d.Name == newDeparment.Name).FirstOrDefault().Id;
+            }
 
             var gender = new List<string> { "Männlich", "Weiblich" };
             this.Gender = new SelectList(gender);

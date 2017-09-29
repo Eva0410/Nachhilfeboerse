@@ -87,19 +87,29 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    return View(model);
                 //}
 
-                string firstName = "";
-                string lastName = "";
+                //string fullName = "Pürmayr Eva";
+                //string schoolClass = "4AHIF";
+                //string department = "Informatikkk";
+                string fullName = "";
                 string schoolClass = "";
                 string department = "";
-                bool result = GetResult(model.UserName, model.Password, ref firstName, ref lastName, ref schoolClass, ref department);
-                //result = true; //server was offline
+                bool isTeacher = false;
+                bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
+                //bool result = true; //server was offline
                 if (result)
                 {
-                    var user = new ApplicationUser { UserName = model.UserName};
+                    var user = new ApplicationUser { UserName = model.UserName, FirstName=fullName.Split(' ')[1], LastName=fullName.Split(' ')[0], SchoolClass=schoolClass, Department = department};
                     if (_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
                     {
                         await _userManager.CreateAsync(user);
-                        await _userManager.AddToRoleAsync(user, "Visitor");
+                        if(isTeacher)
+                        {
+                            await _userManager.AddToRoleAsync(user, "Teacher");
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, "Visitor");
+                        }
                     }
                     await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
@@ -113,15 +123,40 @@ namespace TutoringMarket.WebIdentity.Controllers
         
         //TODO: Delete unnecassary code
         //TODO: selbstsigniertes Zertifikat verwendet
-        private bool GetResult(string name, string password, ref string firstName, ref string lastName, ref string schoolClass, ref string department)
+        private bool GetResult(string name, string password, ref string fullName, ref string schoolClass, ref string department, ref bool isTeacher)
         {
             bool result = true;
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
             {
                 try
                 {
+                    //Verbindung zum LDAP-Server aufbauen
                     LdapConnection con = new LdapConnection(new LdapDirectoryIdentifier("addc01.edu.htl-leonding.ac.at:636"), new System.Net.NetworkCredential(name + "@EDU", password));
                     con.Bind();
+                    //Ist der Benutzer ein Lehrer?
+                    if(name.Contains('.'))
+                    {
+                        //TODO full name of teacher
+                        fullName = name;
+                        isTeacher = true;
+                    }
+                    else
+                    {
+                        String[] array = { "dn", "displayName", "gecos" };
+                        DirectoryRequest dr = new SearchRequest("ou=Students,ou=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT", "(cn="+name+")", System.DirectoryServices.Protocols.SearchScope.Subtree, array);
+                        var dresp = (System.DirectoryServices.Protocols.SearchResponse)con.SendRequest(dr);
+                        var entries = dresp.Entries[0].DistinguishedName.Split(',');
+                        schoolClass = entries[1].Split('=')[1];
+                        department = this.GetFullDepartmentName(entries[2].Split('=')[1]);
+                        var values = dresp.Entries[0].Attributes.Values;
+                        foreach (var item in values)
+                        {
+                            var directoryAttributte = (DirectoryAttribute)item;
+                            fullName = directoryAttributte.GetValues(typeof(string))[0].ToString();
+                            break;
+                        }
+                    }
+
                 }
                 catch(Exception e)
                 {
@@ -132,6 +167,28 @@ namespace TutoringMarket.WebIdentity.Controllers
    
             }
             return result;
+        }
+        private string GetFullDepartmentName(string shortName)
+        {
+            switch (shortName)
+            {
+                case "IF":
+                    return "Informatik";
+                case "BG":
+                    return "Medizintechnik";
+                case "FE":
+                    return "Fachschule Elektronik";
+                case "HE":
+                    return "Elektronik";
+                case "IT":
+                    return "Medientechnik";
+                case "AD":
+                    return "Abendschule";
+                case "KD":
+                    return "Kolleg";
+                default:
+                    return "";
+            }
         }
 
         //

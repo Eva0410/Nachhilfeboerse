@@ -44,15 +44,15 @@
         <form class="anfrageForm" accept-charset="UTF-8" asp-action="GetTutor">
 
             <div style="width:10.5cm">
-                <input type="text" placeholder="Vorname*" class="form-control" asp-for="@Model.Tutor.FirstName">
-                <span asp-validation-for="@Model.Tutor.FirstName" class="text-danger"></span>
+                <label>@Model.Tutor.FirstName</label>
+                <input type="hidden" asp-for="@Model.Tutor.FirstName" />
                 <br />
             </div>
 
 
             <div style="width:10.5cm">
-                <input type="text" placeholder="Nachname*" class="form-control" asp-for="@Model.Tutor.LastName">
-                <span asp-validation-for="@Model.Tutor.LastName" class="text-danger"></span>
+                <label>@Model.Tutor.LastName</label>
+                <input type="hidden" asp-for="@Model.Tutor.LastName" />
                 <br />
             </div>
 
@@ -94,12 +94,14 @@
             
             <div style="width:10.5cm">
                 <label asp-for="@Model.Tutor.Department"></label>
-                <select asp-items="@Model.Departments" asp-for="@Model.Tutor.Department_Id"></select>
+                <label>@Model.Tutor.Department.Name</label>
+                <input type="hidden" asp-for="@Model.Tutor.Department_Id" />
                 <br />
             </div>
             <div style="width:10.5cm">
                 <label asp-for="@Model.Tutor.Class"></label>
-                    <select asp-items="@Model.Classes" asp-for="@Model.Tutor.Class_Id"></select>
+                    <label>@Model.Tutor.Class.Name</label>
+                <input type="hidden" asp-for="@Model.Tutor.Class_Id" />
                     <br />
                 </div>
                 <div style="width:10.5cm">
@@ -113,7 +115,7 @@
                 <br />
                 <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" ></select>
                 <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
-                
+                <label>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</label>
                
             </div>
 
