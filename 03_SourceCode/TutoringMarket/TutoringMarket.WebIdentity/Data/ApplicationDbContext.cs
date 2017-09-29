@@ -5,22 +5,39 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TutoringMarket.WebIdentity.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace TutoringMarket.WebIdentity.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        public ApplicationDbContext()
+            : base()
         {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public ApplicationDbContext Create(DbContextFactoryOptions options)
+        {
+
+            //   Used only for EF.NET Core CLI tools(update database / migrations etc.)
+
+            var builder = new ConfigurationBuilder().AddJsonFile(Directory.GetCurrentDirectory() + "\\appsettings.json", optional: false, reloadOnChange: true);
+
+            var config = builder.Build();
+
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer(config.GetConnectionString("DefaultIdentityConnection"));
+
+            return new ApplicationDbContext(optionsBuilder.Options);
+        }
+
+
     }
 }

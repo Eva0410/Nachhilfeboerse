@@ -9,5 +9,8 @@ namespace TutoringMarket.WebIdentity.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        //public string Name { get; set; }
+        //public string Department { get; set; }
+        //public string SchoolClass { get; set; }
     }
 }

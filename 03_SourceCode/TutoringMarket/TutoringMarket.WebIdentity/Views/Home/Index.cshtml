@@ -46,14 +46,24 @@
         </h1>
 
         <div>
-            
+            @if(ViewContext.HttpContext.User.IsInRole("Visitor")) { 
             <button style="float:right;" class="teacherButton" type="button"
                     onclick="location.href='@Url.Action("GetTutor", "Home")'">
                 Werde auch du Lehrer
             </button>
+            }
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+            {
             <a  class="btn btn-default" asp-action="AdministrationArea" >Administrationsbereich</a>
+            }
+            @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
+            {
             <a class="btn btn-default" asp-action="GetTutor">Werde auch du Lehrer (link)</a>
+            }
+            @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
+            {
             <a class="btn btn-default" asp-action="EditTutor">Tutorprofil ändern</a>
+            }
         </div>
 
     </div>

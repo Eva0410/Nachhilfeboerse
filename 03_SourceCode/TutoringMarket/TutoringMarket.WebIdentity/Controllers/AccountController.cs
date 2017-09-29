@@ -86,12 +86,16 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 //    return View(model);
                 //}
-                
-                bool result = GetResult(model.UserName, model.Password);
+
+                string firstName = "";
+                string lastName = "";
+                string schoolClass = "";
+                string department = "";
+                bool result = GetResult(model.UserName, model.Password, ref firstName, ref lastName, ref schoolClass, ref department);
                 //result = true; //server was offline
                 if (result)
                 {
-                    var user = new ApplicationUser { UserName = model.UserName };
+                    var user = new ApplicationUser { UserName = model.UserName};
                     if (_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
                     {
                         await _userManager.CreateAsync(user);
@@ -109,7 +113,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         
         //TODO: Delete unnecassary code
         //TODO: selbstsigniertes Zertifikat verwendet
-        private bool GetResult(string name, string password)
+        private bool GetResult(string name, string password, ref string firstName, ref string lastName, ref string schoolClass, ref string department)
         {
             bool result = true;
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))

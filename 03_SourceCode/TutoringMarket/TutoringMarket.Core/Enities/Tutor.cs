@@ -35,8 +35,8 @@ namespace TutoringMarket.Core.Enities
         [Required(ErrorMessage ="Bitt geben Sie Ihre möglichen Nachhilfezeiten ein."), Display(Name ="Zeit")]
         public String Time { get; set; }
 
-        [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz"), Range(0,100,ErrorMessage ="Der Stundensatz muss zwischen 0 und 100 sein!")]
-        public double Price { get; set; }
+        [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz in €"), Range(0,100,ErrorMessage ="Der Stundensatz muss zwischen 0 und 100 sein!")]
+        public int Price { get; set; }
 
         [Display(Name="Abteilung"), ForeignKey("Department_Id")]
         public Department Department { get; set; }

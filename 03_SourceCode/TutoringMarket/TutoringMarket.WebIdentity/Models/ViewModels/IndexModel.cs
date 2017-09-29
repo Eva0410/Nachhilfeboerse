@@ -49,7 +49,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             //    this.SortTextBefore = "";
             //    SwitchSort(uow);
             //}
-            var subs = uow.SubjectRepository.Get().Select(s => s.Name).ToList();
+            var subs = uow.SubjectRepository.Get(orderBy: ord => ord.OrderBy(s => s.Name)).Select(s => s.Name).ToList();
             subs.Insert(0,"Alle");
             this.Subjects = new SelectList(subs, "Alle");
 

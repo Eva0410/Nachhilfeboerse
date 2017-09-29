@@ -10,7 +10,7 @@ namespace TutoringMarket.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext_TutoringMarket _context = new ApplicationDbContext_TutoringMarket();
+        private readonly ApplicationDbContext_TutoringMarket _context; //= new ApplicationDbContext_TutoringMarket();
         private bool _disposed;
 
         /// <summary>

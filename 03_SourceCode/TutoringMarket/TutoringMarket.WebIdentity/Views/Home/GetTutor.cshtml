@@ -81,13 +81,13 @@
             </div>
             <div style="width:10.5cm">
                 <label asp-for="@Model.Tutor.Time"></label>
-                <textarea type="text" placeholder="z.B.: \n Mo: 12-14 Uhr \n Mi: 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
+                <textarea type="text" placeholder="z.B.: Montag 12-14 Uhr und Mittowch 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
                 <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
                 <br />
             </div>
             <div style="width:10.5cm">
                 <label asp-for="@Model.Tutor.Price"></label>
-                <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price">
+                <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price" step="1">
                 <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
                 <br />
             </div>
@@ -111,8 +111,10 @@
                 </div>
             <div style="width:10.5cm">
                 <br />
-                <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" multiple ></select>
+                <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" ></select>
                 <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
+                
+               
             </div>
 
                 <label for="file">Upload Image:</label>
