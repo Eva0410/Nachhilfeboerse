@@ -92,7 +92,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 string schoolClass = "";
                 string department = "";
                 bool result = GetResult(model.UserName, model.Password, ref firstName, ref lastName, ref schoolClass, ref department);
-                //result = true; //server was offline
+                result = true; //server was offline
                 if (result)
                 {
                     var user = new ApplicationUser { UserName = model.UserName};

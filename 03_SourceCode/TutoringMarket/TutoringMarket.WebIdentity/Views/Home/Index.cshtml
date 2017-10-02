@@ -30,10 +30,8 @@
     <div class="navbar-fixed-top" style="background-color:#313131">
         <div class="navbar-collapse collapse">
             <ul>
-                <a style="color: white;" class="navbar-brand">Nachhilfebörse</a>
-                <li><a asp-area="" asp-controller="" asp-action="Login">Log In</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Index" class="selected">Index</a></li>
+                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
+      <!--          <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li> -->
                 @await Html.PartialAsync("_LoginPartial")
             </ul>
         </div>
@@ -52,14 +50,7 @@
                 Werde auch du Lehrer
             </button>
             }
-            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
-            {
-            <a  class="btn btn-default" asp-action="AdministrationArea" >Administrationsbereich</a>
-            }
-            @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
-            {
-            <a class="btn btn-default" asp-action="GetTutor">Werde auch du Lehrer (link)</a>
-            }
+            
             @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
             {
             <a class="btn btn-default" asp-action="EditTutor">Tutorprofil ändern</a>
@@ -73,7 +64,7 @@
         @foreach (var item in @Model.Tutors)
         {
             <div class="teacher">
-                <a asp-action="TutorDetails" asp-route-id="@item.Id" style="text-align: center;">@item.FirstName @item.LastName</a>
+                <a  style="text-decoration: none; color: black;" asp-action="TutorDetails" asp-route-id="@item.Id" > <h3 class="h3border">@item.FirstName @item.LastName</h3> <br />Preis: @item.Price€ <br />Termine: @item.Time </a>
             </div>
         }
 
@@ -81,14 +72,20 @@
     <form asp-action="index">
         <div id="blackFilter1">
             <h3 id="filterFach">Fach</h3>
+
             <!--<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
             <input asp-for="@Model.SortText" type="submit" value="Geld" />
             <input asp-for="@Model.SortText" type="submit" value="Bewertung" />-->
+
+
             <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
-            <input type="submit" value="Filtern" />
+            <input style="margin-bottom:5px;" type="submit" value="Filtern" />
             <input type="hidden" asp-for="SortTextBefore" />
             @Html.HiddenFor(t => t.SortTextBefore)
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+            {
+                <a class="btn btn-default" asp-action="AdministrationArea">Administrationsbereich</a>
+            }
         </div>
     </form>
-
-        </body>
+</body>

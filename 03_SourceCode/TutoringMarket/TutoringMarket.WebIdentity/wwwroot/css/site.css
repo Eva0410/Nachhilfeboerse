@@ -1,13 +1,11 @@
-﻿.ghost-button {
-    background-color: transparent;
+﻿.ghost-button {  
+  background-color: transparent;
   font-size: 18px;
   border-radius: 4px;
   display: inline-block;
-  width: 7cm;
-  margin-left: 65px;	
-  padding: 8px;
-  margin-top: 5px;
+  width: 7cm;	
   color: #FFFFFF;
+  padding: 7px;
   border: 1px solid #FFFFFF;
   text-align: center;
   outline: none;
@@ -46,6 +44,12 @@
     
 	padding-bottom: 3px;
 }
+
+#centerformular{
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .greenBack{
     background-color: #B150EE;
@@ -97,7 +101,7 @@ em.index{
 .whiteBox{
     background-color: #FFF;
     height: auto;
-    width: 62%;
+    width: 40%;
     border-radius: 12px;
     position: absolute;
     top: 28vh;
@@ -105,13 +109,26 @@ em.index{
     margin-bottom: 5vh;
 }
 
-.teacher{
-    background-color: #E8E8E8;
-    height: 50vh;
-    width: 30%;
+.teacher {
+    border-radius: 0px;
+    background-color: #ECEAEA;
+    width: auto;
+    height: auto;
     margin-left: 18px;
-    margin-top:15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: inline-block;
+}
+
+.h3border {
+    padding: 0px 15px;
+    border-bottom: 0.5px solid #000000;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .testPic{
@@ -121,6 +138,7 @@ em.index{
 
 #blackFilter1{
     background-color: #313131;
+    padding-left: 5px;
     height: 40vh;
     width: 38vh;
     border-radius: 7px;
@@ -130,7 +148,7 @@ em.index{
 }
 
 #filterFach{
-    margin: 3vh 0 5px 10px;
+    margin: 3vh 0 5px 0px;
     padding: 0;
     font-size: 12px;
     font-weight: 500;
@@ -185,6 +203,10 @@ em.index{
 	overflow: auto;
 	text-align: justify;
 }
+
+#getTutor{
+    margin-top: 5%;
+}
 #quote{
 	line-height: 13vh;
 	font-size: 10vh;
@@ -192,10 +214,23 @@ em.index{
     margin-right: 15px;
 }
 
+#irwos2 {
+    margin-top: 2%;
+    margin-left: 8%;
+    font-family: 'meine-schrift';
+    float: left;
+    color: black;
+    border-style: solid;
+    width: 25vw;
+    border-width: 1px;
+    border-color: black;
+    overflow: auto;
+    text-align: justify;
+}
 
 #loginFormular {
-    margin-left: 200px;
-    margin-top: 130px;
+    margin-left: 20%;
+    margin-top: 10%;
     height: 60vh;
     width: 35vw;
     display: inline;
