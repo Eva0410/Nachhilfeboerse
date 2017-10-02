@@ -64,7 +64,6 @@ namespace TutoringMarket.WebIdentity
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
-        //TODO: rollen + user im code erzeugen
 
         public async void InitRolesAndUsers(IServiceProvider provider)
         {
@@ -91,7 +90,8 @@ namespace TutoringMarket.WebIdentity
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130015", FirstName = "Michael", LastName = "Medweschek", SchoolClass = "5AHIF", Department = "Informatik" });
 
 
-            //TODO: Rollen für Test-Tutoren
+            //Rollen für Test-Tutoren
+            //TODO Test Tutoren löschen
             await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
             await AddUserRole("in130019", "Tutor", UserManager, RoleManager);
             await AddUserRole("in130024", "Tutor", UserManager, RoleManager);

@@ -54,6 +54,8 @@ namespace TutoringMarket.Core
 
             List<Review> reviews = GetReviews(tutors);
 
+            //throw new Exception("Bist du dir sicher, dass du die Datenbank zurücksetzen willst??"); //auskommentieren wenn schon
+
             _unitOfWork.DeleteDatabase();
             _unitOfWork.TutorSubjectRepository.InsertMany(tutor_subjects);
             _unitOfWork.ClassRepository.InsertMany(classes);

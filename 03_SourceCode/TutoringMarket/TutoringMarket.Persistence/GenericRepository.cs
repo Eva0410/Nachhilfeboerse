@@ -58,7 +58,6 @@ namespace TutoringMarket.Persistence
             {
                 query = query.Include(includeProperty);
             }
-            //TODO: Theninclude????
 //            foreach (string includeProperty in includeProperties.Split
 //                (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
 //            {

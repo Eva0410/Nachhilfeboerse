@@ -27,6 +27,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
             await FillList(uow, um, name);
         }
+        //TODO beim Fächer auswählen, schönere Multi Select list ohne Crtl Taste
         public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
             ApplicationUser CurrentUser = await um.FindByNameAsync(name);

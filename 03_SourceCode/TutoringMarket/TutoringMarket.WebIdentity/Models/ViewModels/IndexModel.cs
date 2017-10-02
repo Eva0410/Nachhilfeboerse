@@ -74,6 +74,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             }
             else
             {
+                //TODO oben im Login_Partial den Namen angeben und nicht in130021
                 //TODO wenn model geändert ist, kompliziertn teil löschen!!!!
                 var tutors = uow.TutorSubjectRepository.Get(filter: ts => ts.Subject.Name == this.SelectedSubject, orderBy: ord => ord.OrderBy(ts => ts.Tutor.LastName), includeProperties:"Subject, Tutor").Select(ts => ts.Tutor).ToList();
                 List<Tutor> includedList = new List<Tutor>();

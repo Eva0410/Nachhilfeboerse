@@ -89,7 +89,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                if (model.SelectedSubjects.Count == 0)
+                if (model.SelectedSubjects == null)
                 {
                     ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
                 }
@@ -144,7 +144,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                if (model.SelectedSubjects.Count == 0)
+                if (model.SelectedSubjects == null)
                 {
                     ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
                 }
