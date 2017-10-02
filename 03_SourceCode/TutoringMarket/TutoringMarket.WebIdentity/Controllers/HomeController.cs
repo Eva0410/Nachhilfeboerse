@@ -198,6 +198,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             await model.GetAdmins(um);
             return View(model);
         }
+        //TODO Refresh bei Admin changes
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
@@ -330,7 +331,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult EditSubjects(EditMetadataModel model)
         {
             model.Init(uow);
-            if (ModelState.IsValid && model.NewSubject.Name != "")
+            if (ModelState.IsValid && !String.IsNullOrEmpty(model.NewSubject.Name) && uow.SubjectRepository.Get(filter: s => s.Name == model.NewSubject.Name) == null)
             {
                 uow.SubjectRepository.Insert(model.NewSubject);
                 uow.Save();
@@ -338,7 +339,10 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                ModelState.AddModelError("NewSubject.Name", "Die Bezeichnung darf nicht leer sein!");
+                if (String.IsNullOrEmpty(model.NewSubject.Name))
+                    ModelState.AddModelError("NewSubject.Name", "Die Bezeichnung darf nicht leer sein!");
+                else if (uow.SubjectRepository.Get(filter: s => s.Name == model.NewSubject.Name) != null)
+                    ModelState.AddModelError("NewSubject.Name", "Dieses Fach existiert bereits!");
                 return View("EditMetadata", model);
             }
         }
