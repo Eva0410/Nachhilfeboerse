@@ -77,8 +77,8 @@ namespace TutoringMarket.WebIdentity
             await CreateRole(RoleManager, "Visitor");
             await CreateRole(RoleManager, "Teacher");
 
-            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021" });
-            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019" });
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021", FirstName="Eva", LastName="Pürmayr", SchoolClass="5AHIF", Department="Informatik" });
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019", FirstName="Danijal", LastName="Orascanin", SchoolClass="5AHIF", Department="Informatik"});
 
             //TODO: Keck adden
             await AddUserRole("in130021", "Admin", UserManager, RoleManager);
@@ -86,12 +86,16 @@ namespace TutoringMarket.WebIdentity
             await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
             await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
 
+            //Tutoren adden
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130024", FirstName = "Jakob", LastName = "Rumpelsberger", SchoolClass = "5AHIF", Department = "Informatik" });
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130015", FirstName = "Michael", LastName = "Medweschek", SchoolClass = "5AHIF", Department = "Informatik" });
+
+
             //TODO: Rollen für Test-Tutoren
-            foreach (var item in uow.TutorRepository.Get().Select(t => t.IdentityName))
-            {
-                await UserManager.CreateAsync(new ApplicationUser { UserName = item });
-                await AddUserRole(item, "Tutor", UserManager, RoleManager);
-            }
+            await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
+            await AddUserRole("in130019", "Tutor", UserManager, RoleManager);
+            await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
+            await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
 
         }
         private async Task CreateRole(RoleManager<IdentityRole> rm, string roleName)
