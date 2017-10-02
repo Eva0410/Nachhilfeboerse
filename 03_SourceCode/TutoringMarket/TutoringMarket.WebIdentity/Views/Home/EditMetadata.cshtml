@@ -2,8 +2,17 @@
     @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
+<head>
+    <div class="navbar-fixed-top" style="background-color:#313131">
+        <div>
+            <ul>
+                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
+                <!--  <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li> -->
+                @await Html.PartialAsync("_LoginPartial")
+            </ul>
+        </div>
+    </div>
+</head>
 <h1>Metadaten bearbeiten</h1>
 @*<form asp-action="EditDepartments">
 
