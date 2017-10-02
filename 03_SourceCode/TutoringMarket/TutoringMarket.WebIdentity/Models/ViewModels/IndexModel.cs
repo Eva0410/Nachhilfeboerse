@@ -55,7 +55,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
             if (this.SelectedSubject == "Alle" || this.SelectedSubject == null)
             {
-                this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName)).ToList();
+                this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName),includeProperties:"Department, Class, Tutor_Subjects").ToList();
             }
             else
             {

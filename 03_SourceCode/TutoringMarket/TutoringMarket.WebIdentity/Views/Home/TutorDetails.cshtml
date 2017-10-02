@@ -1,8 +1,4 @@
 ﻿@model TutoringMarket.WebIdentity.Models.ViewModels.TutorModel
-
-@{
-    ViewData["Title"] = "Nachhilfebörse";
-}
 <head>
     <div class="navbar-fixed-top" style="background-color:#313131">
         <div class="navbar-collapse collapse">
@@ -28,6 +24,7 @@
         <p><label>Abteilung:</label> @Model.Tutor.Department.Name</p>
         <p><label>E-mail:</label> @Model.Tutor.EMail</p>
         <p><label>Geschlecht:</label> @Model.Tutor.Gender</p>
+        <p><label>Geburtstag:</label> @Model.Tutor.Birthday.ToString("d")</p>
         <p><label>Handynummer:</label> @Model.Tutor.PhoneNumber</p>
         <p><label>Preis /h:</label> @Model.Tutor.Price€</p>
         <p><label>Termine:</label> @Model.Tutor.Time</p>
@@ -36,10 +33,10 @@
             <label>Fächer:</label>
             @foreach (var item in Model.Subjects)
             {
-                <td> @item.Name </td>
+                <td> @item.Name; </td>
             }
         </p>
-        <p><label>Beschreibung:</label> @Model.Tutor.Description</p>
+        <p>@Model.Tutor.Description</p>
         <a class="btn btn-default" asp-action="Index">Zurück</a>
     </div>
 </body>

@@ -1,29 +1,7 @@
 ﻿@model TutoringMarket.WebIdentity.Models.ViewModels.GetTutorModel
-@{
-    ViewData["Title"] = "GetTutor";
-}
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
-    <title>Nachhilfebörse</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="mycss.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
     <div class="navbar-fixed-top" style="background-color:#313131">
-        <div class="navbar-collapse collapse">
+        <div>
             <ul>
                 <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
                 <!--  <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li> -->
@@ -113,7 +91,12 @@
                             <label asp-for="@Model.Tutor.Gender"></label>
                             <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
                         </div>
-                        <label>Abteilung: Informatik ; Klasse: 4Ahif</label>
+                        
+                        <label>@Model.Tutor.Department.Name</label>
+                        <input type="hidden" asp-for="@Model.Tutor.LastName" />
+
+                        <label>@Model.Tutor.Class.Name</label>
+                        <input type="hidden" asp-for="@Model.Tutor.LastName" />
                         
                         <footer>
                             <input type="submit" class="myButton" value="Einreichen" />
