@@ -42,7 +42,7 @@
                 <input type="hidden" asp-for="@Model.Tutor.LastName" />
                 <label>@Model.Tutor.FirstName</label>
                 <input type="hidden" asp-for="@Model.Tutor.FirstName" />
-                werde auch du Nachhilfelehrer
+                ändere dein Profil
             </h1>
 
             <div id="irwos2">
@@ -54,9 +54,9 @@
             </div>
 
 
-            <table id="getTutor">
+            <table>
                 <tr>
-                    <td style="padding-right:10px;">
+                    <td style="padding: 50px 10px 0px 0px; margin-top: -50px;">
                         <div style="width:7.5cm">
                             <label asp-for="@Model.Tutor.Birthday"></label>
                             <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
@@ -92,7 +92,7 @@
                             <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
                             <p>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
                         </div>
-                    </td>
+                    </tdstyle="padding-right:10px;">
 
 
                     <td>
@@ -129,7 +129,6 @@
                 </tr>
         </form>
         <tr>
-            <td></td>
             <td>
                 <form asp-action="DeleteTutoringProfile">
                     <input type="submit" value="Profil löschen" class="myButton" onclick="return confirm('Wollen Sie Ihr Profil wirklich löschen?');" />

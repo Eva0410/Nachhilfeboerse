@@ -87,6 +87,7 @@ em.index{
     font-family: Arial;
     color: #2e2e2e;
     line-height: 1.4;
+    text-decoration:none;
     text-align: center;
     background: rgba(232, 232, 232, 0.8);
     border-radius: 6px;
@@ -97,30 +98,6 @@ em.index{
 .teacherButton:active {
   background-color: #FFFFFF;
 }
-
-.teacherButton2 {
-    border: hidden;
-    float: right;
-    width: 200px;
-    display: block;
-    margin-top: 5vh;
-    margin-right:200px;
-    padding: 15px 10px;
-    font-size: 12px;
-    font-family: Arial;
-    color: #2e2e2e;
-    line-height: 1.4;
-    text-align: center;
-    background: rgba(232, 232, 232, 0.8);
-    border-radius: 6px;
-    box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
-    box-sizing: border-box;
-}
-
-    .teacherButton2:hover,
-    .teacherButton2:active {
-        background-color: #FFFFFF;
-    }	
 
 .whiteBox{
     background-color: #FFF;
@@ -231,9 +208,6 @@ em.index{
 	text-align: justify;
 }
 
-#getTutor{
-    margin-top: 5%;
-}
 #quote{
 	line-height: 13vh;
 	font-size: 8vh;

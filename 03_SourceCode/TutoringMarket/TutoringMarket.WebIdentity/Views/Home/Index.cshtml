@@ -51,7 +51,7 @@
 
         @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
         {
-            <a class="teacherButton2" asp-action="EditTutor">Tutorprofil ändern</a>
+            <a style="text-decoration:none;" class="teacherButton" asp-action="EditTutor">Tutorprofil ändern</a>
         }
     </div>
 
@@ -64,9 +64,14 @@
                         <div class="teacher">
                             <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id">
                                 <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
-                                Termine: @item.Time <br />
-                                Abteilung: @item.Department.Name <br />
-                                Klasse: @item.Class.Name
+                                <label>Abteilung:</label> @item.Department.Name <br />
+                                <label>Klasse:</label> @item.Class.Name <br />
+                                <label>Termine:</label> @item.Time <br />
+                                <label>Fächer:</label>
+                                @foreach (var item2 in item.Subjects)
+                                {
+                                    <div style="display:inline;">@item2.Name ;</div>
+                                }
                             </a>
                         </div>
                     }

@@ -13,33 +13,33 @@
 
 <body>
     <div align="center">
+        <form class="anfrageForm" accept-charset="UTF-8" asp-action="EditTutor">
+            <h1 class="page-header">
+                <label>@Model.Tutor.LastName</label>
+                <input type="hidden" asp-for="@Model.Tutor.LastName" />
+                <label>@Model.Tutor.FirstName</label>
+                <input type="hidden" asp-for="@Model.Tutor.FirstName" />
+                werde auch du Nachhilfelehrer
+            </h1>
 
-        <h1 class="page-header">
-        <label>@Model.Tutor.LastName</label>
-        <input type="hidden" asp-for="@Model.Tutor.LastName" />
-        <label>@Model.Tutor.FirstName</label>
-        <input type="hidden" asp-for="@Model.Tutor.FirstName" />
-        werde auch du Nachhilfelehrer</h1>
-
-        <div id="irwos2">
-            <center>
-                <h1 id="quote">
-                    We cant help everyone, but everyone can help someone.
-                </h1>
-            </center>
-        </div>
+            <div id="irwos2">
+                <center>
+                    <h1 id="quote">
+                        We cant help everyone, but everyone can help someone.
+                    </h1>
+                </center>
+            </div>
 
 
-        <table id="getTutor">
-            <form class="anfrageForm" accept-charset="UTF-8" asp-action="GetTutor">
-                <tr>           
-                    <td style="padding-right:10px;">
+            <table>
+                <tr>
+                    <td style="padding: 50px 10px 0px 0px; margin-top: -50px;">
                         <div style="width:7.5cm">
                             <label asp-for="@Model.Tutor.Birthday"></label>
                             <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
                             <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
                             <br />
-                        </div>                
+                        </div>
 
                         <div style="width:7.5cm">
                             <label>E-mail</label>
@@ -67,9 +67,9 @@
                             <label>Fächer</label>
                             <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects"></select>
                             <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
-                            <label>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</label>
+                            <p>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
                         </div>
-                    </td>
+                        </tdstyle="padding-right:10px;">
 
 
                     <td>
@@ -91,21 +91,20 @@
                             <label asp-for="@Model.Tutor.Gender"></label>
                             <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
                         </div>
-                        
+
                         <label>@Model.Tutor.Department.Name</label>
-                        <input type="hidden" asp-for="@Model.Tutor.LastName" />
+                        <input type="hidden" asp-for="@Model.Tutor.Department_Id" />
 
                         <label>@Model.Tutor.Class.Name</label>
-                        <input type="hidden" asp-for="@Model.Tutor.LastName" />
-                        
+                        <input type="hidden" asp-for="@Model.Tutor.Class_Id" />
+
                         <footer>
                             <input type="submit" class="myButton" value="Einreichen" />
                             <a class="myButton" asp-action="Index">Zurück</a>
                         </footer>
                     </td>
-                </tr>            
-            </div>
-            </form>
-        </table>
+                </tr>
+            </table>
+        </form> 
     </div>
 </body>
