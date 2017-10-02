@@ -50,10 +50,10 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         [Authorize(Roles = "Visitor")]
-        public IActionResult GetTutor()
+        public async Task<IActionResult> GetTutor()
         {
             GetTutorModel model = new GetTutorModel();
-            model.Init(this.uow);
+            await model.Init(this.uow, this.um, User.Identity.Name);
             return View(model);
         }
         [HttpPost]
@@ -91,20 +91,20 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
                 var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
-                model.FillList(uow);
+                await model.FillList(uow, this.um, User.Identity.Name);
                 return View(model);
             }
         }
         [Authorize(Roles ="Tutor")]
-        public IActionResult EditTutor()
+        public async Task<IActionResult> EditTutor()
         {
             EditTutorModel model = new EditTutorModel();
-            model.FillList(uow, User);
+            await model.FillList(uow,um, User);
             return View(model);
         }
         [Authorize(Roles ="Tutor")]
         [HttpPost]
-        public IActionResult EditTutor(EditTutorModel model)
+        public async Task<IActionResult> EditTutor(EditTutorModel model)
         {
             var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
             if (ModelState.IsValid)
@@ -141,7 +141,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                model.FillList(uow, User);
+                await model.FillList(uow, um, User);
                 return View(model);
             }
             

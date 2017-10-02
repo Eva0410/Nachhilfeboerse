@@ -35,6 +35,13 @@
 
 <body>
     <div align="center">
+        <form class="anfrageForm" accept-charset="UTF-8" asp-action="GetTutor">
+
+            <div style="width:10.5cm">
+                <label>@Model.Tutor.FirstName</label>
+                <input type="hidden" asp-for="@Model.Tutor.FirstName" />
+                <br />
+            </div>
         <h1 class="page-header">Orascanin Danijal werde auch du Nachhilfelehrer</h1>
         <div id="irwos2">
             <center>
@@ -55,6 +62,11 @@
                         </div>                
 
 
+            <div style="width:10.5cm">
+                <label>@Model.Tutor.LastName</label>
+                <input type="hidden" asp-for="@Model.Tutor.LastName" />
+                <br />
+            </div>
                         <div style="width:7.5cm">
                             <label>E-mail</label>
                             <input type="text" placeholder="E-Mail*" class="form-control" asp-for="@Model.Tutor.EMail">
@@ -112,6 +124,26 @@
                         </footer>
                     </td>
                 </tr>
+                    <p class="test">Motivationsspruch / Beschreibung</p>
+                    <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
+                </div>
+            <div style="width:10.5cm">
+                <br />
+                <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects" ></select>
+                <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
+                <label>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</label>
+               
+            </div>
+
+                <label for="file">Upload Image:</label>
+                <input type="file" name="file" id="file" style="width: 100%;"/>
+                <!--<input type="submit" value="Upload" class="submit" />-->
+                <br />
+                <br />
+                <footer>
+                    <input type="submit" class="myButton" value="Einreichen" />
+                    <a class="btn btn-default" asp-action="Index">Zurück</a>
+                </footer>
 
             </form>
         </table>

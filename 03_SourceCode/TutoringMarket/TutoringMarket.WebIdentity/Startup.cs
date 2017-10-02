@@ -75,6 +75,7 @@ namespace TutoringMarket.WebIdentity
             await CreateRole(RoleManager, "Admin");
             await CreateRole(RoleManager, "Tutor");
             await CreateRole(RoleManager, "Visitor");
+            await CreateRole(RoleManager, "Teacher");
 
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021" });
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019" });
@@ -103,7 +104,7 @@ namespace TutoringMarket.WebIdentity
             }
             if (roleResult == null || !roleResult.Succeeded)
             {
-                Console.WriteLine("Fehler: Rolle " + roleName + "konnte nicht erstellt werden!");
+                Console.WriteLine("Fehler: Rolle " + roleName + " konnte nicht erstellt werden!");
             }
         }
         private async Task AddUserRole(string name, string roleName, UserManager<ApplicationUser> um, RoleManager<IdentityRole> rm)
