@@ -87,15 +87,15 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    return View(model);
                 //}
 
-                string fullName = "Pürmayr Eva";
-                string schoolClass = "4AHIF";
-                string department = "Informatikkk";
-                //string fullName = "";
-                //string schoolClass = "";
-                //string department = "";
+                //string fullName = "Pürmayr Eva";
+                //string schoolClass = "4AHIF";
+                //string department = "Informatikkk";
+                string fullName = "";
+                string schoolClass = "";
+                string department = "";
                 bool isTeacher = false;
-                //bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
-                bool result = true; //server was offline
+                bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
+                //bool result = true; //server was offline
                 if (result)
                 {
                     var user = new ApplicationUser { UserName = model.UserName, FirstName=fullName.Split(' ')[1], LastName=fullName.Split(' ')[0], SchoolClass=schoolClass, Department = department};
