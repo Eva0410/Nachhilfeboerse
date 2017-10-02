@@ -87,7 +87,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    return View(model);
                 //}
 
-                //string fullName = "Pürmayr Eva";
+                //string fullName = "Pürmayr Eva"; //for offline testing
                 //string schoolClass = "4AHIF";
                 //string department = "Informatikkk";
                 string fullName = "";
