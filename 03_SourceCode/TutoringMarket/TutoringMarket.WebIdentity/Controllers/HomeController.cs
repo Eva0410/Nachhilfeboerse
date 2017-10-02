@@ -199,6 +199,9 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         //TODO Refresh bei Admin changes
+        //TODO handle back button
+        //TODO telephone number error message
+        //TODO error message for email address
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
