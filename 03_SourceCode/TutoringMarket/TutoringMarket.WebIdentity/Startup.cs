@@ -86,16 +86,16 @@ namespace TutoringMarket.WebIdentity
             await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
 
             //Tutoren adden
-            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130024", FirstName = "Jakob", LastName = "Rumpelsberger", SchoolClass = "5AHIF", Department = "Informatik" });
-            await UserManager.CreateAsync(new ApplicationUser { UserName = "in130015", FirstName = "Michael", LastName = "Medweschek", SchoolClass = "5AHIF", Department = "Informatik" });
+            //await UserManager.CreateAsync(new ApplicationUser { UserName = "in130024", FirstName = "Jakob", LastName = "Rumpelsberger", SchoolClass = "5AHIF", Department = "Informatik" });
+            //await UserManager.CreateAsync(new ApplicationUser { UserName = "in130015", FirstName = "Michael", LastName = "Medweschek", SchoolClass = "5AHIF", Department = "Informatik" });
 
 
             //Rollen für Test-Tutoren
             //TODO Test Tutoren löschen
             await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
            // await AddUserRole("in130019", "Tutor", UserManager, RoleManager);
-            await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
-            await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
+            //await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
+            //await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
 
         }
         private async Task CreateRole(RoleManager<IdentityRole> rm, string roleName)

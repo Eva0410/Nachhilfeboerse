@@ -93,19 +93,19 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
                 }
-              
+
                 await model.FillList(uow, this.um, User.Identity.Name);
                 return View(model);
             }
         }
-        [Authorize(Roles ="Tutor")]
+        [Authorize(Roles = "Tutor")]
         public async Task<IActionResult> EditTutor()
         {
             EditTutorModel model = new EditTutorModel();
-            await model.FillList(uow,um, User);
+            await model.FillList(uow, um, User);
             return View(model);
         }
-        [Authorize(Roles ="Tutor")]
+        [Authorize(Roles = "Tutor")]
         [HttpPost]
         public async Task<IActionResult> EditTutor(EditTutorModel model)
         {
@@ -118,8 +118,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 foreach (var item in changed)
                 {
                     var prop = oldTutor.GetType().GetProperty(item);
-                    var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor,null);
-                    prop.SetValue(oldTutor,value);
+                    var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
+                    prop.SetValue(oldTutor, value);
                 }
 
                 var oldTutorSubjectIds = this.uow.TutorSubjectRepository.Get(ts => ts.Tutor_Id == oldTutor.Id).Select(ts => ts.Id).ToList();
@@ -151,10 +151,10 @@ namespace TutoringMarket.WebIdentity.Controllers
                 await model.FillList(uow, um, User);
                 return View(model);
             }
-            
+
         }
         [HttpPost]
-        [Authorize(Roles ="Tutor")]
+        [Authorize(Roles = "Tutor")]
         public async Task<IActionResult> DeleteTutoringProfile()
         {
             var tutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
@@ -182,10 +182,10 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             foreach (var item in props)
             {
-                    if (oldTutor.GetType().GetProperty(item).GetValue(oldTutor, null)?.ToString() != (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()) && (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()) != null)
-                    {
-                        changed.Add(item);
-                    }
+                if (oldTutor.GetType().GetProperty(item).GetValue(oldTutor, null)?.ToString() != (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()) && (newTutor.GetType().GetProperty(item).GetValue(newTutor, null)?.ToString()) != null)
+                {
+                    changed.Add(item);
+                }
             }
             return changed;
 
@@ -202,11 +202,20 @@ namespace TutoringMarket.WebIdentity.Controllers
         //TODO handle back button
         //TODO telephone number error message
         //TODO error message for email address
+        //TODO todo check date of birth
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
         {
-            var user = await um.FindByNameAsync(model.NewAdmin);
+            ApplicationUser user = null;
+            if (String.IsNullOrEmpty(model.NewAdmin))
+            {
+                ModelState.AddModelError("NewAdmin", "Bitte geben Sie einen Namen ein!");
+            }
+            else
+            {
+                user = await um.FindByNameAsync(model.NewAdmin);
+            }
             await model.GetAdmins(um);
             if (ModelState.IsValid && user != null)
             {
@@ -334,7 +343,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult EditSubjects(EditMetadataModel model)
         {
             model.Init(uow);
-            if (ModelState.IsValid && !String.IsNullOrEmpty(model.NewSubject.Name) && uow.SubjectRepository.Get(filter: s => s.Name == model.NewSubject.Name) == null)
+            if (ModelState.IsValid && !String.IsNullOrEmpty(model.NewSubject.Name) && uow.SubjectRepository.Get(filter: s => s.Name == model.NewSubject.Name).FirstOrDefault() == null)
             {
                 uow.SubjectRepository.Insert(model.NewSubject);
                 uow.Save();
@@ -344,7 +353,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 if (String.IsNullOrEmpty(model.NewSubject.Name))
                     ModelState.AddModelError("NewSubject.Name", "Die Bezeichnung darf nicht leer sein!");
-                else if (uow.SubjectRepository.Get(filter: s => s.Name == model.NewSubject.Name) != null)
+                else if (uow.SubjectRepository.Get(filter: s => s.Name == model.NewSubject.Name).FirstOrDefault() != null)
                     ModelState.AddModelError("NewSubject.Name", "Dieses Fach existiert bereits!");
                 return View("EditMetadata", model);
             }
@@ -360,7 +369,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow.Save();
             return RedirectToAction("EditMetadata");
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditTutors()
         {
             EditTutorsModel model = new EditTutorsModel();

@@ -42,8 +42,8 @@
                         </div>
 
                         <div style="width:7.5cm">
-                            <label>E-mail</label>
-                            <input type="text" placeholder="E-Mail*" class="form-control" asp-for="@Model.Tutor.EMail">
+                            <label>E-mail*</label>
+                            <input type="text" placeholder="E-Mail" class="form-control" asp-for="@Model.Tutor.EMail">
                             <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
                             <br />
                         </div>
@@ -74,7 +74,7 @@
 
                     <td>
                         <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Time"></label>
+                            <label>Zeit*</label>
                             <textarea type="text" placeholder="z.B.: Montag 12-14 Uhr und Mittowch 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
                             <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
                             <br />
