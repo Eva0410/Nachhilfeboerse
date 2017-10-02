@@ -137,7 +137,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                     if(name.Contains('.'))
                     {
                         //TODO full name of teacher
-                        fullName = name;
+                        fullName = name.Replace('.',' ');
                         isTeacher = true;
                     }
                     else
