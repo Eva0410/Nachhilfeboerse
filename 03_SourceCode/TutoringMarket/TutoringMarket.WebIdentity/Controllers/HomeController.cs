@@ -89,8 +89,11 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
-                ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
-                var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
+                if (model.SelectedSubjects.Count == 0)
+                {
+                    ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
+                }
+              
                 await model.FillList(uow, this.um, User.Identity.Name);
                 return View(model);
             }
@@ -141,6 +144,10 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
+                if (model.SelectedSubjects.Count == 0)
+                {
+                    ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
+                }
                 await model.FillList(uow, um, User);
                 return View(model);
             }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Contracts;
@@ -15,6 +16,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public String SortTextBefore { get; set; }
         public SelectList Subjects { get; set; }
         public string SelectedSubject { get; set; }
+
 
         //public void SwitchSort(IUnitOfWork uow)
         //{
@@ -52,14 +54,41 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             var subs = uow.SubjectRepository.Get(orderBy: ord => ord.OrderBy(s => s.Name)).Select(s => s.Name).ToList();
             subs.Insert(0,"Alle");
             this.Subjects = new SelectList(subs, "Alle");
-
+            
+            //TODO Model ändern
             if (this.SelectedSubject == "Alle" || this.SelectedSubject == null)
             {
-                this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName),includeProperties:"Department, Class, Tutor_Subjects").ToList();
+                var tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties:"Class, Department, Tutor_Subjects").ToList();
+                List<Tutor> includedList = new List<Tutor>();
+                foreach (var item in tutors)
+                {
+                    var subjects = item.Tutor_Subjects;
+                    item.Subjects = new List<Subject>();
+                    foreach (var s in subjects)
+                    {
+                        item.Subjects.Add(uow.SubjectRepository.GetById(s.Subject_Id));
+                    }
+                    includedList.Add(item);
+                }
+                this.Tutors = includedList;
             }
             else
             {
-                this.Tutors = uow.TutorSubjectRepository.Get(filter: ts => ts.Subject.Name == this.SelectedSubject, orderBy: ord => ord.OrderBy(ts => ts.Tutor.LastName), includeProperties:"Subject, Tutor").Select(ts => ts.Tutor).ToList();
+                //TODO wenn model geändert ist, kompliziertn teil löschen!!!!
+                var tutors = uow.TutorSubjectRepository.Get(filter: ts => ts.Subject.Name == this.SelectedSubject, orderBy: ord => ord.OrderBy(ts => ts.Tutor.LastName), includeProperties:"Subject, Tutor").Select(ts => ts.Tutor).ToList();
+                List<Tutor> includedList = new List<Tutor>();
+                foreach (var item in tutors)
+                {
+                    Tutor tut = uow.TutorRepository.Get(filter: t => t.Id == item.Id, includeProperties: "Department, Class, Tutor_Subjects").FirstOrDefault();
+                    var subjects = tut.Tutor_Subjects;
+                    item.Subjects = new List<Subject>();
+                    foreach (var s in subjects)
+                    {
+                        tut.Subjects.Add(uow.SubjectRepository.GetById(s.Subject_Id));
+                    }
+                    includedList.Add(tut);
+                }
+                this.Tutors = includedList;
             }
         }
 

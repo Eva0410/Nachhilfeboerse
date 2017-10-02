@@ -50,5 +50,8 @@ namespace TutoringMarket.Core.Enities
         public string Gender { get; set; }
 
         public List<Tutor_Subject> Tutor_Subjects { get; set; }
+
+        [NotMapped]
+        public List<Subject> Subjects { get; set; }
     }
 }
