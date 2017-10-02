@@ -1,45 +1,47 @@
 ﻿@model TutoringMarket.WebIdentity.Models.ViewModels.TutorModel
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+<head>
+    <div class="navbar-fixed-top" style="background-color:#313131">
+        <div class="navbar-collapse collapse">
+            <ul>
+                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
+                <!--          <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li> -->
+                @await Html.PartialAsync("_LoginPartial")
+            </ul>
+        </div>
+    </div>
 
-<h1>Tutor-Details</h1>
-<label>@Model.Tutor.FirstName</label>
-<label>@Model.Tutor.LastName</label>
-<label>@Model.Average</label>
-<!--<p>Fächer</p>
-foreach (var item in Model.Tutor.Tutor_Subjects)
-{
-    <p>item.Subject.Name</p>
-}-->
-<p>@Model.Tutor.Class.Name</p>
-<p>@Model.Tutor.Department.Name</p>
-<p>@Model.Tutor.Description</p>
-<p>@Model.Tutor.EMail</p>
-<p>@Model.Tutor.Gender</p>
-<p>@Model.Tutor.Id</p>
-<p>@Model.Tutor.PhoneNumber</p>
-<p>@Model.Tutor.Price</p>
-<p>@Model.Tutor.Time</p>
-<table>
-    @foreach (var item in Model.Reviews)
+</head>
+<body>
+    <h1 class="page-header">@Model.Tutor.FirstName @Model.Tutor.LastName</h1>
+
+    <!--<p>Fächer</p>
+    foreach (var item in Model.Tutor.Tutor_Subjects)
     {
-        <tr>
-            <td>@item.Comment</td>
-            <td>@item.Books</td>   
-         </tr>
-    }
-</table>
-<table>
-    @foreach (var item in Model.Subjects)
-    {
-        <tr>
-            <td>@item.Name</td>
-        </tr>
-    }
-</table>
-<a class="btn btn-default" asp-action="Index">Zurück</a>
+        <p>item.Subject.Name</p>
+    }-->
+    <div align="center">
+        <p><label>Klasse:</label> @Model.Tutor.Class.Name</p>
+        <p><label>Abteilung:</label> @Model.Tutor.Department.Name</p>
+        <p><label>E-mail:</label> @Model.Tutor.EMail</p>
+        <p><label>Geschlecht:</label> @Model.Tutor.Gender</p>
+        <p><label>Geburtstag:</label> @Model.Tutor.Birthday.ToString("d")</p>
+        <p><label>Handynummer:</label> @Model.Tutor.PhoneNumber</p>
+        <p><label>Preis /h:</label> @Model.Tutor.Price€</p>
+        <p><label>Termine:</label> @Model.Tutor.Time</p>
+
+        <p>
+            <label>Fächer:</label>
+            @foreach (var item in Model.Subjects)
+            {
+                <td> @item.Name; </td>
+            }
+        </p>
+        <p>@Model.Tutor.Description</p>
+        <a class="btn btn-default" asp-action="Index">Zurück</a>
+    </div>
+</body>
+
+
+
 
     

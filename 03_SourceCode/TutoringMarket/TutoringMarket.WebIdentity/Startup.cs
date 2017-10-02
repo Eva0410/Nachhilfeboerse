@@ -83,7 +83,7 @@ namespace TutoringMarket.WebIdentity
             await AddUserRole("in130021", "Admin", UserManager, RoleManager);
             await AddUserRole("in130019", "Admin", UserManager, RoleManager);
             await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
-            await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
+          //  await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
 
             //Tutoren adden
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130024", FirstName = "Jakob", LastName = "Rumpelsberger", SchoolClass = "5AHIF", Department = "Informatik" });

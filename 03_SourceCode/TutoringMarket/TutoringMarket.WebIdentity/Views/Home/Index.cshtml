@@ -1,7 +1,4 @@
 ﻿@model TutoringMarket.WebIdentity.Models.ViewModels.IndexModel
-@{
-    ViewData["Title"] = "Index";
-}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,50 +23,58 @@
 </head>
 
 <body style="background-color:#E8E8E8;">
+    
 
-    <div class="navbar-fixed-top" style="background-color:#313131">
-        <div class="navbar-collapse collapse">
-            <ul>
-                <a style="color: white;" class="navbar-brand">Nachhilfebörse</a>
-                <li><a asp-area="" asp-controller="" asp-action="Login">Log In</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Index" class="selected">Index</a></li>
-                @await Html.PartialAsync("_LoginPartial")
-            </ul>
-        </div>
-    </div>
+<div class="navbar-fixed-top dropdown-menu-left" style="background-color:#313131">
+    <ul>
+        <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
+        <!--          <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li> -->
+        @await Html.PartialAsync("_LoginPartial")
+    </ul>
+</div>
+                
+    
+<div class="greenBack">
+    <h1 class="index">
+        Liste
+        <em class="index">aller Lehrer</em>
+    </h1>
 
-    <div class="greenBack">
-        <h1 class="index">
-            Liste
-            <em class="index">aller Lehrer</em>
-        </h1>
-
-        <div>
-            @if(ViewContext.HttpContext.User.IsInRole("Visitor")) { 
-            <button style="float:right;" class="teacherButton" type="button"
+    <div>
+        @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
+        {
+            <button class="teacherButton" type="button"
                     onclick="location.href='@Url.Action("GetTutor", "Home")'">
                 Werde auch du Lehrer
             </button>
-            }
-            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
-            {
-            <a  class="btn btn-default" asp-action="AdministrationArea" >Administrationsbereich</a>
-            }
-            @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
-            {
-            <a class="btn btn-default" asp-action="GetTutor">Werde auch du Lehrer (link)</a>
-            }
-            @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
-            {
-            <a class="btn btn-default" asp-action="EditTutor">Tutorprofil ändern</a>
-            }
-        </div>
+        }
 
+        @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
+        {
+            <a style="text-decoration:none;" class="teacherButton" asp-action="EditTutor">Tutorprofil ändern</a>
+        }
     </div>
 
-    <div class="whiteBox">
+</div>
 
+                <div class="whiteBox">
+
+                    @foreach (var item in @Model.Tutors)
+                    {
+                        <div class="teacher">
+                            <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id">
+                                <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+                                <label>Abteilung:</label> @item.Department.Name <br />
+                                <label>Klasse:</label> @item.Class.Name <br />
+                                <label>Termine:</label> @item.Time <br />
+                                <label>Fächer:</label>
+                                @foreach (var item2 in item.Subjects)
+                                {
+                                    <div style="display:inline;">@item2.Name ;</div>
+                                }
+                            </a>
+                        </div>
+                    }
         @foreach (var item in @Model.Tutors)
         {
             <div class="teacher">
@@ -85,18 +90,24 @@
             <label>Es wurden keine Tutoren gefunden</label>
         }
 
-    </div>
-    <form asp-action="index">
-        <div id="blackFilter1">
-            <h3 id="filterFach">Fach</h3>
-            <!--<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
-            <input asp-for="@Model.SortText" type="submit" value="Geld" />
-            <input asp-for="@Model.SortText" type="submit" value="Bewertung" />-->
-            <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
-            <input type="submit" value="Filtern" />
-            <input type="hidden" asp-for="SortTextBefore" />
-            @Html.HiddenFor(t => t.SortTextBefore)
-        </div>
-    </form>
+                </div>
+                <form asp-action="index">
+                    <div id="blackFilter1">
+                        <h3 id="filterFach">Fach</h3>
 
-        </body>
+                        <!--<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
+                        <input asp-for="@Model.SortText" type="submit" value="Geld" />
+                        <input asp-for="@Model.SortText" type="submit" value="Bewertung" />-->
+
+
+                        <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
+                        <input class="btn btn-default" style="margin-bottom:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern" />
+                        <input type="hidden" asp-for="SortTextBefore" />
+                        @Html.HiddenFor(t => t.SortTextBefore)
+                        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+            {
+                            <a class="btn btn-default" asp-action="AdministrationArea">Administrationsbereich</a>
+                        }
+                    </div>
+                </form>
+</body>
