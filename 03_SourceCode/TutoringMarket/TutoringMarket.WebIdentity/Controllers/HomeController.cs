@@ -200,9 +200,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
         //TODO Refresh bei Admin changes
         //TODO handle back button
-        //TODO telephone number error message
         //TODO error message for email address
-        //TODO todo check date of birth
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
