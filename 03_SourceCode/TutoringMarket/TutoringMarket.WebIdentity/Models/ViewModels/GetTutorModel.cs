@@ -23,6 +23,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public async Task Init(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
             this.Tutor = new Tutor();
+            this.Tutor.Birthday = new DateTime(DateTime.Now.Year - 18, 1, 1);
             this.SelectedSubjects = new List<int>();
 
             await FillList(uow, um, name);
