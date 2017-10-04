@@ -20,7 +20,7 @@ namespace TutoringMarket.Core.Enities
         [Required(ErrorMessage ="Bitte geben Sie Ihren Nachnamen ein."), Display(Name ="Nachname")]
         public String LastName { get; set; }
                 
-        [Required(ErrorMessage ="Bitte geben Sie eine E-Mail Adresse ein."), RegularExpression("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", ErrorMessage ="Ihre E-Mail-Adresse ist nicht gültig!"),Display(Name ="E-Mail")]
+        [Required(ErrorMessage ="Bitte geben Sie eine E-Mail Adresse ein."), RegularExpression("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", ErrorMessage ="Ihre E-Mail-Adresse ist nicht gültig!"),Display(Name ="E-Mail"), MaxLength(150, ErrorMessage ="Ihr E-Mail-Adresse ist zu lange!")]
         public String EMail { get; set; }
 
         [RegularExpression("^[0-9]*$", ErrorMessage ="Ihre Telefonnummer darf nur aus Zifferen bestehen!"), Display(Name ="Telefonnummer"), MinLength(10,ErrorMessage ="Ihre Telefonnummer ist zu kurz!"), MaxLength(15, ErrorMessage ="Ihre Telefonnummer ist zu lange!")]
@@ -32,7 +32,7 @@ namespace TutoringMarket.Core.Enities
         [Required(ErrorMessage ="Bitte geben Sie Ihr Geburtstdatum ein."), Column(TypeName ="datetime2"), Display(Name ="Geburtsdatum")] //sonst SQL-Exception
         public DateTime Birthday { get; set; }
 
-        [Required(ErrorMessage ="Bitte geben Sie Ihre möglichen Nachhilfezeiten ein."), Display(Name ="Zeit"), MaxLength(250, ErrorMessage = "Sie haben zu viele Zeichen eingegeben")]
+        [Required(ErrorMessage ="Bitte geben Sie Ihre möglichen Nachhilfezeiten ein."), Display(Name ="Zeit"), MaxLength(150, ErrorMessage ="Sie haben zu viele Zeiten eingegeben")]
         public String Time { get; set; }
 
         [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz in €"), Range(0,100,ErrorMessage ="Der Stundensatz muss zwischen 0 und 100 sein!")]

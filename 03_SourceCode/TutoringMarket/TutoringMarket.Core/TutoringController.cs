@@ -57,11 +57,11 @@ namespace TutoringMarket.Core
             //throw new Exception("Bist du dir sicher, dass du die Datenbank zurücksetzen willst??"); //auskommentieren wenn schon
 
             _unitOfWork.DeleteDatabase();
-            _unitOfWork.TutorSubjectRepository.InsertMany(tutor_subjects);
             _unitOfWork.ClassRepository.InsertMany(classes);
             _unitOfWork.SubjectRepository.InsertMany(subjects);
             _unitOfWork.DepartmentRepository.InsertMany(departments);
             _unitOfWork.TutorRepository.InsertMany(tutors);
+            _unitOfWork.TutorSubjectRepository.InsertMany(tutor_subjects);
             _unitOfWork.ReviewRepository.InsertMany(reviews);
             _unitOfWork.Save();
 

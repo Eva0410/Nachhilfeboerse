@@ -3,7 +3,7 @@ namespace TutoringMarket.Persistence.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initial_create : DbMigration
     {
         public override void Up()
         {
@@ -37,15 +37,19 @@ namespace TutoringMarket.Persistence.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Image = c.Binary(),
                         FirstName = c.String(nullable: false),
                         LastName = c.String(nullable: false),
-                        EMail = c.String(nullable: false),
-                        PhoneNumber = c.String(),
-                        Description = c.String(maxLength: 300),
+                        EMail = c.String(nullable: false, maxLength: 150),
+                        PhoneNumber = c.String(maxLength: 15),
+                        Description = c.String(maxLength: 500),
                         Birthday = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Price = c.Double(nullable: false),
+                        Time = c.String(nullable: false, maxLength: 150),
+                        Price = c.Int(nullable: false),
                         Department_Id = c.Int(nullable: false),
                         Class_Id = c.Int(nullable: false),
+                        IdentityName = c.String(),
+                        Gender = c.String(nullable: false),
                         Timestamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
                     })
                 .PrimaryKey(t => t.Id)
@@ -56,16 +60,6 @@ namespace TutoringMarket.Persistence.Migrations
             
             CreateTable(
                 "dbo.SchoolClasses",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        Timestamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Subjects",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -89,13 +83,23 @@ namespace TutoringMarket.Persistence.Migrations
                 .Index(t => t.Tutor_Id)
                 .Index(t => t.Subject_Id);
             
+            CreateTable(
+                "dbo.Subjects",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                        Timestamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
+                    })
+                .PrimaryKey(t => t.Id);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.Reviews", "Tutor_Id", "dbo.Tutors");
             DropForeignKey("dbo.Tutor_Subject", "Tutor_Id", "dbo.Tutors");
             DropForeignKey("dbo.Tutor_Subject", "Subject_Id", "dbo.Subjects");
-            DropForeignKey("dbo.Reviews", "Tutor_Id", "dbo.Tutors");
             DropForeignKey("dbo.Tutors", "Department_Id", "dbo.Departments");
             DropForeignKey("dbo.Tutors", "Class_Id", "dbo.SchoolClasses");
             DropIndex("dbo.Tutor_Subject", new[] { "Subject_Id" });
@@ -103,8 +107,8 @@ namespace TutoringMarket.Persistence.Migrations
             DropIndex("dbo.Tutors", new[] { "Class_Id" });
             DropIndex("dbo.Tutors", new[] { "Department_Id" });
             DropIndex("dbo.Reviews", new[] { "Tutor_Id" });
-            DropTable("dbo.Tutor_Subject");
             DropTable("dbo.Subjects");
+            DropTable("dbo.Tutor_Subject");
             DropTable("dbo.SchoolClasses");
             DropTable("dbo.Tutors");
             DropTable("dbo.Reviews");
