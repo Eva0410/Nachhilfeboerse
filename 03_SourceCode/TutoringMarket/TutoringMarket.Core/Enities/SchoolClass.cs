@@ -11,5 +11,7 @@ namespace TutoringMarket.Core.Enities
     {
         [Required,Display(Name="Klasse")]
         public String Name { get; set; }
+
+        public List<Tutor> Tutors { get; set; }
     }
 }

@@ -15,6 +15,8 @@ using LoginAuthentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using TutoringMarket.WebIdentity.Data;
 using System.DirectoryServices.Protocols;
+using TutoringMarket.Core.Contracts;
+using TutoringMarket.Core.Enities;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -26,19 +28,22 @@ namespace TutoringMarket.WebIdentity.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private IUnitOfWork uow;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IUnitOfWork _uow)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            uow = _uow;
         }
 
         //
@@ -61,6 +66,8 @@ namespace TutoringMarket.WebIdentity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                //Ursprünglicher Code
+
                 //This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 //var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password,false, lockoutOnFailure: false);
@@ -87,30 +94,46 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    return View(model);
                 //}
 
-                string fullName = "Pürmayr Eva"; //for offline testing
-                string schoolClass = "4AHIF";
-                string department = "Informatikkk";
-                //string fullName = "";
-                //string schoolClass = "";
-                //string department = "";
+                //for offline testing (Server ist nicht erreichbar von daheim, daher müssen Name, Klasse und Abteilung hard codiert werden)
+                //string fullName = "Pürmayr Eva"; 
+                //string schoolClass = "4AHIF";
+                //string department = "Informatik";
+
+                //real code
+                string fullName = "";
+                string schoolClass = "";
+                string department = "";
+
                 bool isTeacher = false;
-                //bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
-                bool result = true; //server was offline
+
+                //Liefert Name, Klasse, Abteilung, isTeacher und ob die Anmeldedaten gültig sind
+                bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
+
+                //offline testing (Die Anmeldedaten sind gültig daheim)
+                //bool result = true; //server was offline
                 if (result)
                 {
+                    //Neuer User (Achtung Name muss ein Leerzeichen enthalten!)
                     var user = new ApplicationUser { UserName = model.UserName, FirstName=fullName.Split(' ')[1], LastName=fullName.Split(' ')[0], SchoolClass=schoolClass, Department = department};
+
+                    //Existiert der User schon?
                     if (_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
                     {
+                        //=>User exisitert noch nicht
+                        //User wird angelegt
                         await _userManager.CreateAsync(user);
                         if(isTeacher)
                         {
+                            //Lehrer-Rolle hinzufügen
                             await _userManager.AddToRoleAsync(user, "Teacher");
                         }
                         else
                         {
+                            //Besucher ist normal
                             await _userManager.AddToRoleAsync(user, "Visitor");
                         }
                     }
+                    //Der User wird eingeloggt
                     await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
@@ -120,9 +143,19 @@ namespace TutoringMarket.WebIdentity.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
         //TODO: Delete unnecassary code
         //TODO: selbstsigniertes Zertifikat verwendet
+        /// <summary>
+        /// //Liefert Name, Klasse, Abteilung, isTeacher und ob die Anmeldedaten gültig sind
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <param name="fullName"></param>
+        /// <param name="schoolClass"></param>
+        /// <param name="department"></param>
+        /// <param name="isTeacher"></param>
+        /// <returns></returns>
         private bool GetResult(string name, string password, ref string fullName, ref string schoolClass, ref string department, ref bool isTeacher)
         {
             bool result = true;
@@ -137,11 +170,14 @@ namespace TutoringMarket.WebIdentity.Controllers
                     if(name.Contains('.'))
                     {
                         //TODO full name of teacher
+                        //Derzeit wird p.bauer in Vorname=p und Nachname=bauer gespeichert (Sysadmin fragen)
                         fullName = name.Replace('.',' ');
                         isTeacher = true;
                     }
                     else
                     {
+                        //Andere Daten erhalten
+                        //Code könnte schöner sein
                         String[] array = { "dn", "displayName", "gecos" };
                         DirectoryRequest dr = new SearchRequest("ou=Students,ou=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT", "(cn="+name+")", System.DirectoryServices.Protocols.SearchScope.Subtree, array);
                         var dresp = (System.DirectoryServices.Protocols.SearchResponse)con.SendRequest(dr);
@@ -156,10 +192,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                             break;
                         }
                     }
-
+                    this.InsertClasses(con);
                 }
                 catch(Exception e)
                 {
+                    //Falls Anmeldedaten nicht gültig sind, Server offline usw..
                     ModelState.AddModelError(String.Empty, e.Message);
                     result = false;
                     Console.WriteLine(e.Message);
@@ -168,6 +205,38 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             return result;
         }
+        private void InsertClasses(LdapConnection con)
+        {
+            try
+            {
+                //alle Klassen finden
+                String[] a = { "dn", "displayName", "gecos" };
+                DirectoryRequest directoryR = new SearchRequest("ou=Students,ou=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT", "(ou=*)", System.DirectoryServices.Protocols.SearchScope.Subtree, a);
+                var re = (System.DirectoryServices.Protocols.SearchResponse)con.SendRequest(directoryR);
+
+                foreach (var item in re.Entries)
+                {
+                    SearchResultEntry entry = item as SearchResultEntry;
+                    int tmp;
+                    if (entry.DistinguishedName.StartsWith("OU=") && int.TryParse(entry.DistinguishedName[3].ToString(), out tmp))
+                    {
+                        var name = entry.DistinguishedName.Split(',')[0].Split('=')[1];
+                        if (uow.ClassRepository.Get(filter: f => f.Name == name).FirstOrDefault() == null)
+                            uow.ClassRepository.Insert(new SchoolClass { Name = name });
+                    }
+                }
+                uow.Save();
+            }
+            catch(Exception e)
+            {
+                
+            }
+        }
+        /// <summary>
+        /// Abteilung wird abgekürzt vom Server geholt => Durch vollen Namen ersetzen
+        /// </summary>
+        /// <param name="shortName"></param>
+        /// <returns></returns>
         private string GetFullDepartmentName(string shortName)
         {
             switch (shortName)

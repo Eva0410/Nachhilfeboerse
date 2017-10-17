@@ -24,7 +24,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
         public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, ClaimsPrincipal user)
         {
-            this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name).FirstOrDefault();
+            this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name, includeProperties:"Subjects").FirstOrDefault();
             ApplicationUser CurrentUser = await um.FindByNameAsync(user.Identity.Name);
             this.Tutor.FirstName = CurrentUser.FirstName;
             this.Tutor.LastName = CurrentUser.LastName;
@@ -48,7 +48,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             var subjects = uow.SubjectRepository.Get(orderBy: ord => ord.OrderBy(s => s.Name)).ToList();
             this.AvailableSubjects = new SelectList(subjects, "Id", "Name");
 
-            this.SelectedSubjects = uow.TutorSubjectRepository.Get(ts => ts.Tutor_Id == this.Tutor.Id).Select(ts => ts.Subject_Id).ToList();
+            this.SelectedSubjects = this.Tutor.Subjects.Select(s => s.Id).ToList();
         }
     }
 }

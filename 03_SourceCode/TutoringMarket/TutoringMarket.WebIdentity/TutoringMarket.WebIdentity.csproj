@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Controllers\AccountController.cs" />
+    <Content Include="Controllers\HomeController.cs" />
+    <Content Include="Controllers\ManageController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="App.config" />
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

@@ -44,4 +44,11 @@
         </table>
         <a class="btn btn-default" asp-action="Index">Zurück</a>
     </form>
+    <h4>Klassen, aus denen sich noch niemand eingetragen hat: </h4>
+    <table>
+        @foreach (var item in Model.Classes)
+        {
+            <tr><td>@item</td></tr>
+        }
+    </table>
 </body>
