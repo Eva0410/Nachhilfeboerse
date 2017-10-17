@@ -11,10 +11,12 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
     {
         public List<Tutor> Tutors { get; set; }
         public List<Subject> Subjects { get; set; }
+        public List<Tutor> OutstandingTutors { get; set; }
 
         public void Init(IUnitOfWork uow)
         {
-            this.Tutors = uow.TutorRepository.Get(includeProperties: "Tutor_Subjects").ToList();
+            this.OutstandingTutors = uow.TutorRepository.Get(filter: t => t.Accepted == false, includeProperties:"Subjects, Class, Department").ToList();
+            //this.Tutors = uow.TutorRepository.Get(includeProperties: "Tutor_Subjects").ToList();
         }
     }
 }

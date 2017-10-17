@@ -24,8 +24,10 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
         public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, ClaimsPrincipal user)
         {
-            this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name, includeProperties:"Subjects").FirstOrDefault();
             ApplicationUser CurrentUser = await um.FindByNameAsync(user.Identity.Name);
+            this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
+            if (this.Tutor == null)
+                this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
             this.Tutor.FirstName = CurrentUser.FirstName;
             this.Tutor.LastName = CurrentUser.LastName;
             var existingClass = uow.ClassRepository.Get(c => c.Name == CurrentUser.SchoolClass).FirstOrDefault();

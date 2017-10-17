@@ -58,13 +58,13 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             //TODO Model ändern
             if (this.SelectedSubject == "Alle" || this.SelectedSubject == null)
             {
-                this.Tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties:"Class, Department, Subjects").ToList();
+                this.Tutors = uow.TutorRepository.Get(filter: t => t.Accepted == true, orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties:"Class, Department, Subjects").ToList();
             }
             else
             {
                 //TODO oben im Login_Partial den Namen angeben und nicht in130021
                 //TODO wenn model geändert ist, kompliziertn teil löschen!!!!
-                this.Tutors = uow.TutorRepository.Get(filter: t => t.Subjects.Where(s => s.Name == this.SelectedSubject).ToList().Count > 0, orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties: "Class, Department, Subjects").ToList();
+                this.Tutors = uow.TutorRepository.Get(filter: t => t.Subjects.Where(s => s.Name == this.SelectedSubject).ToList().Count > 0 && t.Accepted == true, orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties: "Class, Department, Subjects").ToList();
                 //var tutors = uow.TutorSubjectRepository.Get(filter: ts => ts.Subject.Name == this.SelectedSubject, orderBy: ord => ord.OrderBy(ts => ts.Tutor.LastName), includeProperties:"Subject, Tutor").Select(ts => ts.Tutor).ToList();
                 //List<Tutor> includedList = new List<Tutor>();
                 //foreach (var item in tutors)

@@ -71,6 +71,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                     subjects.Add(uow.SubjectRepository.GetById(item));
                 }
                 model.Tutor.Subjects = subjects;
+                model.Tutor.Accepted = false;
                 this.uow.TutorRepository.Insert(model.Tutor);
                 this.uow.Save();
 
@@ -83,6 +84,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 await sim.SignInAsync(user, true);
 
                 return RedirectToAction("Index");
+                
             }
             else
             {
@@ -109,26 +111,38 @@ namespace TutoringMarket.WebIdentity.Controllers
             var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
             if (ModelState.IsValid)
             {
-                var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
+                var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
+                if(oldTutor == null)
+                    oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
                 var changed = GetChangedProperties(oldTutor, model.Tutor);
+                Tutor changedTutor = new Tutor();
+                GenericRepository<Tutor>.CopyProperties(changedTutor, oldTutor);
+
                 //overrite changed properties
                 foreach (var item in changed)
                 {
                     var prop = oldTutor.GetType().GetProperty(item);
                     var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
-                    prop.SetValue(oldTutor, value);
+                    prop.SetValue(changedTutor, value);
                 }
-                //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
-                Tutor changedTutor = new Tutor();
-                GenericRepository<Tutor>.CopyProperties(changedTutor, oldTutor);
-                this.uow.TutorRepository.Delete(oldTutor.Id);
-                this.uow.Save();
-                changedTutor.Subjects.Clear();
-                changedTutor.Id = 0;
+                changedTutor.Subjects = new List<Subject>();
                 foreach (var item in model.SelectedSubjects)
                 {
                     changedTutor.Subjects.Add(uow.SubjectRepository.GetById(item));
                 }
+                //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
+                changedTutor.Id = 0;
+                if (oldTutor.Accepted == true)
+                {
+                    changedTutor.Accepted = false;
+                    changedTutor.OldTutorId = oldTutor.Id;
+                }
+                else
+                {
+                    this.uow.TutorRepository.Delete(oldTutor.Id);
+                    this.uow.Save();
+                }
+
                 this.uow.TutorRepository.Insert(changedTutor);
                 this.uow.Save();
                 return RedirectToAction("Index");
@@ -151,6 +165,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             var tutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
             if (tutor == null)
                 return NotFound();
+
+            var editedTutor = this.uow.TutorRepository.Get(filter: t => t.OldTutorId == tutor.Id).FirstOrDefault();
+            if(editedTutor != null)
+            {
+                this.uow.TutorRepository.Delete(editedTutor.Id);
+            }
             this.uow.TutorRepository.Delete(tutor.Id);
             this.uow.Save();
 
@@ -363,6 +383,50 @@ namespace TutoringMarket.WebIdentity.Controllers
             EditTutorsModel model = new EditTutorsModel();
             model.Init(this.uow);
             return View(model);
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditTutorsDelete(EditTutorsModel model, int id)
+        {
+            var t = uow.TutorRepository.GetById(id);
+            if (t == null)
+                return NotFound();
+            var user = await um.FindByNameAsync(t.IdentityName);
+            if (user != null)
+            {
+                uow.TutorRepository.Delete(t);
+                uow.Save();
+
+                if (uow.TutorRepository.Get(filter: tut => tut.IdentityName == t.IdentityName).Count() == 0)
+                {
+                    await um.AddToRoleAsync(user, "Visitor");
+                    await um.RemoveFromRoleAsync(user, "Tutor");
+                }
+                
+            }
+
+            //TODO refresh cookie
+            //the cookie must be refreshed
+            //await sim.SignOutAsync();
+            //await sim.SignInAsync(user, true);
+
+            return RedirectToAction("EditTutors");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditTutorsAccept(EditTutorsModel model, int id)
+        {
+            var refreshedTutor = uow.TutorRepository.GetById(id);
+            if (refreshedTutor == null)
+                return NotFound();
+
+            uow.TutorRepository.Delete(refreshedTutor.OldTutorId);
+            uow.Save();
+
+            refreshedTutor.Accepted = true;
+            uow.TutorRepository.Update(refreshedTutor);
+
+            uow.Save();
+            return RedirectToAction("EditTutors");
         }
         public IActionResult About()
         {

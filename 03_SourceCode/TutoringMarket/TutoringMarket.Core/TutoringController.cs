@@ -39,7 +39,8 @@ namespace TutoringMarket.Core
                 Class = classes.Where(c => c.Name == l[8]).FirstOrDefault(),
                 Gender = l[9],
                 IdentityName = l[10],
-                Subjects = l[11].Split(',').Select(s =>
+                Accepted = Boolean.Parse(l[11]),
+                Subjects = l[12].Split(',').Select(s =>
                 new
                 {
                     sub = subjects.FirstOrDefault(su => su.Name == s)

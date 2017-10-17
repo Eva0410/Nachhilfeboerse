@@ -48,6 +48,9 @@ namespace TutoringMarket.Core.Enities
         public string IdentityName { get; set; }
         [Display(Name ="Geschlecht"), Required]
         public string Gender { get; set; }
+        public bool Accepted { get; set; }
+        //if a tutor is refreshed, the id can be inserted here
+        public int OldTutorId { get; set; }
         public List<Subject> Subjects { get; set; }
     }
 }
