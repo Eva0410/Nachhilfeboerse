@@ -25,6 +25,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             um = _um;
             sim = _sm;
         }
+
+        public ActionResult ModalPopUp()
+        {
+            return View();
+        }
+
         [Authorize]
         public IActionResult Index(String SortTextBefore)
         {

@@ -1,47 +1,58 @@
 ﻿@model TutoringMarket.WebIdentity.Models.ViewModels.TutorModel
-<head>
-    <div class="navbar-fixed-top" style="background-color:#313131">
-        <div class="navbar-collapse collapse">
-            <ul>
-                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
-                <!--          <li><a asp-area="" asp-controller="Home" asp-action="Contact">Kontaktiere uns</a></li> -->
-                @await Html.PartialAsync("_LoginPartial")
-            </ul>
-        </div>
+
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
     </div>
 
-</head>
-<body>
-    <h1 class="page-header">@Model.Tutor.FirstName @Model.Tutor.LastName</h1>
-
-    <!--<p>Fächer</p>
-    foreach (var item in Model.Tutor.Tutor_Subjects)
-    {
-        <p>item.Subject.Name</p>
-    }-->
-    <div align="center">
-        <p><label>Klasse:</label> @Model.Tutor.Class.Name</p>
-        <p><label>Abteilung:</label> @Model.Tutor.Department.Name</p>
-        <p><label>E-mail:</label> @Model.Tutor.EMail</p>
-        <p><label>Geschlecht:</label> @Model.Tutor.Gender</p>
-        <p><label>Geburtstag:</label> @Model.Tutor.Birthday.ToString("d")</p>
-        <p><label>Handynummer:</label> @Model.Tutor.PhoneNumber</p>
-        <p><label>Preis /h:</label> @Model.Tutor.Price€</p>
-        <p><label>Termine:</label> @Model.Tutor.Time</p>
-
-        <p>
-            <label>Fächer:</label>
-            @foreach (var item in Model.Subjects)
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
             {
-                <td> @item.Name; </td>
+                <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
             }
-        </p>
-        <p>@Model.Tutor.Description</p>
-        <a class="btn btn-default" asp-action="Index">Zurück</a>
+        </ul>
     </div>
-</body>
+</nav>
+
+    <body>
+        <h1 class="page-header">@Model.Tutor.FirstName @Model.Tutor.LastName</h1>
+
+        <!--<p>Fächer</p>
+        foreach (var item in Model.Tutor.Tutor_Subjects)
+        {
+            <p>item.Subject.Name</p>
+        }-->
+        <div align="center">
+            <p><label>Klasse:</label> @Model.Tutor.Class.Name</p>
+            <p><label>Abteilung:</label> @Model.Tutor.Department.Name</p>
+            <p><label>E-mail:</label> @Model.Tutor.EMail</p>
+            <p><label>Geschlecht:</label> @Model.Tutor.Gender</p>
+            <p><label>Geburtstag:</label> @Model.Tutor.Birthday.ToString("d")</p>
+            <p><label>Handynummer:</label> @Model.Tutor.PhoneNumber</p>
+            <p><label>Preis /h:</label> @Model.Tutor.Price€</p>
+            <p><label>Termine:</label> @Model.Tutor.Time</p>
+
+            <p>
+                <label>Fächer:</label>
+                @foreach (var item in Model.Subjects)
+            {
+                    <td> @item.Name; </td>
+                }
+            </p>
+            <p>@Model.Tutor.Description</p>
+            <a class="btn btn-default" asp-action="Index">Zurück</a>
+        </div>
+    </body>
 
 
 
 
-    
