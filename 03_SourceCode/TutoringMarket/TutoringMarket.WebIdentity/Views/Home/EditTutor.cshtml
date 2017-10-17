@@ -3,36 +3,28 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
-    <title>Nachhilfebörse</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="mycss.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
-    <div class="navbar-fixed-top" style="background-color:#313131">
-        <div class="navbar-collapse collapse">
-            <ul>
-                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
-                <!--  <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li> -->
-                @await Html.PartialAsync("_LoginPartial")
-            </ul>
-        </div>
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
     </div>
-</head>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+            {
+                <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
+            }
+        </ul>
+    </div>
+</nav>
 
 <body>
     <div align="center">
@@ -45,7 +37,7 @@
                 ändere dein Profil
             </h1>
 
-            <div id="irwos2">
+            <div class="motivation2">
                 <center>
                     <h1 id="quote">
                         Crazy how fast things can change.
@@ -54,72 +46,71 @@
             </div>
 
 
-            <table>
-                <tr>
-                    <td style="padding: 50px 10px 0px 0px; margin-top: -50px;">
-                        <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Birthday"></label>
-                            <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
-                            <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>E-Mail*</label>
-                            <input type="text" placeholder="E-Mail" class="form-control" asp-for="@Model.Tutor.EMail">
-                            <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>Handynummer</label>
-                            <input type="text" placeholder="Handynummer" class="form-control" asp-for="@Model.Tutor.PhoneNumber">
-                            <span asp-validation-for="@Model.Tutor.PhoneNumber" class="text-danger"></span>
-                            <br />
-                        </div>
-
-
-                        <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Price">Stundensatz in €/h</label>
-                            <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price" step="1">
-                            <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>Fächer</label>
-                            <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects"></select>
-                            <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
-                            <p>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
-                        </div>
-                    </tdstyle="padding-right:10px;">
-
-
-                    <td>
-                        <div style="width:7.5cm">
-                            <label>Zeit*</label>
-                            <textarea type="text" placeholder="z.B.: Montag 12-14 Uhr und Mittwoch 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
-                            <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>Beschreibung</label>
-                            <textarea type="text" placeholder="Motivationsspruch / Beschreibung" class="form-control2" asp-for="@Model.Tutor.Description"></textarea>
-
-                            <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
-                        </div>
+            <div id="getTutorFormular">
+                <div class="col-md-6 col-sm-6">
+                    <div style="width:7.5cm">
+                        <label asp-for="@Model.Tutor.Birthday"></label>
+                        <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
+                        <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
                         <br />
-                        <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Gender"></label>
-                            <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
-                        </div>
+                    </div>
 
-                        <label>@Model.Tutor.Department.Name</label>
-                        <input type="hidden" asp-for="@Model.Tutor.Department_Id" />
+                    <div style="width:7.5cm">
+                        <label>E-Mail*</label>
+                        <input type="text" placeholder="E-Mail" class="form-control" asp-for="@Model.Tutor.EMail">
+                        <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
+                        <br />
+                    </div>
 
-                        <label>@Model.Tutor.Class.Name</label>
-                        <input type="hidden" asp-for="@Model.Tutor.Class_Id" />
+                    <div style="width:7.5cm">
+                        <label>Handynummer</label>
+                        <input type="text" placeholder="Handynummer" class="form-control" asp-for="@Model.Tutor.PhoneNumber">
+                        <span asp-validation-for="@Model.Tutor.PhoneNumber" class="text-danger"></span>
+                        <br />
+                    </div>
+
+
+                    <div style="width:7.5cm">
+                        <label asp-for="@Model.Tutor.Price">Stundensatz in €/h</label>
+                        <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price" step="1">
+                        <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
+                        <br />
+                    </div>
+
+                    <div style="width:7.5cm">
+                        <label>Fächer</label>
+                        <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects"></select>
+                        <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
+                        <p>Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-sm-6">
+                    <div style="width:7.5cm">
+                        <label>Zeit*</label>
+                        <textarea type="text" placeholder="z.B.: Montag 12-14 Uhr und Mittwoch 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
+                        <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
+                        <br />
+                    </div>
+
+                    <div style="width:7.5cm">
+                        <label>Beschreibung</label>
+                        <textarea type="text" placeholder="Motivationsspruch / Beschreibung" class="form-control2" asp-for="@Model.Tutor.Description"></textarea>
+
+                        <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div style="width:7.5cm">
+                        <label asp-for="@Model.Tutor.Gender"></label>
+                        <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
+                    </div>
+
+                    <label>@Model.Tutor.Department.Name</label>
+                    <input type="hidden" asp-for="@Model.Tutor.Department_Id" />
+
+                    <label>@Model.Tutor.Class.Name</label>
+                    <input type="hidden" asp-for="@Model.Tutor.Class_Id" />
 
                         <footer>
                             <input type="submit" class="myButton" value="Einreichen" onclick="return alert('Ihre Änderungen werden eingereicht und werden so bald wie möglich vom Administrator überprüft und bestätigt (erst dann sind die Änderungen für andere sichtbar)');"/>
@@ -128,13 +119,9 @@
                     </td>
                 </tr>
         </form>
-        <tr>
-            <td>
-                <form asp-action="DeleteTutoringProfile">
-                    <input type="submit" value="Profil löschen" class="myButton" onclick="return confirm('Wollen Sie Ihr Profil wirklich löschen?');" />
-                </form>
-            </td>
-        </tr>
-        </table>
+
+        <form asp-action="DeleteTutoringProfile">
+            <input style="margin-top:5px;" type="submit" value="Profil löschen" class="myButton" onclick="return confirm('Wollen Sie Ihr Profil wirklich löschen?');" />
+        </form> 
     </div>
 </body>

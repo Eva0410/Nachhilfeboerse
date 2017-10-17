@@ -2,17 +2,24 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<head>
-    <div class="navbar-fixed-top" style="background-color:#313131">
-        <div>
-            <ul>
-                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
-                <!--  <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li> -->
-                @await Html.PartialAsync("_LoginPartial")
-            </ul>
-        </div>
+
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
     </div>
-</head>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+    </div>
+</nav>
+
 <body>
     <form asp-action="AdministrationArea">
         <h1>Wilkommen im Administrationsbereich</h1>

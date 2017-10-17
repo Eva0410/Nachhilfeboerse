@@ -2,81 +2,90 @@
     @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<head>
-    <div class="navbar-fixed-top" style="background-color:#313131">
-        <div>
-            <ul>
-                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
-                <!--  <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li> -->
-                @await Html.PartialAsync("_LoginPartial")
-            </ul>
-        </div>
-    </div>
-</head>
-<h1>Metadaten bearbeiten</h1>
-@*<form asp-action="EditDepartments">
 
-        <h3>Abteilungen</h3>
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
+    </div>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+    </div>
+</nav>
+
+<body>
+    <h1>Metadaten bearbeiten</h1>
+    @*<form asp-action="EditDepartments">
+
+                <h3>Abteilungen</h3>
+                <table>
+                    <tr>
+                        <td>Neue Abteilung hinzufügen:</td>
+                        <td><input type="text" asp-for="@Model.NewDepartment.Name" /></td>
+                        <td><input type="submit" value="Hinzufügen" /></td>
+                        <td><span asp-validation-for="@Model.NewDepartment.Name"></span></td>
+                    </tr>
+                    @foreach (var item in Model.Departments)
+                    {
+                    <tr>
+                        <td>@item.Name</td>
+
+                        <td><a asp-action="EditDepartmentsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie die Abteilung @item.Name wirklich löschen?');">Löschen</a></td>
+                    </tr>
+                    }
+
+                </table>
+
+        </form>
+        <form asp-action="EditClasses">
+
+            <h3>Klassen</h3>
+            <table>
+                <tr>
+                    <td>Neue Klasse hinzufügen:</td>
+                    <td><input type="text" asp-for="@Model.NewClass.Name" /></td>
+                    <td><input type="submit" value="Hinzufügen" /></td>
+                    <td><span asp-validation-for="@Model.NewClass.Name"></span></td>
+                </tr>
+                @foreach (var item in Model.Classes)
+                    {
+                    <tr>
+                        <td>@item.Name</td>
+
+                        <td><a asp-action="EditClassesDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen die Klasse @item.Name wirklich löschen?');">Löschen</a></td>
+                    </tr>
+                }
+
+            </table>
+
+        </form>-*@
+    <form asp-action="EditSubjects">
+
+        <h3>Fächer</h3>
         <table>
             <tr>
-                <td>Neue Abteilung hinzufügen:</td>
-                <td><input type="text" asp-for="@Model.NewDepartment.Name" /></td>
+                <td>Neues Fach hinzufügen:</td>
+                <td><input type="text" asp-for="@Model.NewSubject.Name" /></td>
                 <td><input type="submit" value="Hinzufügen" /></td>
-                <td><span asp-validation-for="@Model.NewDepartment.Name"></span></td>
+                <td><span asp-validation-for="@Model.NewSubject.Name"></span></td>
             </tr>
-            @foreach (var item in Model.Departments)
+            @foreach (var item in Model.Subjects)
             {
-            <tr>
-                <td>@item.Name</td>
-                
-                <td><a asp-action="EditDepartmentsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie die Abteilung @item.Name wirklich löschen?');">Löschen</a></td>
-            </tr>
+                <tr>
+                    <td>@item.Name</td>
+
+                    <td><a asp-action="EditSubjectsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie das Fach @item.Name wirklich löschen?');">Löschen</a></td>
+                </tr>
             }
 
         </table>
-
-</form>
-<form asp-action="EditClasses">
-
-    <h3>Klassen</h3>
-    <table>
-        <tr>
-            <td>Neue Klasse hinzufügen:</td>
-            <td><input type="text" asp-for="@Model.NewClass.Name" /></td>
-            <td><input type="submit" value="Hinzufügen" /></td>
-            <td><span asp-validation-for="@Model.NewClass.Name"></span></td>
-        </tr>
-        @foreach (var item in Model.Classes)
-            {
-            <tr>
-                <td>@item.Name</td>
-
-                <td><a asp-action="EditClassesDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen die Klasse @item.Name wirklich löschen?');">Löschen</a></td>
-            </tr>
-        }
-
-    </table>
-
-</form>-*@
-<form asp-action="EditSubjects">
-
-    <h3>Fächer</h3>
-    <table>
-        <tr>
-            <td>Neues Fach hinzufügen:</td>
-            <td><input type="text" asp-for="@Model.NewSubject.Name" /></td>
-            <td><input type="submit" value="Hinzufügen" /></td>
-            <td><span asp-validation-for="@Model.NewSubject.Name"></span></td>
-        </tr>
-        @foreach (var item in Model.Subjects)
-            {
-            <tr>
-                <td>@item.Name</td>
-
-                <td><a asp-action="EditSubjectsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie das Fach @item.Name wirklich löschen?');">Löschen</a></td>
-            </tr>
-        }
-
-    </table>
-    <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
-</form>
+        <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
+    </form>
+</body>

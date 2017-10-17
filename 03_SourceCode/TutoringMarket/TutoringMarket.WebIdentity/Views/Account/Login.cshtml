@@ -53,44 +53,41 @@
             </ul>
         </div>
     </div>
+        
+        <div class="col-md-3 col-sm-3" id="motivation">
+            <center>
+                <h1 id="quote">
+                    <script type="text/javascript">schreiben()</script>
+                </h1>
+            </center>
+        </div>
 
-        <div class="container">
-
-            <div id="irwos">
-                <center>
-                    <h1 id="quote">
-                        <script type="text/javascript">schreiben()</script>
-                    </h1>
-                </center>
-            </div>
-
-            <div id="loginFormular">
+        <div class="col-md-6 col-sm-6" id="right"> <!--loginFormular-->
                 
-                <section>
-                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+            <section>
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
 
-                        <center><h1 class="htl" style="color: white;">Willkommen bei der <br> Nachhilfebörse <br> HTL-Leonding</h1></center>       
+                    <center><h1 class="htl" style="color: white;">Willkommen bei der <br> Nachhilfebörse <br> HTL-Leonding</h1></center>       
                             
-                        <div align="center">
-                            <div class="form-group">
-                                    <input placeholder="Anmeldename" asp-for="UserName" class="form-control" style="width: 60vh;" />
-                            </div>
-
-                            <div class="form-group">                               
-                                    <input placeholder="Passwort" asp-for="Password" class="form-control" style="width: 60vh;" />
-                            </div>
-                                
-                            <div class="form-group">
-                                <div style="text-decoration: none;">
-                                    <button type="submit" class="ghost-button">Log in</button>
-                                </div>
-
-                                <div  style="margin-left:22%; color:orangered" asp-validation-summary="All" class="text-danger"></div>
-                            </div>
+                    <div align="center">
+                        <div class="form-group">
+                                <input placeholder="Anmeldename" asp-for="UserName" class="form-control" style="width:11cm;"/>
                         </div>
-                    </form>
-                </section>
-            </div>
+
+                        <div class="form-group">                               
+                                <input placeholder="Passwort" asp-for="Password" class="form-control" style="width:11cm;"/>
+                        </div>
+                                
+                        <div class="form-group">
+                            <div style="text-decoration: none;">
+                                <button type="submit" class="ghost-button">Einloggen</button>
+                            </div>
+
+                            <div  style="margin-left:22%; color:orangered" asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </div>
 
         @section Scripts {

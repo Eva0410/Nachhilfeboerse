@@ -7,12 +7,12 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right dropdown-menu-left">
+        <ul class="nav navbar-right">
             <li>
-                <div style="color:white;margin-top:15px;"  asp-action="Index" title="Manage">Hallo @UserManager.GetUserName(User)!</div>
+                <div style="margin-left: 15px; color:white;" asp-action="Index" title="Manage">Hallo @UserManager.GetUserName(User)!</div>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                <button style ="margin-top: -7px;"type="submit" class=" btn btn-link navbar-btn navbar-link">Ausloggen</button>
             </li>
         </ul>
     </form>
