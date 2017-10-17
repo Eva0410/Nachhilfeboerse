@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using TutoringMarket.WebIdentity.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net;
+using TutoringMarket.Persistence;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -64,17 +65,13 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             if (ModelState.IsValid && model.SelectedSubjects != null)
             {
-                this.uow.TutorRepository.Insert(model.Tutor);
-                this.uow.Save();
+                List<Subject> subjects = new List<Subject>();
                 foreach (var item in model.SelectedSubjects)
                 {
-                    Tutor_Subject ts = new Tutor_Subject()
-                    {
-                        Subject_Id = item,
-                        Tutor_Id = model.Tutor.Id
-                    };
-                    this.uow.TutorSubjectRepository.Insert(ts);
+                    subjects.Add(uow.SubjectRepository.GetById(item));
                 }
+                model.Tutor.Subjects = subjects;
+                this.uow.TutorRepository.Insert(model.Tutor);
                 this.uow.Save();
 
                 var user = await um.FindByNameAsync(User.Identity.Name);
@@ -112,7 +109,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
             if (ModelState.IsValid)
             {
-                var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name).FirstOrDefault();
+                var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
                 var changed = GetChangedProperties(oldTutor, model.Tutor);
                 //overrite changed properties
                 foreach (var item in changed)
@@ -121,24 +118,18 @@ namespace TutoringMarket.WebIdentity.Controllers
                     var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
                     prop.SetValue(oldTutor, value);
                 }
-
-                var oldTutorSubjectIds = this.uow.TutorSubjectRepository.Get(ts => ts.Tutor_Id == oldTutor.Id).Select(ts => ts.Id).ToList();
-                //delete old Tutor_Subjects
-                foreach (var item in oldTutorSubjectIds)
-                {
-                    this.uow.TutorSubjectRepository.Delete(item);
-                }
-                //add new Tutor_Subjects
+                //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
+                Tutor changedTutor = new Tutor();
+                GenericRepository<Tutor>.CopyProperties(changedTutor, oldTutor);
+                this.uow.TutorRepository.Delete(oldTutor.Id);
+                this.uow.Save();
+                changedTutor.Subjects.Clear();
+                changedTutor.Id = 0;
                 foreach (var item in model.SelectedSubjects)
                 {
-                    Tutor_Subject ts = new Tutor_Subject()
-                    {
-                        Tutor_Id = oldTutor.Id,
-                        Subject_Id = item
-                    };
-                    this.uow.TutorSubjectRepository.Insert(ts);
+                    changedTutor.Subjects.Add(uow.SubjectRepository.GetById(item));
                 }
-                this.uow.TutorRepository.Update(oldTutor);
+                this.uow.TutorRepository.Insert(changedTutor);
                 this.uow.Save();
                 return RedirectToAction("Index");
             }
@@ -195,12 +186,11 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
 
             AdministrationsAreaModel model = new AdministrationsAreaModel();
-            await model.GetAdmins(um);
+            await model.GetAdmins(um, this.uow);
             return View(model);
         }
-        //TODO Refresh bei Admin changes
+        //TODO Info (Admin muss sich neu einloggen um Administrator-Rechte zu bekommen
         //TODO handle back button
-        //TODO error message for email address
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
@@ -214,7 +204,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 user = await um.FindByNameAsync(model.NewAdmin);
             }
-            await model.GetAdmins(um);
+            await model.GetAdmins(um, this.uow);
             if (ModelState.IsValid && user != null)
             {
                 await um.AddToRoleAsync(user, "Admin");
@@ -236,7 +226,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 await um.RemoveFromRoleAsync(user, "Admin");
             }
-            await model.GetAdmins(um);
+            await model.GetAdmins(um, this.uow);
             return RedirectToAction("AdministrationArea", model);
         }
         [Authorize(Roles = "Admin")]

@@ -12,9 +12,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class GetTutorModel
     {
-        public SelectList Classes { get; set; }
         public Tutor Tutor { get; set; }
-        public SelectList Departments { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }
         public SelectList Gender { get; set; }

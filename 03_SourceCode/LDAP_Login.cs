@@ -17,6 +17,24 @@ namespace ConsoleApp1
             try {
                 LdapConnection con = new LdapConnection(new LdapDirectoryIdentifier("addc01.edu.htl-leonding.ac.at:636"), new System.Net.NetworkCredential("in130021" + "@EDU", "Vumnawl4"));
                 con.Bind();
+
+                //alle Klassen finden
+                String[] a = { "dn", "displayName", "gecos" };
+                DirectoryRequest directoryR = new SearchRequest("ou=Students,ou=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT", "(ou=*)", System.DirectoryServices.Protocols.SearchScope.Subtree, a);
+                var re = (System.DirectoryServices.Protocols.SearchResponse)con.SendRequest(directoryR);
+                
+                List<string> classes = new List<string>();
+                foreach (var item in re.Entries)
+                {
+                    SearchResultEntry entry = item as SearchResultEntry;
+                    int tmp;
+                    if (entry.DistinguishedName.StartsWith("OU=") && int.TryParse(entry.DistinguishedName[3].ToString(), out tmp))
+                    {
+                        classes.Add(entry.DistinguishedName.Split(',')[0].Split('=')[1]);
+                    }
+                }
+
+
                 //statt ou students ou teachers
                 //Klasse finden
                 String[] array = { "dn", "displayName", "gecos" };
