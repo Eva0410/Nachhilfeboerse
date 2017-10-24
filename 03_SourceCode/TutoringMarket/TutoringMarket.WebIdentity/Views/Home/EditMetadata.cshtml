@@ -17,11 +17,15 @@
         <ul class="nav navbar-nav navbar-right">
             <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
         </ul>
+        <ul>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditMetadata">Metadaten bearbeiten</a></li>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditTutors">Tutoren bearbeiten</a></li>
+        </ul>
     </div>
 </nav>
 
 <body>
-    <h1>Metadaten bearbeiten</h1>
+    <h1 class="page-header">Metadaten bearbeiten</h1>
     @*<form asp-action="EditDepartments">
 
                 <h3>Abteilungen</h3>

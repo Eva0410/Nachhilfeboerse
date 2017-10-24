@@ -5,45 +5,72 @@
 @{
 }
 
-<!--<form asp-action="EditTutors">-->
-    <h1>Ausstehende Tutoren</h1>
-    <table>
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
+    </div>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditMetadata">Metadaten bearbeiten</a></li>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditTutors">Tutoren bearbeiten</a></li>
+        </ul>
+    </div>
+</nav>
+<body>
+    <!--<form asp-action="EditTutors">-->
+    <h1 class="page-header">Ausstehende Tutoren</h1>
+
+    <div id="edittutors">
         @foreach (var item in Model.OutstandingTutors)
         {
-            <tr>
-                <td>@item.FirstName </td>
-                <td>@item.LastName </td>
-                <td>@item.Class.Name </td>
-                <td>
+            <div class="row">
+                <div class="col-md-1">@item.FirstName </div>
+                <div class="col-md-1">@item.LastName </div>
+                <div class="col-md-1">@item.Class.Name </div>
+                <div class="col-md-1">
                     @foreach (var sub in item.Subjects)
                     {
-                        @sub.Name
+                        @sub.Name<br />
                     }
-                </td>
-                <td><a asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a></td>
-                <td><a asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich löschen?');">Löschen</a></td>
-            </tr>
+                </div>
+                <div class="col-md-1"><a asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a></div>
+                <div class="col-md-1"><a asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich löschen?');">Löschen</a></div><br />
+            </div>
         }
-    </table>
-    @*<h1>Tutoren bearbeiten</h1>
-    <table>
+        <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
+    </div>
         
-        @foreach (var item in Model.Tutors)
-        {
-            <tr>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td><a asp-action="DeleteTutor" asp-route-id="@item" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Löschen</a></td>
-            </tr>
-            
-            @foreach (var sub in @item.Tutor_Subjects)
+           
+    @*<h1>Tutoren bearbeiten</h1>
+        <table>
+
+            @foreach (var item in Model.Tutors)
             {
                 <tr>
-                    <td>@sub.Subject_Id</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td><a asp-action="DeleteTutor" asp-route-id="@item" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Löschen</a></td>
                 </tr>
-            }
-        }
-    </table>*@
 
-    <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
-<!--</form>-->
+                @foreach (var sub in @item.Tutor_Subjects)
+                {
+                    <tr>
+                        <td>@sub.Subject_Id</td>
+                    </tr>
+                }
+            }
+        </table>*@
+
+    
+    <!--</form>-->
+</body>
+
