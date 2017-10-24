@@ -10,13 +10,12 @@ namespace TutoringMarket.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext_TutoringMarket _context; //= new ApplicationDbContext_TutoringMarket();
         private bool _disposed;
 
         /// <summary>
         ///     Konkrete Repositories. Keine Ableitung erforderlich
         /// </summary>
-        /// TODO maybe add further Repositories
         private GenericRepository<Tutor> _tutorRepository;
 
         public IGenericRepository<Tutor> TutorRepository
@@ -28,14 +27,14 @@ namespace TutoringMarket.Persistence
                 return _tutorRepository;
             }
         }
-        private GenericRepository<Class> _classRepository;
+        private GenericRepository<SchoolClass> _classRepository;
 
-        public IGenericRepository<Class> ClassRepository
+        public IGenericRepository<SchoolClass> ClassRepository
         {
             get
             {
                 if (_classRepository == null)
-                    _classRepository = new GenericRepository<Class>(_context);
+                    _classRepository = new GenericRepository<SchoolClass>(_context);
                 return _classRepository;
             }
         }
@@ -87,7 +86,7 @@ namespace TutoringMarket.Persistence
 
         public UnitOfWork(string connectionString)
         {
-            _context = new ApplicationDbContext(connectionString);
+            _context = new ApplicationDbContext_TutoringMarket(connectionString);
         }
 
         public UnitOfWork() : this("name=DefaultConnection")
@@ -101,12 +100,22 @@ namespace TutoringMarket.Persistence
         public void Save()
         {
             _context.SaveChanges();
+
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Liefert sortierte Liste von Tutoren nach Reviews zurück
+        /// </summary>
+        /// <param name="disposing"></param>
+        public List<Tutor> GetTutorsByReviews()
+        {
+            return _context.Reviews.GroupBy(r => r.Tutor).OrderByDescending(grp => grp.Average(r => r.Books)).Select(grp => grp.Key).ToList();
         }
 
         protected virtual void Dispose(bool disposing)

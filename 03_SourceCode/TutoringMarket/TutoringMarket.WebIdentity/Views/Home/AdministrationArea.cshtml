@@ -1,0 +1,40 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.AdministrationsAreaModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<head>
+    <div class="navbar-fixed-top" style="background-color:#313131">
+        <div>
+            <ul>
+                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
+                <!--  <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="selected">Kontaktiere uns</a></li> -->
+                @await Html.PartialAsync("_LoginPartial")
+            </ul>
+        </div>
+    </div>
+</head>
+<body>
+    <form asp-action="AdministrationArea">
+        <h1>Wilkommen im Administrationsbereich</h1>
+        <a class="btn btn-default" asp-action="EditMetadata">Metadaten bearbeiten</a>
+        <!--<a class="btn btn-default" asp-action="EditReviews">Bewertungen bearbeiten</a>-->
+        <!--<a class="btn btn-default" asp-action="EditTutors">Tutoren bearbeiten</a>-->
+        <h3>Aktuelle Administratoren:</h3>
+        <table>
+            <tr>
+                <td>Neuen Administrator hinzufügen: (in-Name eingeben)</td>
+                <td><input type="text" asp-for="@Model.NewAdmin" /></td>
+                <td><input type="submit" value="Hinzufügen" /></td>
+                <td><span asp-validation-for="@Model.NewAdmin"></span></td>
+            </tr>
+            @foreach (var item in Model.Admins)
+            {
+                <tr>
+                    <td>@item</td>
+                    <td><a asp-action="AdministrationAreaDelete" asp-route-id="@item" onclick="return confirm('Wollen Sie diesem Benutzer wirklich alle Administrationsrechte entziehen?');">Löschen</a></td>
+                </tr>
+            }
+        </table>
+        <a class="btn btn-default" asp-action="Index">Zurück</a>
+    </form>
+</body>

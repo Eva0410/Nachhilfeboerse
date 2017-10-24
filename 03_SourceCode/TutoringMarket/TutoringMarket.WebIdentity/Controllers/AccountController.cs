@@ -12,6 +12,9 @@ using TutoringMarket.WebIdentity.Models;
 using TutoringMarket.WebIdentity.Models.AccountViewModels;
 using TutoringMarket.WebIdentity.Services;
 using LoginAuthentication;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using TutoringMarket.WebIdentity.Data;
+using System.DirectoryServices.Protocols;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -58,10 +61,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
+                //This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                //var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                //var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password,false, lockoutOnFailure: false);
 
+                //var user = _userManager.FindByNameAsync(model.UserName);
+                //var result = await _signInManager.SignInAsync(user, true);
                 //if (result.Succeeded)
                 //{
                 //    _logger.LogInformation(1, "User logged in.");
@@ -69,7 +74,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //}
                 //if (result.RequiresTwoFactor)
                 //{
-                //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl});
                 //}
                 //if (result.IsLockedOut)
                 //{
@@ -81,35 +86,109 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 //    return View(model);
                 //}
-                int result = await GetResult(model.UserName, model.Password);
-                if (result == 0)
+
+                //string fullName = "Pürmayr Eva"; //for offline testing
+                //string schoolClass = "4AHIF";
+                //string department = "Informatikkk";
+                string fullName = "";
+                string schoolClass = "";
+                string department = "";
+                bool isTeacher = false;
+                bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
+                //bool result = true; //server was offline
+                if (result)
                 {
+                    var user = new ApplicationUser { UserName = model.UserName, FirstName=fullName.Split(' ')[1], LastName=fullName.Split(' ')[0], SchoolClass=schoolClass, Department = department};
+                    if (_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault() == null)
+                    {
+                        await _userManager.CreateAsync(user);
+                        if(isTeacher)
+                        {
+                            await _userManager.AddToRoleAsync(user, "Teacher");
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, "Visitor");
+                        }
+                    }
+                    await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        private async Task<int> GetResult(string name, string password)
+        
+        //TODO: Delete unnecassary code
+        //TODO: selbstsigniertes Zertifikat verwendet
+        private bool GetResult(string name, string password, ref string fullName, ref string schoolClass, ref string department, ref bool isTeacher)
         {
-            int result = 1;
-            if(!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
+            bool result = true;
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
             {
-                SVSAuthenticationSoapClient client = new SVSAuthenticationSoapClient(SVSAuthenticationSoapClient.EndpointConfiguration.SVSAuthenticationSoap);
-                result = await client.CheckLdapSchuelerLoginEdvoAsync(name, password);
-                if (result != 0)
+                try
                 {
-                    result = await client.CheckLdapSchuelerLoginElektronikAsync(name, password);
+                    //Verbindung zum LDAP-Server aufbauen
+                    LdapConnection con = new LdapConnection(new LdapDirectoryIdentifier("addc01.edu.htl-leonding.ac.at:636"), new System.Net.NetworkCredential(name + "@EDU", password));
+                    con.Bind();
+                    //Ist der Benutzer ein Lehrer?
+                    if(name.Contains('.'))
+                    {
+                        //TODO full name of teacher
+                        fullName = name.Replace('.',' ');
+                        isTeacher = true;
+                    }
+                    else
+                    {
+                        String[] array = { "dn", "displayName", "gecos" };
+                        DirectoryRequest dr = new SearchRequest("ou=Students,ou=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT", "(cn="+name+")", System.DirectoryServices.Protocols.SearchScope.Subtree, array);
+                        var dresp = (System.DirectoryServices.Protocols.SearchResponse)con.SendRequest(dr);
+                        var entries = dresp.Entries[0].DistinguishedName.Split(',');
+                        schoolClass = entries[1].Split('=')[1];
+                        department = this.GetFullDepartmentName(entries[2].Split('=')[1]);
+                        var values = dresp.Entries[0].Attributes.Values;
+                        foreach (var item in values)
+                        {
+                            var directoryAttributte = (DirectoryAttribute)item;
+                            fullName = directoryAttributte.GetValues(typeof(string))[0].ToString();
+                            break;
+                        }
+                    }
+
                 }
+                catch(Exception e)
+                {
+                    ModelState.AddModelError(String.Empty, e.Message);
+                    result = false;
+                    Console.WriteLine(e.Message);
+                }
+   
             }
             return result;
+        }
+        private string GetFullDepartmentName(string shortName)
+        {
+            switch (shortName)
+            {
+                case "IF":
+                    return "Informatik";
+                case "BG":
+                    return "Medizintechnik";
+                case "FE":
+                    return "Fachschule Elektronik";
+                case "HE":
+                    return "Elektronik";
+                case "IT":
+                    return "Medientechnik";
+                case "AD":
+                    return "Abendschule";
+                case "KD":
+                    return "Kolleg";
+                default:
+                    return "";
+            }
         }
 
         //

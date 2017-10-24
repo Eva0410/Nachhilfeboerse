@@ -1587,22 +1587,9 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  display: block;
 }
-@media (min-width: 768px) {
-  .container {
-    width: 750px;
-  }
-}
-@media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
-}
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
-}
+
 .container-fluid {
   padding-right: 15px;
   padding-left: 15px;
@@ -4276,6 +4263,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-fixed-top {
   top: 0;
   border-width: 0 0 1px;
+  position: absolute;
 }
 .navbar-fixed-bottom {
   bottom: 0;
@@ -4497,7 +4485,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
   .navbar-right {
     float: right !important;
-    margin-right: -15px;
+
   }
   .navbar-right ~ .navbar-right {
     margin-right: 0;

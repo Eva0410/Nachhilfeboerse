@@ -1,0 +1,30 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.EditTutorsModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form asp-action="EditTutors">
+    <h1>Tutoren bearbeiten</h1>
+    <table>
+        
+        @foreach (var item in Model.Tutors)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td><a asp-action="DeleteTutor" asp-route-id="@item" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Löschen</a></td>
+            </tr>
+            
+            @foreach (var sub in @item.Tutor_Subjects)
+            {
+                <tr>
+                    <td>@sub.Subject_Id</td>
+                </tr>
+            }
+        }
+    </table>
+
+    <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
+</form>

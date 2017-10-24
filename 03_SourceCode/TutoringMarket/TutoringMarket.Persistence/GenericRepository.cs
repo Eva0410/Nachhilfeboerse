@@ -58,6 +58,17 @@ namespace TutoringMarket.Persistence
             {
                 query = query.Include(includeProperty);
             }
+//            foreach (string includeProperty in includeProperties.Split
+//                (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+//            {
+//                if (includeProperty.Equals(includeProperties.Split
+//(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Last()))
+//                {
+//                    //query = query.Include(includeProperty).ThenInclude(thenIncludeProperty);
+//                }
+//                else
+//                    query = query.Include(includeProperty);
+//            }
             if (orderBy != null)
             {
                 return orderBy(query).ToArray();

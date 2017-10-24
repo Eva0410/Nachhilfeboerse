@@ -1,0 +1,24 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.EditReviewsModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form asp-action="EditReviews">
+    <h3>Ausstehende Bewertungen:</h3>
+    <table>
+        @foreach (var item in Model.Reviews)
+        {
+            <tr>
+                <td>@item.Books</td>
+                <td>@item.Comment</td>
+                <td>@item.Tutor.LastName, @item.Tutor.FirstName</td>
+                <td><a asp-action="EditReviewsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich akzeptieren?');">Akzeptieren</a></td>
+                <td><a asp-action="EditReviewsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' für immer löschen?');">Löschen</a></td>
+            </tr>
+        }
+    </table>
+    <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
+</form>
+
+

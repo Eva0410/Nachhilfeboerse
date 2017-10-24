@@ -4,9 +4,6 @@
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
-@{
-    ViewData["Title"] = "Home Page";
-}
 
 <head>
     <meta charset="utf-8">
@@ -47,52 +44,56 @@
 
 </head>
 
-<body>
+<body id="loginbackground">
 
-    <div class="container">
-
-        <div id="irwos">
-            <center>
-                <h1 id="quote">
-                    <script type="text/javascript">schreiben()</script>
-                </h1>
-            </center>
+    <div class="navbar-fixed-top" style="background-color:#313131;">
+        <div ">
+            <ul>
+                <li><a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a></li>
+            </ul>
         </div>
+    </div>
 
-        <div id="loginFormular">
-            <center><h1 class="htl" style="color: white;">Wilkommen bei der <br> Nachhilfebörse <br> HTL-Leonding</h1></center>
-            <div class="row">
-                <div class="col-md-8">
+        <div class="container">
+
+            <div id="irwos">
+                <center>
+                    <h1 id="quote">
+                        <script type="text/javascript">schreiben()</script>
+                    </h1>
+                </center>
+            </div>
+
+            <div id="loginFormular">
+                
                     <section>
                         <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
 
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <label class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <input placeholder="Anmeldename" asp-for="UserName" class="form-control" style="width: 60vh;" />
-                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                            <center><h1 class="htl" style="color: white;">Willkommen bei der <br> Nachhilfebörse <br> HTL-Leonding</h1></center>       
+                            
+                            <div align="center">
+                                <div class="form-group">
+                                        <input placeholder="Anmeldename" asp-for="UserName" class="form-control" style="width: 60vh;" />
+                                </div>
+
+                                <div class="form-group">                               
+                                        <input placeholder="Passwort" asp-for="Password" class="form-control" style="width: 60vh;" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div style="text-decoration: none;">
+                                        <button type="submit" class="ghost-button">Log in</button>
+                                    </div>
+
+                                    <div  style="margin-left:22%; color:orangered" asp-validation-summary="All" class="text-danger"></div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <input placeholder="Passwort" asp-for="Password" class="form-control" style="width: 60vh;" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                            <div style="text-decoration: none;">
-                                    <button type="submit" class="ghost-button" >Log in</button>
-                            </div>
-
                         </form>
                     </section>
                 </div>
+                </div>
             </div>
-        </div>
-    </div>
-            
-            @section Scripts {
-                @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-            }
+
+        @section Scripts {
+            @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        }

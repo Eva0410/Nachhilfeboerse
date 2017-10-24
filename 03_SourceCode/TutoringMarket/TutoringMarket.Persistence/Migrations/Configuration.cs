@@ -5,15 +5,14 @@ namespace TutoringMarket.Persistence.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TutoringMarket.Persistence.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<TutoringMarket.Persistence.ApplicationDbContext_TutoringMarket>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "TutoringMarket.Persistence.ApplicationDbContext";
         }
 
-        protected override void Seed(TutoringMarket.Persistence.ApplicationDbContext context)
+        protected override void Seed(TutoringMarket.Persistence.ApplicationDbContext_TutoringMarket context)
         {
             //  This method will be called after migrating to the latest version.
 
