@@ -52,5 +52,6 @@ namespace TutoringMarket.Core.Enities
         //if a tutor is refreshed, the id can be inserted here
         public int OldTutorId { get; set; }
         public List<Subject> Subjects { get; set; }
+        public List<TeacherComment> Comments { get; set; }
     }
 }

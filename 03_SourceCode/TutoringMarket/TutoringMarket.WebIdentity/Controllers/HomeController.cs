@@ -434,6 +434,19 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow.Save();
             return RedirectToAction("EditTutors");
         }
+        //[Authorize(Roles ="Teacher")]
+        //public IActionResult CommentTutor()
+        //{
+        //    CommentTutorModel model = new CommentTutorModel();
+        //    model.Init(this.uow);
+        //    return View(model);
+        //}
+        //[Authorize(Roles ="Teacher")]
+        //[HttpPost]
+        //public IActionResult CommentTutor(CommentTutorModel model, int id)
+        //{
+        //    return RedirectToAction("CommentTutor",model);
+        //}
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
