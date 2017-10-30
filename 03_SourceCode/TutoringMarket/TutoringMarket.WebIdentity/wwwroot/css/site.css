@@ -9,6 +9,17 @@
     margin-bottom: 15px;
 }
 
+.h3border2 {
+    padding: 0px 10px 0px 10px;
+    border-bottom: 0.7px solid #D8D8D8;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+
+
 .ghost-button2 {
     float: right;
     margin: 10px;
@@ -275,439 +286,460 @@ em.index {
 
 /*GETTUTOR PAGE END*/
 
+/*EDITTUTORS PAGE START*/
 
-
-.anmeldename{
-    
-	padding-bottom: 3px;
+@media screen and (max-width: 800px) {
+    #edittutors {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
+    /*EDITTUTORS PAGE END*/
 
-#centerformular{
-    margin-left: auto;
-    margin-right: auto;
-}
+    .anmeldename {
+        padding-bottom: 3px;
+    }
 
-
-
-.testPic{
-    height: 30vh;
-    width: 40vh;
-}
+    #centerformular {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
 
 
-.navbar-brand {
-  float: left;
-  height: 50px;
-  padding: 15px 15px;
-  font-size: 27px;
-  line-height: 20px;
-}
+    .testPic {
+        height: 30vh;
+        width: 40vh;
+    }
 
 
-@font-face { font-family: 'nachhilfebörse';
-             src: url('Gabrielle.ttf') format('truetype'); }
 
-@font-face { font-family: 'meine-schrift';
-             src: url('Moon Flower.ttf') format('truetype'); }
- 
-@font-face { font-family: 'htl';
-             src: url('htl2.ttf') format('truetype'); 
-}
-			 
-@font-face { font-family: 'htl2';
-             src: url('CODE Light.otf') format('truetype'); }
-			 
-@font-face { font-family: 'school';
-             src: url('school.ttf') format('truetype'); }
-			 
-
-#loginbackground {
-    background-image: url('../images/bestBackground3.jpg');
-    background-size: cover;
-    background-attachment:fixed;
-}
+    .navbar-brand {
+        float: left;
+        height: 50px;
+        padding: 15px 15px;
+        font-size: 27px;
+        line-height: 20px;
+    }
 
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: transparent;
-}
+    @font-face {
+        font-family: 'nachhilfebörse';
+        src: url('Gabrielle.ttf') format('truetype');
+    }
 
-li {
-    float: left;
-	overflow: hidden;
-}
+    @font-face {
+        font-family: 'meine-schrift';
+        src: url('Moon Flower.ttf') format('truetype');
+    }
 
-li a {
-    display: block;
-    color: #999;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
+    @font-face {
+        font-family: 'htl';
+        src: url('htl2.ttf') format('truetype');
+    }
 
-li a:hover {
-    color: #DDD;
-	text-decoration: none;
-}
+    @font-face {
+        font-family: 'htl2';
+        src: url('CODE Light.otf') format('truetype');
+    }
 
-.selected{
-	color: #FFF;	
-}
+    @font-face {
+        font-family: 'school';
+        src: url('school.ttf') format('truetype');
+    }
 
-h1.page-header {
-	font-family:'Arial';
-	font-size: 31px;
-	text-align: center; 
-}
 
-#profilePic{
-	border-radius: 2px;
-	border: 1px solid #E6E6E6;
-	box-shadow: 3px 3px 3px 3px #E6E6E6;
-	margin: 10px;
-	width: 200px;
-	height: 250px;
-}
-#profileBorder{
-	border: 1px solid #E6E6E6;
-	box-shadow: 5px 5px 5px 5px #E6E6E6;
-	margin: 15px;
-	height: 42vh;
-	width: 100vh;
-	border-radius: 1px;
-}
-#profileBorder2{
-	border: 1px solid #E6E6E6;
-	box-shadow: 5px 5px 5px 5px #E6E6E6;
-	margin: 15px;
-	height: 42vh;
-	width: 130vh;
-	border-radius: 1px;
-}
-#profileBorder3{
-	border: 1px solid #E6E6E6;
-	box-shadow: 5px 5px 5px 5px #E6E6E6;
-	margin: 15px;
-	height: 60vh;
-	width: 43vh;
-	margin-top:20vh;
-	border-radius: 1px;
-}
+    #loginbackground {
+        background-image: url('../images/bestBackground3.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+    }
 
-.roundPic1{
-	border: 1px solid white;
-	border-radius: 100%;
-	width: 180px;
-	height: 180px;
-}
 
-h3.team{
-	font-size: 20px;
-	color: #282828;
-}
-h4.team{
-	font-size: 17px;
-	text-align: center;
-	color: #394d63;
-}
-h4.team1{
-	font-size: 17px;
-	text-align: center;
-	color: #394d63;
-}
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: transparent;
+    }
 
-#team2{
-	margin-right: 150px;
-}
+    li {
+        float: left;
+        overflow: hidden;
+    }
 
-#margintop{
-	margin-top: 30px;
-}
+        li a {
+            display: block;
+            color: #999;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
 
-#danijalBild{
-	float:left;
-	margin-top: 17px;
-	margin-left: 75px;
-}
-#evaBild{
-	float:right;
-	margin-top: 17px;
-	margin-right: 75px;
-}
+            li a:hover {
+                color: #DDD;
+                text-decoration: none;
+            }
 
-#maske{
-	margin-left:50px;
-}
+    .selected {
+        color: #FFF;
+    }
 
-#school{
-	margin-top:7px;
-	height: 110px;
-	width: 200px;
-}
+    h1.page-header {
+        font-family: 'Arial';
+        font-size: 31px;
+        text-align: center;
+    }
 
-#school1{
-	font-family: CaeciliaLTPro-85Heavy;
-	font: bold;
-	font-size: 27px;
-}
+    #profilePic {
+        border-radius: 2px;
+        border: 1px solid #E6E6E6;
+        box-shadow: 3px 3px 3px 3px #E6E6E6;
+        margin: 10px;
+        width: 200px;
+        height: 250px;
+    }
 
-#school2{
-	margin-top: 30px;
-	font-family: CaeciliaLTPro-85Heavy;
-	font: bold;
-	font-size: 45px;
-}
+    #profileBorder {
+        border: 1px solid #E6E6E6;
+        box-shadow: 5px 5px 5px 5px #E6E6E6;
+        margin: 15px;
+        height: 42vh;
+        width: 100vh;
+        border-radius: 1px;
+    }
 
-#school3{
-	font-family: CaeciliaLTPro-85Heavy;
-	font: bold;
-	font-size: 45px;
-}
+    #profileBorder2 {
+        border: 1px solid #E6E6E6;
+        box-shadow: 5px 5px 5px 5px #E6E6E6;
+        margin: 15px;
+        height: 42vh;
+        width: 130vh;
+        border-radius: 1px;
+    }
 
-#schoolText{
-	color: #394d63;
-	font-size: 18px;
-	font-family: CaeciliaLTPro-85Heavy;
-	text-decoration: none;
-}	 
+    #profileBorder3 {
+        border: 1px solid #E6E6E6;
+        box-shadow: 5px 5px 5px 5px #E6E6E6;
+        margin: 15px;
+        height: 60vh;
+        width: 43vh;
+        margin-top: 20vh;
+        border-radius: 1px;
+    }
 
-#newBorder{
-	/*margin-left: 5px;
+    .roundPic1 {
+        border: 1px solid white;
+        border-radius: 100%;
+        width: 180px;
+        height: 180px;
+    }
+
+    h3.team {
+        font-size: 20px;
+        color: #282828;
+    }
+
+    h4.team {
+        font-size: 17px;
+        text-align: center;
+        color: #394d63;
+    }
+
+    h4.team1 {
+        font-size: 17px;
+        text-align: center;
+        color: #394d63;
+    }
+
+    #team2 {
+        margin-right: 150px;
+    }
+
+    #margintop {
+        margin-top: 30px;
+    }
+
+    #danijalBild {
+        float: left;
+        margin-top: 17px;
+        margin-left: 75px;
+    }
+
+    #evaBild {
+        float: right;
+        margin-top: 17px;
+        margin-right: 75px;
+    }
+
+    #maske {
+        margin-left: 50px;
+    }
+
+    #school {
+        margin-top: 7px;
+        height: 110px;
+        width: 200px;
+    }
+
+    #school1 {
+        font-family: CaeciliaLTPro-85Heavy;
+        font: bold;
+        font-size: 27px;
+    }
+
+    #school2 {
+        margin-top: 30px;
+        font-family: CaeciliaLTPro-85Heavy;
+        font: bold;
+        font-size: 45px;
+    }
+
+    #school3 {
+        font-family: CaeciliaLTPro-85Heavy;
+        font: bold;
+        font-size: 45px;
+    }
+
+    #schoolText {
+        color: #394d63;
+        font-size: 18px;
+        font-family: CaeciliaLTPro-85Heavy;
+        text-decoration: none;
+    }
+
+    #newBorder {
+        /*margin-left: 5px;
 	#width: 1342px;
 	#margin-top: 3px;
 	#border-radius: 5px;*/
-	background-image: url("bestBackground3.jpg");
-	background-attachment: fixed;
-	position:relative;
-}
+        background-image: url("bestBackground3.jpg");
+        background-attachment: fixed;
+        position: relative;
+    }
 
-.newBorder1{
-	background-color: #f0f0f2;
-	margin-left: 5px;
-	width: 1342px;
-	margin-top: 3px;
-	border-radius: 5px;
-}
-     
-#newBorder2{
-	background-color: white;
-	border-radius:5px;
-	margin-left: 5px;
-	width: 1342px;
-	height: 276px;
-	margin-top: 3px;
-}
+    .newBorder1 {
+        background-color: #f0f0f2;
+        margin-left: 5px;
+        width: 1342px;
+        margin-top: 3px;
+        border-radius: 5px;
+    }
 
-div#test2{
-	float: right; 
-}
+    #newBorder2 {
+        background-color: white;
+        border-radius: 5px;
+        margin-left: 5px;
+        width: 1342px;
+        height: 276px;
+        margin-top: 3px;
+    }
 
-
-#t1{
-	float:left;
-}
-
-#t2{
-	float:right;
-}
-
-.form-field + .form-field {
-  margin-top: 25px;
-}
-
-.form-field label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
+    div#test2 {
+        float: right;
+    }
 
 
-.form-field.required > label:after {
-  content: "*";
-  color: red;
-  margin-left: 2px;
-}
+    #t1 {
+        float: left;
+    }
 
-.test {
-  color: rgb(128, 128, 128);
-  font-size: 12px;
-}
+    #t2 {
+        float: right;
+    }
 
+    .form-field + .form-field {
+        margin-top: 25px;
+    }
 
-.form footer {
-  border-top: 1px solid #eeeeee;
-  margin-top: 20px;
-  padding-top: 20px;
-  text-align: left;
-}
-
+    .form-field label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
 
 
-.form-control2 {
-  display: block;
-  width: 100%;
-  height: 120px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
+    .form-field.required > label:after {
+        content: "*";
+        color: red;
+        margin-left: 2px;
+    }
+
+    .test {
+        color: rgb(128, 128, 128);
+        font-size: 12px;
+    }
+
+
+    .form footer {
+        border-top: 1px solid #eeeeee;
+        margin-top: 20px;
+        padding-top: 20px;
+        text-align: left;
+    }
 
 
 
-.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
-	background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
-	background-color:#f9f9f9;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color:#666666;
-	font-family:Arial;
-	font-size:17px;
-	padding:5px 31px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-}
-.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
-	background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
-	background-color:#f9f9f9;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color:#666666;
-	font-family:Arial;
-	font-size:14px;
-	padding:5px 31px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-}
-.myButton {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #e3e3e3));
-	background:-moz-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-webkit-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-o-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-ms-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:linear-gradient(to bottom, #f0f0f0 5%, #e3e3e3 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#e3e3e3',GradientType=0);
-	background-color:#f0f0f0;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #d4d4d4;
-	display:inline-block;
-	cursor:pointer;
-	color:#2e2e2e;
-	font-family:Arial;
-	font-size:14px;
-	padding:5px 31px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-}
-.myButton {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #e3e3e3));
-	background:-moz-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-webkit-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-o-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-ms-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:linear-gradient(to bottom, #f0f0f0 5%, #e3e3e3 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#e3e3e3',GradientType=0);
-	background-color:#f0f0f0;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #d4d4d4;
-	display:inline-block;
-	cursor:pointer;
-	color:#2e2e2e;
-	font-family:Courier New;
-	font-size:12px;
-	padding:5px 31px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-}
-.myButton {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #e3e3e3));
-	background:-moz-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-webkit-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-o-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:-ms-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
-	background:linear-gradient(to bottom, #f0f0f0 5%, #e3e3e3 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#e3e3e3',GradientType=0);
-	background-color:#f0f0f0;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #d4d4d4;
-	display:inline-block;
-	cursor:pointer;
-	color:#2e2e2e;
-	font-family:Verdana;
-	font-size:12px;
-	padding:5px 31px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-}
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e3e3e3), color-stop(1, #f0f0f0));
-	background:-moz-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
-	background:-webkit-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
-	background:-o-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
-	background:-ms-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
-	background:linear-gradient(to bottom, #e3e3e3 5%, #f0f0f0 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#f0f0f0',GradientType=0);
-	background-color:#e3e3e3;
-	text-decoration: none;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
+    .form-control2 {
+        display: block;
+        width: 100%;
+        height: 120px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
 
 
 
+    .myButton {
+        -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+        background: -moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: -webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: -o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: -ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+        background-color: #f9f9f9;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #666666;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 5px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
 
+    .myButton {
+        -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+        background: -moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: -webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: -o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: -ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+        background-color: #f9f9f9;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #666666;
+        font-family: Arial;
+        font-size: 14px;
+        padding: 5px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
 
+    .myButton {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #e3e3e3));
+        background: -moz-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -webkit-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -o-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -ms-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: linear-gradient(to bottom, #f0f0f0 5%, #e3e3e3 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#e3e3e3',GradientType=0);
+        background-color: #f0f0f0;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #d4d4d4;
+        display: inline-block;
+        cursor: pointer;
+        color: #2e2e2e;
+        font-family: Arial;
+        font-size: 14px;
+        padding: 5px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
 
+    .myButton {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #e3e3e3));
+        background: -moz-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -webkit-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -o-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -ms-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: linear-gradient(to bottom, #f0f0f0 5%, #e3e3e3 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#e3e3e3',GradientType=0);
+        background-color: #f0f0f0;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #d4d4d4;
+        display: inline-block;
+        cursor: pointer;
+        color: #2e2e2e;
+        font-family: Courier New;
+        font-size: 12px;
+        padding: 5px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
 
+    .myButton {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0f0f0), color-stop(1, #e3e3e3));
+        background: -moz-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -webkit-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -o-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: -ms-linear-gradient(top, #f0f0f0 5%, #e3e3e3 100%);
+        background: linear-gradient(to bottom, #f0f0f0 5%, #e3e3e3 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#e3e3e3',GradientType=0);
+        background-color: #f0f0f0;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #d4d4d4;
+        display: inline-block;
+        cursor: pointer;
+        color: #2e2e2e;
+        font-family: Verdana;
+        font-size: 12px;
+        padding: 5px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
 
+        .myButton:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e3e3e3), color-stop(1, #f0f0f0));
+            background: -moz-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
+            background: -webkit-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
+            background: -o-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
+            background: -ms-linear-gradient(top, #e3e3e3 5%, #f0f0f0 100%);
+            background: linear-gradient(to bottom, #e3e3e3 5%, #f0f0f0 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#f0f0f0',GradientType=0);
+            background-color: #e3e3e3;
+            text-decoration: none;
+        }
+
+        .myButton:active {
+            position: relative;
+            top: 1px;
+        }
 
 
 
@@ -722,42 +754,49 @@ div#test2{
 
 
 
-body {
-    background-repeat:no-repeat;
-    background-size:cover;
-    padding-bottom: 20px;
-}
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"]
-{
-    width: 100%;
-}
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
-    display: none
-  }
-}
+
+
+
+    body {
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding-bottom: 20px;
+    }
+
+    /* Wrapping element */
+    /* Set some basic padding to keep content from hitting the edges */
+    .body-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Set widths on the form inputs since otherwise they're 100% wide */
+    input,
+    select,
+    textarea {
+        max-width: 280px;
+    }
+
+    /* Carousel */
+    .carousel-caption p {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    /* Make .svg files in the carousel display properly in older browsers */
+    .carousel-inner .item img[src$=".svg"] {
+        width: 100%;
+    }
+
+    /* Hide/rearrange for smaller screens */
+    @media screen and (max-width: 767px) {
+        /* Hide captions */
+        .carousel-caption {
+            display: none
+        }
+    }

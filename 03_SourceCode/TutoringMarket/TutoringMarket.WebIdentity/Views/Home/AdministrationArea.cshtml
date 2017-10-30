@@ -14,19 +14,21 @@
     </div>
 
     <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        
         <ul class="nav navbar-nav navbar-right">
             <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditMetadata">Metadaten bearbeiten</a></li>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditTutors">Tutoren bearbeiten</a></li>
         </ul>
     </div>
 </nav>
 
 <body>
     <form asp-action="AdministrationArea">
-        <h1>Wilkommen im Administrationsbereich</h1>
-        <a class="btn btn-default" asp-action="EditMetadata">Metadaten bearbeiten</a>
-        <!--<a class="btn btn-default" asp-action="EditReviews">Bewertungen bearbeiten</a>-->
-        <a class="btn btn-default" asp-action="EditTutors">Tutoren bearbeiten</a>
-        <h3>Aktuelle Administratoren:</h3>
+
+        <h3 class="h3border2">Aktuelle Administratoren:</h3>
         <table>
             <tr>
                 <td>Neuen Administrator hinzufügen: (in-Name eingeben)</td>
@@ -42,9 +44,8 @@
                 </tr>
             }
         </table>
-        <a class="btn btn-default" asp-action="Index">Zurück</a>
     </form>
-    <h4>Klassen, aus denen sich noch niemand eingetragen hat: </h4>
+    <h3 class="h3border2">Klassen, aus denen sich noch niemand eingetragen hat: </h3>
     <table>
         @foreach (var item in Model.Classes)
         {
