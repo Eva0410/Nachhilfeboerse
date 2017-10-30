@@ -134,6 +134,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                         }
                     }
                     //Der User wird eingeloggt
+                    //TODO try catch sollte eingefügt werden, falls etwas schief geht
                     await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);

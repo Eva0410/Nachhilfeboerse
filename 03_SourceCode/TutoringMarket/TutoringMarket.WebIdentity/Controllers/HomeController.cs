@@ -241,7 +241,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return View(model);
             }
 
-            return View(model);
+            return RedirectToAction("AdministrationArea", model);
         }
         //TODO: Fehlermeldungen ausgeben
         [Authorize(Roles = "Admin")]
