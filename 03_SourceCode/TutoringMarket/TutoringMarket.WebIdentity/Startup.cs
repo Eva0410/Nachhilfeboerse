@@ -93,7 +93,7 @@ namespace TutoringMarket.WebIdentity
             //Rollen für Test-Tutoren
             //TODO Test Tutoren löschen
             //await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
-            //await AddUserRole("in130021", "Teacher", UserManager, RoleManager);
+            await AddUserRole("in130021", "Teacher", UserManager, RoleManager);
            // await AddUserRole("in130019", "Tutor", UserManager, RoleManager);
             //await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
             //await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
@@ -109,7 +109,7 @@ namespace TutoringMarket.WebIdentity
             }
             if (roleResult == null || !roleResult.Succeeded)
             {
-                Console.WriteLine("Fehler: Rolle " + roleName + " konnte nicht erstellt werden!");
+                Console.WriteLine("Debug-Info: Rolle " + roleName + " konnte nicht erstellt werden! Timestamp: " + DateTime.Now);
             }
         }
         private async Task AddUserRole(string name, string roleName, UserManager<ApplicationUser> um, RoleManager<IdentityRole> rm)
@@ -125,7 +125,7 @@ namespace TutoringMarket.WebIdentity
             }
             if (result == null || !result.Succeeded)
             {
-                Console.WriteLine("Fehler: User " + name + "konnte nicht zur Rolle " + roleName + " hinzugefügt werden!");
+                Console.WriteLine("Debug-Info: User " + name + "konnte nicht zur Rolle " + roleName + " hinzugefügt werden! Timestamp: " + DateTime.Now);
             }
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

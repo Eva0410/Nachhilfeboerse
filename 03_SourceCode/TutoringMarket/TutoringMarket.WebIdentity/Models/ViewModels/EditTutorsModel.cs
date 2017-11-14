@@ -15,8 +15,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
         public void Init(IUnitOfWork uow)
         {
-            this.OutstandingTutors = uow.TutorRepository.Get(filter: t => t.Accepted == false, includeProperties:"Subjects, Class, Department").ToList();
-            //this.Tutors = uow.TutorRepository.Get(includeProperties: "Tutor_Subjects").ToList();
+            this.OutstandingTutors = uow.TutorRepository.Get(filter: t => t.Accepted == false, includeProperties:"Subjects, Class, Department, Comments").ToList();
         }
     }
 }

@@ -4,10 +4,9 @@
 *@
 @{
 }
-@*<form asp-action="CommentTutor">
     <h1>Ausstehende Tutoren</h1>
     <table>
-        @for (int i = 0; i < Model.OutstandingTutors.Count; i++)
+        @*for (int i = 0; i < Model.OutstandingTutors.Count; i++)
         {
             <tr>
                 <td>@Model.OutstandingTutors[i].FirstName </td>
@@ -30,32 +29,35 @@
                 <td><input type="text" asp-for="@Model.Comments[i]" /></td>
                 <td><input value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar wirklich speichern?');" /></td>
             </tr>
-        }
-        @foreach (var item in Model.NewComments)
+        }*@
+        @foreach (var item in Model.OutstandingTutors)
         {
-            <tr>
-                <td>@item.Tutor.FirstName </td>
-                <td>@item.Tutor.LastName </td>
-                <td>@item.Tutor.Class.Name </td>
-                <td>
-                    @foreach (var sub in item.Tutor.Subjects)
-                    {
-                        @sub.Name
-                    }
-                </td>
-                <td>Abgegebene Kommentare:</td>
-                <td>
-                    @foreach (var c in item.Tutor.Comments)
-                    {
-                        @c
-                    }
-                </td>
-                <td>Hier Ihren Kommentar einfügen:</td>
-                <td><input type="text" asp-for="@item.Comment" /></td>
-                <td><input value="Speichern" type="submit" /></td>
-            </tr>
-        }
+            @using (Html.BeginForm("/Home/CommentTutor"))
+            {
+                <tr>
+                    <td>@item.FirstName </td>
+                    <td>@item.LastName </td>
+                    <td>@item.Class.Name </td>
+                    <td>
+                        @foreach (var sub in item.Subjects)
+                        {
+                            @sub.Name
+                        }
+                    </td>
+                    <td>Abgegebene Kommentare:</td>
+                    <td>
+                        @foreach (var c in item.Comments)
+                        {
+                            @c.Comment
+                            @c.TeacherIdentityName
+                        }
+                    </td>
+                    <td>Hier Ihren Kommentar einfügen:</td>
+                    <td><input type="text" asp-for="@Model.Comment" /></td>
+                    <td><input value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar zum Tutor \'@item.FirstName @item.LastName\' wirklich speichern?');"/>
+                        <input type="hidden" asp-for="@Model.Tutor_Id" value="@item.Id"/></td>
+                </tr>
+                }
+            }
     </table>
-</form>
-    <a class="btn btn-default" asp-action="Index">Zurück</a>
-*@
+<a class="btn btn-default" asp-action="Index">Zurück</a>

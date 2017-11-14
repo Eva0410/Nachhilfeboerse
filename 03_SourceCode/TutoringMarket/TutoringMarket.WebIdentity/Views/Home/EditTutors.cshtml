@@ -47,9 +47,14 @@
                 <div style="display:inline;">@item2.Name ;</div>
             }   <br />
             <label>Beschreibung:</label> @item.Description <br />
+            <label>Kommentare von Lehrern:</label>
+            @foreach (var comment in item.Comments)
+            {
+                <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName ;</div>
+            }   <br />
             <br />
-            @*<a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich löschen?');">Löschen</a>
-            <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>*@
+            <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich löschen?');">Löschen</a>
+            <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>
         </div>
     }      
 

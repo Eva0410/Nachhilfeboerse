@@ -399,6 +399,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             var user = await um.FindByNameAsync(t.IdentityName);
             if (user != null)
             {
+                foreach (var item in this.uow.TeacherCommentRepository.Get(filter: tu => tu.Tutor_Id == t.Id))
+                {
+                    this.uow.TeacherCommentRepository.Delete(item.Id);
+                }
+                uow.Save();
+
                 uow.TutorRepository.Delete(t);
                 uow.Save();
 
@@ -432,21 +438,44 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow.TutorRepository.Update(refreshedTutor);
 
             uow.Save();
+
+            foreach (var item in this.uow.TeacherCommentRepository.Get(filter: t => t.Tutor_Id == refreshedTutor.Id))
+            {
+                this.uow.TeacherCommentRepository.Delete(item.Id);
+            }
+            uow.Save();
             return RedirectToAction("EditTutors");
         }
-        //[Authorize(Roles ="Teacher")]
-        //public IActionResult CommentTutor()
-        //{
-        //    CommentTutorModel model = new CommentTutorModel();
-        //    model.Init(this.uow);
-        //    return View(model);
-        //}
-        //[Authorize(Roles ="Teacher")]
-        //[HttpPost]
-        //public IActionResult CommentTutor(CommentTutorModel model, int id)
-        //{
-        //    return RedirectToAction("CommentTutor",model);
-        //}
+        [Authorize(Roles = "Teacher")]
+        public IActionResult CommentTutor()
+        {
+            CommentTutorModel model = new CommentTutorModel();
+            model.Init(this.uow);
+            return View(model);
+        }
+        [Authorize(Roles = "Teacher")]
+        [HttpPost]
+        public IActionResult CommentTutor(CommentTutorModel model)
+        {
+            if (!String.IsNullOrEmpty(model.Comment))
+            {
+                TeacherComment comment = new TeacherComment
+                {
+                    Comment = model.Comment,
+                    Tutor_Id = model.Tutor_Id,
+                    TeacherIdentityName = User.Identity.Name
+                };
+                this.uow.TeacherCommentRepository.Insert(comment);
+                this.uow.Save();
+                model.Init(this.uow);
+                return RedirectToAction("CommentTutor", model);
+            }
+            else
+            {
+                model.Init(this.uow);
+                return View(model);
+            }
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
