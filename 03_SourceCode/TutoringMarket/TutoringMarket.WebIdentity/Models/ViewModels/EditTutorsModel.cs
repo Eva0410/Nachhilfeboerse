@@ -16,6 +16,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public void Init(IUnitOfWork uow)
         {
             this.OutstandingTutors = uow.TutorRepository.Get(filter: t => t.Accepted == false, includeProperties:"Subjects, Class, Department, Comments").ToList();
+            this.Tutors = uow.TutorRepository.Get(filter: t => t.Accepted == true, orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties: "Subjects, Class, Department").ToList();
         }
     }
 }

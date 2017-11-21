@@ -90,7 +90,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 await sim.SignInAsync(user, true);
 
                 return RedirectToAction("Index");
-                
+
             }
             else
             {
@@ -118,7 +118,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             if (ModelState.IsValid)
             {
                 var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
-                if(oldTutor == null)
+                if (oldTutor == null)
                     oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
                 var changed = GetChangedProperties(oldTutor, model.Tutor);
                 Tutor changedTutor = new Tutor();
@@ -173,7 +173,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return NotFound();
 
             var editedTutor = this.uow.TutorRepository.Get(filter: t => t.OldTutorId == tutor.Id).FirstOrDefault();
-            if(editedTutor != null)
+            if (editedTutor != null)
             {
                 this.uow.TutorRepository.Delete(editedTutor.Id);
             }
@@ -184,9 +184,8 @@ namespace TutoringMarket.WebIdentity.Controllers
             await um.AddToRoleAsync(user, "Visitor");
             await um.RemoveFromRoleAsync(user, "Tutor");
 
-            //the cookie must be refreshed
-            await sim.SignOutAsync();
-            await sim.SignInAsync(user, true);
+            //refresh cookie
+            await sim.RefreshSignInAsync(user);
 
             return RedirectToAction("Index");
         }
@@ -234,6 +233,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             if (ModelState.IsValid && user != null)
             {
                 await um.AddToRoleAsync(user, "Admin");
+                //await sim.RefreshSignInAsync(user);
             }
             else
             {
@@ -251,10 +251,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             if (user != null)
             {
                 await um.RemoveFromRoleAsync(user, "Admin");
+                //await sim.RefreshSignInAsync(user);
             }
             await model.GetAdmins(um, this.uow);
             return RedirectToAction("AdministrationArea", model);
         }
+        //TODO Access Denied Page designen
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditReviews()
@@ -412,14 +414,10 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     await um.AddToRoleAsync(user, "Visitor");
                     await um.RemoveFromRoleAsync(user, "Tutor");
+                    //await sim.SignInAsync(user,false);
                 }
-                
-            }
 
-            //TODO refresh cookie
-            //the cookie must be refreshed
-            //await sim.SignOutAsync();
-            //await sim.SignInAsync(user, true);
+            }
 
             return RedirectToAction("EditTutors");
         }
@@ -445,6 +443,59 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             uow.Save();
             return RedirectToAction("EditTutors");
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditTutorsDeleteProfile(EditTutorsModel model, int id)
+        {
+            var t = uow.TutorRepository.GetById(id);
+            if (t == null)
+                return NotFound();
+            var user = await um.FindByNameAsync(t.IdentityName);
+            if (user != null)
+            {
+                uow.TutorRepository.Delete(t);
+                uow.Save();
+
+                await um.AddToRoleAsync(user, "Visitor");
+                await um.RemoveFromRoleAsync(user, "Tutor");
+                //await sim.RefreshSignInAsync(user);
+
+            }
+
+            return RedirectToAction("EditTutors");
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditTutorsDeleteSubject(EditTutorsModel model, int tid, int subid)
+        {
+            var tutor = uow.TutorRepository.Get(filter: t => t.Id == tid, includeProperties:"Subjects").FirstOrDefault();
+            if (tutor == null)
+                return NotFound();
+            if (tutor.Subjects.Count == 1)
+            {
+                model.Init(this.uow);
+                ModelState.AddModelError("Error", "Jeder Tutor muss mindestens ein Fach haben, dieser Tutor hat nur mehr ein Fach; bitte löschen Sie den Tutor als Ganzen!");
+                return View("EditTutors", model);
+            }
+            else
+            {
+                Tutor newTutor = new Tutor();
+                GenericRepository<Tutor>.CopyProperties(newTutor, tutor);
+                newTutor.Id = 0;
+                newTutor.Subjects = new List<Subject>();
+                foreach (var item in tutor.Subjects)
+                {
+                    if (item.Id != subid)
+                    {
+                        newTutor.Subjects.Add(item);
+                    }
+                }
+
+                uow.TutorRepository.Delete(tutor);
+                uow.TutorRepository.Insert(newTutor);
+                uow.Save();
+
+                return RedirectToAction("EditTutors");
+            }
         }
         [Authorize(Roles = "Teacher")]
         public IActionResult CommentTutor()
@@ -473,6 +524,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             else
             {
                 model.Init(this.uow);
+                ModelState.AddModelError("Error", "Bitte geben Sie einen Kommentar ein!");
                 return View(model);
             }
         }
