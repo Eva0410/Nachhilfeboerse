@@ -297,6 +297,17 @@ em.index {
 }
     /*EDITTUTORS PAGE END*/
 
+
+    /*CONTACT PAGE START*/
+
+.contact {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+    /*CONTACT PAGE END*/
+
     .anmeldename {
         padding-bottom: 3px;
     }
