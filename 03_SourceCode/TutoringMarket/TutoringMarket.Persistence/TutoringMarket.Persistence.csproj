@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201710171112544_Tutor_OldTutorID.Designer.cs">
       <DependentUpon>201710171112544_Tutor_OldTutorID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710240728394_CommentsForTeachers.cs" />
+    <Compile Include="Migrations\201710240728394_CommentsForTeachers.Designer.cs">
+      <DependentUpon>201710240728394_CommentsForTeachers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710171112544_Tutor_OldTutorID.resx">
       <DependentUpon>201710171112544_Tutor_OldTutorID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710240728394_CommentsForTeachers.resx">
+      <DependentUpon>201710240728394_CommentsForTeachers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

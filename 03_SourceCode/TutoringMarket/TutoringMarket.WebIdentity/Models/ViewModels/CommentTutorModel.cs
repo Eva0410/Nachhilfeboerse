@@ -7,15 +7,16 @@ using TutoringMarket.Core.Enities;
 
 namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
-    public class EditTutorsModel
+    public class CommentTutorModel
     {
-        public List<Tutor> Tutors { get; set; }
-        public List<Subject> Subjects { get; set; }
         public List<Tutor> OutstandingTutors { get; set; }
-
+        public int Tutor_Id { get; set; }
+        public string Comment { get; set; }
         public void Init(IUnitOfWork uow)
         {
-            this.OutstandingTutors = uow.TutorRepository.Get(filter: t => t.Accepted == false, includeProperties:"Subjects, Class, Department, Comments").ToList();
+            this.OutstandingTutors = uow.TutorRepository.Get(filter: t => t.Accepted == false, includeProperties: "Subjects, Class, Department, Comments").ToList();
+            this.Tutor_Id = 0;
+            this.Comment = "";
         }
     }
 }

@@ -95,8 +95,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //}
 
                 //for offline testing (Server ist nicht erreichbar von daheim, daher müssen Name, Klasse und Abteilung hard codiert werden)
-                //string fullName = "Pürmayr Eva"; 
-                //string schoolClass = "4AHIF";
+                //string fullName = "Test Test";
+                //string schoolClass = "3AHIF";
                 //string department = "Informatik";
 
                 //real code
@@ -134,6 +134,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                         }
                     }
                     //Der User wird eingeloggt
+                    //TODO try catch sollte eingefügt werden, falls etwas schief geht
                     await _signInManager.SignInAsync(_userManager.Users.Where(u => u.UserName == model.UserName).FirstOrDefault(), true);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
