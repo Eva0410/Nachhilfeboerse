@@ -94,7 +94,7 @@ namespace TutoringMarket.WebIdentity
             //TODO Test Tutoren löschen
             //await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
             await AddUserRole("in130021", "Teacher", UserManager, RoleManager);
-           // await AddUserRole("in130019", "Tutor", UserManager, RoleManager);
+            await AddUserRole("in130019", "Teacher", UserManager, RoleManager);
             //await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
             //await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
 

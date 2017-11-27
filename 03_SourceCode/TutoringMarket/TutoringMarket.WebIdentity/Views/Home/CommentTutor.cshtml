@@ -2,62 +2,73 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
-    <h1>Ausstehende Tutoren</h1>
-    <table>
-        @*for (int i = 0; i < Model.OutstandingTutors.Count; i++)
-        {
-            <tr>
-                <td>@Model.OutstandingTutors[i].FirstName </td>
-                <td>@Model.OutstandingTutors[i].LastName </td>
-                <td>@Model.OutstandingTutors[i].Class.Name </td>
-                <td>
-                    @foreach (var sub in @Model.OutstandingTutors[i].Subjects)
-                    {
-                        @sub.Name
-                    }
-                </td>
-                <td>Abgegebene Kommentare:</td>
-                <td>
-                    @foreach (var c in @Model.OutstandingTutors[i].Comments)
-                    {
-                        @c
-                    }
-                </td>
-                <td>Hier Ihren Kommentar einfügen:</td>
-                <td><input type="text" asp-for="@Model.Comments[i]" /></td>
-                <td><input value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar wirklich speichern?');" /></td>
-            </tr>
-        }*@
-        @foreach (var item in Model.OutstandingTutors)
-        {
-            @using (Html.BeginForm("/Home/CommentTutor"))
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
+    </div>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
             {
-                <tr>
-                    <td>@item.FirstName </td>
-                    <td>@item.LastName </td>
-                    <td>@item.Class.Name </td>
-                    <td>
-                        @foreach (var sub in item.Subjects)
-                        {
-                            @sub.Name
-                        }
-                    </td>
-                    <td>Abgegebene Kommentare:</td>
-                    <td>
-                        @foreach (var c in item.Comments)
-                        {
-                            @c.Comment
-                            @c.TeacherIdentityName
-                        }
-                    </td>
-                    <td>Hier Ihren Kommentar einfügen:</td>
-                    <td><input type="text" asp-for="@Model.Comment" /></td>
-                    <td><input value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar zum Tutor \'@item.FirstName @item.LastName\' wirklich speichern?');"/>
-                        <input type="hidden" asp-for="@Model.Tutor_Id" value="@item.Id"/></td>
-                </tr>
-                }
+                <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
             }
-    </table>
-<a class="btn btn-default" asp-action="Index">Zurück</a>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="Contact">Kontaktier uns</a></li>
+        </ul>
+    </div>
+</nav>
+
+<body>
+
+    <h1 class="page-header">Ausstehende Tutoren</h1>
+
+    
+
+@foreach (var item in Model.OutstandingTutors)
+{
+    <form asp-action="CommentTutor">
+        <div class="teacher">
+            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+            <label>E-mail:</label> @item.EMail <br />
+            <label>Handynummer:</label> @item.PhoneNumber<br />
+            <label>Abteilung:</label> @item.Department.Name <br />
+            <label>Klasse:</label> @item.Class.Name <br />
+            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+            <label>Termine:</label> @item.Time <br />
+            <label>Preis:</label> @item.Price <br />
+            <label>Fächer:</label>
+            @foreach (var item2 in item.Subjects)
+                {
+                <div style="display:inline;">@item2.Name ;</div>
+            }   <br />
+            <label>Beschreibung:</label> @item.Description <br />
+            <label>Kommentare von Lehrern:</label><br />
+            @foreach (var comment in item.Comments)
+                {
+                <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
+            }
+            <br />
+
+            Hier Ihren Kommentar einfügen:
+            <input type="text" asp-for="@Model.Comment" />
+            <input class="btn btn-default" value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar zum Tutor \'@item.FirstName @item.LastName\' wirklich speichern?');" />
+            <input type="hidden" asp-for="@Model.Tutor_Id" value="@item.Id" />
+        </div>
+    </form>
+}
+
+    
+    
+
+
+
+
+</body>
