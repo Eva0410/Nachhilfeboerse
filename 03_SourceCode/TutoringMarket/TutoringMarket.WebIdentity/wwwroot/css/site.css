@@ -276,6 +276,12 @@ em.index {
     }
 }
 
+@media screen and (max-width: 1050px) {
+    .pmobile {
+        display: none;
+    }
+}
+
 #getTutorFormular {
     position: absolute; 
     left: 50%; 

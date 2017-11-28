@@ -26,7 +26,7 @@
     </div>
 </nav>
 <body>
-    <!--<form asp-action="EditTutors">-->
+
     <h1 class="page-header">Ausstehende Tutoren</h1>
 
 
@@ -40,47 +40,48 @@
             <label>Klasse:</label> @item.Class.Name <br />
             <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
             <label>Termine:</label> @item.Time <br />
-            <label>Preis:</label> @item.Price <br />
-            <label>Fächer:</label>
+            <label>Preis:</label> @item.Price €<br />
+            <label>Fächer:</label><br />
             @foreach (var item2 in item.Subjects)
             {
-                <div style="display:inline;">@item2.Name ;</div>
-            }   <br />
+                <div style="display:inline;">@item2.Name</div><br />
+            }
             <label>Beschreibung:</label> @item.Description <br />
             <label>Kommentare von Lehrern:</label><br />
             @foreach (var comment in item.Comments)
             {
                 <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
-            } 
+            }
             <br />
-            <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich löschen?');">Löschen</a>
+            <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich ablehnen?');">Ablehnen</a>
             <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>
         </div>
     }
 
-    <h1>Tutoren bearbeiten</h1>
+    <h1 class="page-header">Tutoren bearbeiten</h1>
     @Html.ValidationMessage("Error")
-    <table>
-        
-        @foreach (var item in Model.Tutors)
+
+    @foreach (var item in Model.Tutors)
+    {
+        <div class="teacher">
+            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+            <label>E-mail:</label> @item.EMail <br />
+            <label>Handynummer:</label> @item.PhoneNumber<br />
+            <label>Abteilung:</label> @item.Department.Name <br />
+            <label>Klasse:</label> @item.Class.Name <br />
+            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+            <label>Termine:</label> @item.Time <br />
+            <label>Preis:</label> @item.Price €<br />
+            <label>Beschreibung:</label> @item.Description <br />
+            <label>Fächer:</label> <br />
+            @foreach (var sub in @item.Subjects)
             {
-            <tr>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td><a asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Löschen</a></td>
-            </tr>
+                <div style="display:inline;">@sub.Name</div>
+                <a asp-action="EditTutorsDeleteSubject" asp-route-tid="@item.Id" asp-route-subid="@sub.Id" onclick="return confirm('Wollen Sie diesem Tutor dieses Fach wirklich entziehen?');">Fach Löschen</a><br />
+            }
+            <button class="btn btn-default" asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Tutor Löschen</button>
+        </div>
+    }
 
-                @foreach (var sub in @item.Subjects)
-                {
-                    <tr>
-                        <td>@sub.Name</td>
-                        <td><a asp-action="EditTutorsDeleteSubject" asp-route-tid="@item.Id" asp-route-subid="@sub.Id" onclick="return confirm('Wollen Sie diesem Tutor dieses Fach wirklich entziehen?');">Fach Löschen</a></td>
-                    </tr>
-                }
-        }
-    </table>
-
-
-    <!--</form>-->
 </body>
 
