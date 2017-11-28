@@ -51,31 +51,39 @@ namespace TutoringMarket.WebIdentity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Contact(EmailFormModel model)
         {
             if (ModelState.IsValid)
             {
-                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                var message = new MailMessage();
-                message.To.Add(new MailAddress("orascanin.99@gmail.com"));
-                message.From = new MailAddress("diplomarbeitdanijal@gmail.com");
-                message.Subject = "Anfrage!";
-                message.Body = string.Format(body, model.FromName, model.FromEmail, model.Nachricht);
-                message.IsBodyHtml = true;
-
-                using (var smtp = new SmtpClient())
+                try
                 {
-                    var credential = new NetworkCredential
+                    var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                    var message = new MailMessage();
+                    message.To.Add(new MailAddress("orascanin.99@gmail.com"));
+                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.Subject = "Anfrage!";
+                    message.Body = string.Format(body, model.FromName, model.FromEmail, model.Nachricht);
+                    message.IsBodyHtml = true;
+
+                    using (var smtp = new SmtpClient())
                     {
-                        UserName = "diplomarbeitdanijal@gmail.com",
-                        Password = ".di,wx,01,21"
-                    };
-                    smtp.Credentials = credential;
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
-                    await smtp.SendMailAsync(message);
-                    return RedirectToAction("Sent");
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "nachhilfeboerse.info@gmail.com",
+                            Password = "5nUtWnsz"
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                        return RedirectToAction("Sent");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Error", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
                 }
             }
             return View(model);
@@ -505,7 +513,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditTutorsDeleteSubject(EditTutorsModel model, int tid, int subid)
         {
-            var tutor = uow.TutorRepository.Get(filter: t => t.Id == tid, includeProperties:"Subjects").FirstOrDefault();
+            var tutor = uow.TutorRepository.Get(filter: t => t.Id == tid, includeProperties: "Subjects").FirstOrDefault();
             if (tutor == null)
                 return NotFound();
             if (tutor.Subjects.Count == 1)
