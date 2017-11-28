@@ -31,7 +31,7 @@
     <h1 class="page-header">Ausstehende Tutoren</h1>
 
     
-
+    @Html.ValidationMessage("Error")
 @foreach (var item in Model.OutstandingTutors)
 {
     <form asp-action="CommentTutor">
