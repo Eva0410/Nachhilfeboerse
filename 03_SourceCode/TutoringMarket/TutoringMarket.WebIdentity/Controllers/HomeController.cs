@@ -44,6 +44,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         [Authorize]
         public IActionResult Index(IndexModel model)
         {
+            //for sorting? TODO
             ModelState.Clear();
             model.FillTutors(uow);
             return View(model);
@@ -52,6 +53,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        //TODO config datei
         public async Task<ActionResult> Contact(EmailFormModel model)
         {
             if (ModelState.IsValid)
@@ -114,16 +116,21 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             if (ModelState.IsValid && model.SelectedSubjects != null)
             {
+                //add list of subjects to tutor
                 List<Subject> subjects = new List<Subject>();
                 foreach (var item in model.SelectedSubjects)
                 {
                     subjects.Add(uow.SubjectRepository.GetById(item));
                 }
                 model.Tutor.Subjects = subjects;
+
+                //Tutor is not accepted in the beginning
                 model.Tutor.Accepted = false;
+
                 this.uow.TutorRepository.Insert(model.Tutor);
                 this.uow.Save();
 
+                //update roles
                 var user = await um.FindByNameAsync(User.Identity.Name);
                 await um.AddToRoleAsync(user, "Tutor");
                 await um.RemoveFromRoleAsync(user, "Visitor");
@@ -160,10 +167,11 @@ namespace TutoringMarket.WebIdentity.Controllers
             var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
             if (ModelState.IsValid)
             {
+                //find the old version of the tutor
                 var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
                 if (oldTutor == null)
                     oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
-                if (oldTutor != null)
+                if (oldTutor != null) //in case the tutor is not in role tutor anymore (removed from admin), website will crash
                 {
                     var changed = GetChangedProperties(oldTutor, model.Tutor);
                     Tutor changedTutor = new Tutor();
@@ -176,6 +184,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                         var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
                         prop.SetValue(changedTutor, value);
                     }
+                    //update subjects
                     changedTutor.Subjects = new List<Subject>();
                     foreach (var item in model.SelectedSubjects)
                     {
@@ -183,6 +192,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                     }
                     //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
                     changedTutor.Id = 0;
+                    //handling the accept/reject problem
                     if (oldTutor.Accepted == true)
                     {
                         changedTutor.Accepted = false;
@@ -298,45 +308,46 @@ namespace TutoringMarket.WebIdentity.Controllers
             if (user != null)
             {
                 await um.RemoveFromRoleAsync(user, "Admin");
-                //await sim.RefreshSignInAsync(user);
+                //user will be refreshed after logging in again
             }
             await model.GetAdmins(um, this.uow);
             return RedirectToAction("AdministrationArea", model);
         }
         //TODO Access Denied Page designen
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public IActionResult EditReviews()
-        {
-            EditReviewsModel model = new EditReviewsModel();
-            model.Init(uow);
-            return View(model);
-        }
-        [Authorize(Roles = "Admin")]
-        public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
-        {
-            var r = uow.ReviewRepository.GetById(id);
-            if (r == null)
-                return NotFound();
+        //not used yet
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet]
+        //public IActionResult EditReviews()
+        //{
+        //    EditReviewsModel model = new EditReviewsModel();
+        //    model.Init(uow);
+        //    return View(model);
+        //}
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
+        //{
+        //    var r = uow.ReviewRepository.GetById(id);
+        //    if (r == null)
+        //        return NotFound();
 
-            uow.ReviewRepository.Delete(r);
-            uow.Save();
-            return RedirectToAction("EditReviews");
-        }
+        //    uow.ReviewRepository.Delete(r);
+        //    uow.Save();
+        //    return RedirectToAction("EditReviews");
+        //}
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
-        {
-            var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
-            if (review == null)
-                return NotFound();
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
+        //{
+        //    var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
+        //    if (review == null)
+        //        return NotFound();
 
-            review.Approved = true;
-            uow.ReviewRepository.Update(review);
+        //    review.Approved = true;
+        //    uow.ReviewRepository.Update(review);
 
-            uow.Save();
-            return RedirectToAction("EditReviews");
-        }
+        //    uow.Save();
+        //    return RedirectToAction("EditReviews");
+        //}
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditMetadata()
@@ -345,62 +356,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             model.Init(uow);
             return View(model);
         }
-        [Authorize(Roles = "Admin")]
-        public IActionResult EditDepartmentsDelete(EditMetadataModel model, int id)
-        {
-            var dept = uow.DepartmentRepository.GetById(id);
-            if (dept == null)
-                return NotFound();
 
-            uow.DepartmentRepository.Delete(dept);
-            uow.Save();
-            return RedirectToAction("EditMetadata");
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public IActionResult EditDepartments(EditMetadataModel model)
-        {
-            model.Init(uow);
-            if (ModelState.IsValid && model.NewDepartment.Name != null)
-            {
-                uow.DepartmentRepository.Insert(model.NewDepartment);
-                uow.Save();
-                return RedirectToAction("EditMetadata");
-            }
-            else
-            {
-                ModelState.AddModelError("NewDepartment.Name", "Die Bezeichnunsg darf nicht leer sein!");
-                return View("EditMetadata", model);
-            }
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public IActionResult EditClasses(EditMetadataModel model)
-        {
-            model.Init(uow);
-            if (ModelState.IsValid && model.NewClass.Name != "")
-            {
-                uow.ClassRepository.Insert(model.NewClass);
-                uow.Save();
-                return RedirectToAction("EditMetadata");
-            }
-            else
-            {
-                ModelState.AddModelError("NewClass.Name", "Die Bezeichnung darf nicht leer sein!");
-                return View("EditMetadata", model);
-            }
-        }
-        [Authorize(Roles = "Admin")]
-        public IActionResult EditClassesDelete(EditMetadataModel model, int id)
-        {
-            var c = uow.ClassRepository.GetById(id);
-            if (c == null)
-                return NotFound();
-
-            uow.ClassRepository.Delete(c);
-            uow.Save();
-            return RedirectToAction("EditMetadata");
-        }
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditSubjects(EditMetadataModel model)
@@ -440,6 +396,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         [Authorize(Roles = "Admin")]
+        //Decline a tutor
         public async Task<IActionResult> EditTutorsDelete(EditTutorsModel model, int id)
         {
             var t = uow.TutorRepository.GetById(id);
@@ -448,11 +405,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             var user = await um.FindByNameAsync(t.IdentityName);
             if (user != null)
             {
-                foreach (var item in this.uow.TeacherCommentRepository.Get(filter: tu => tu.Tutor_Id == t.Id))
-                {
-                    this.uow.TeacherCommentRepository.Delete(item.Id);
-                }
-                uow.Save();
+                DeleteTutorComments(t.Id);
 
                 uow.TutorRepository.Delete(t);
                 uow.Save();
@@ -461,7 +414,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     await um.AddToRoleAsync(user, "Visitor");
                     await um.RemoveFromRoleAsync(user, "Tutor");
-                    //await sim.SignInAsync(user,false);
+                    //roles will be refreshed after the tutor has logged in again
                 }
 
             }
@@ -484,12 +437,17 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             uow.Save();
 
-            foreach (var item in this.uow.TeacherCommentRepository.Get(filter: t => t.Tutor_Id == refreshedTutor.Id))
+            DeleteTutorComments(refreshedTutor.Id);
+
+            return RedirectToAction("EditTutors");
+        }
+        private void DeleteTutorComments(int tutor_id)
+        {
+            foreach (var item in this.uow.TeacherCommentRepository.Get(filter: t => t.Tutor_Id == tutor_id))
             {
                 this.uow.TeacherCommentRepository.Delete(item.Id);
             }
             uow.Save();
-            return RedirectToAction("EditTutors");
         }
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditTutorsDeleteProfile(EditTutorsModel model, int id)
@@ -505,6 +463,7 @@ namespace TutoringMarket.WebIdentity.Controllers
 
                 await um.AddToRoleAsync(user, "Visitor");
                 await um.RemoveFromRoleAsync(user, "Tutor");
+                //user roles will be refreshed after the tutor logs in again
 
                 return RedirectToAction("EditTutors");
             }
@@ -524,6 +483,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             else
             {
+                //to update the subjects, the tutor must be inserted again
                 Tutor newTutor = new Tutor();
                 GenericRepository<Tutor>.CopyProperties(newTutor, tutor);
                 newTutor.Id = 0;

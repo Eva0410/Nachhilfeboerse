@@ -21,7 +21,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public async Task Init(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
             this.Tutor = new Tutor();
-            this.Tutor.Birthday = new DateTime(DateTime.Now.Year - 18, 1, 1);
+            this.Tutor.Birthday = new DateTime(DateTime.Now.Year - 18, 1, 1); //default date
             this.SelectedSubjects = new List<int>();
 
             await FillList(uow, um, name);
@@ -30,8 +30,10 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
             ApplicationUser CurrentUser = await um.FindByNameAsync(name);
+            //set name, class, department
             this.Tutor.FirstName = CurrentUser.FirstName;
             this.Tutor.LastName = CurrentUser.LastName;
+            //Class and department should exist (inserted in accountcontroller when user logs in)
             var existingClass = uow.ClassRepository.Get(c => c.Name == CurrentUser.SchoolClass).FirstOrDefault();
             if (existingClass != null)
             {

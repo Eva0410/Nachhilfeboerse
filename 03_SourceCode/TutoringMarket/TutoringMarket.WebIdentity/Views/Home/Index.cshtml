@@ -57,15 +57,15 @@
         <div class="col-md-6 col-sm-6" id="blackFilter1">
             <h3 id="h3filterFach">Fach</h3>
 
-            <!--<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
+            @*<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
             <input asp-for="@Model.SortText" type="submit" value="Geld" />
-            <input asp-for="@Model.SortText" type="submit" value="Bewertung" />-->
+            <input asp-for="@Model.SortText" type="submit" value="Bewertung" />*@
 
 
             <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
             <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern" />
-            <input type="hidden" asp-for="SortTextBefore" />
-            @Html.HiddenFor(t => t.SortTextBefore)
+            @*<input type="hidden" asp-for="SortTextBefore" />
+            @Html.HiddenFor(t => t.SortTextBefore)*@
         </div>
     </form>
 

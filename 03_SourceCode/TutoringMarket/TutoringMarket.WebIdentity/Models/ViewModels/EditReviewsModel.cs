@@ -9,6 +9,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class EditReviewsModel
     {
+        //TOOD implement
         public List<Review> Reviews { get; set; }
         public int ReviewId { get; set; }
         public void Init(IUnitOfWork uow)
