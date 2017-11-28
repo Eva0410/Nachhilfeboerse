@@ -19,13 +19,12 @@
             {
                 <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
             }
-        </ul>   
-        <ul>
-            @if (ViewContext.HttpContext.User.IsInRole("Teacher"))
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="Contact">Kontaktier uns</a></li>
+           @if (ViewContext.HttpContext.User.IsInRole("Teacher"))
             {
                 <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="CommentTutor">Tutoren kommentieren</a></li>
-            }
-        </ul>
+           }
+        </ul> 
     </div>
 </nav>
 

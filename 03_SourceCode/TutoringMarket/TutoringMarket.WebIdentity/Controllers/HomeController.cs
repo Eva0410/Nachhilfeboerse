@@ -12,6 +12,7 @@ using TutoringMarket.WebIdentity.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using TutoringMarket.Persistence;
+using System.Net.Mail;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -47,6 +48,40 @@ namespace TutoringMarket.WebIdentity.Controllers
             model.FillTutors(uow);
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Contact(EmailFormModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                var message = new MailMessage();
+                message.To.Add(new MailAddress("orascanin.99@gmail.com"));
+                message.From = new MailAddress("diplomarbeitdanijal@gmail.com");
+                message.Subject = "Anfrage!";
+                message.Body = string.Format(body, model.FromName, model.FromEmail, model.Nachricht);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    var credential = new NetworkCredential
+                    {
+                        UserName = "diplomarbeitdanijal@gmail.com",
+                        Password = ".di,wx,01,21"
+                    };
+                    smtp.Credentials = credential;
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(message);
+                    return RedirectToAction("Sent");
+                }
+            }
+            return View(model);
+        }
+
+
         [Authorize]
         public IActionResult TutorDetails(int id)
         {
@@ -542,6 +577,10 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             ViewData["Message"] = "Your contact page.";
 
+            return View();
+        }
+        public ActionResult Sent()
+        {
             return View();
         }
 
