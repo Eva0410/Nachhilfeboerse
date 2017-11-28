@@ -28,23 +28,21 @@
 
 
 <body>
-    <h2 align="center">Kontaktier uns</h2>
+    <h1 class="page-header">Kontaktier uns</h1>
+
+    <div class="motivation2">
+        <center>
+            <h1 id="quote">
+                We can't solve your Problem if you don't tell us about it.
+            </h1>
+        </center>
+    </div> <br />
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <hr />
 
-        <div class="motivation2">
-            <center>
-                <h1 id="quote">
-                    We can't solve your Problem if you don't tell us about it.
-                </h1>
-            </center>
-        </div>
-
-        <br />
-
+        
     <div class="contact">
         <div class="form-group">
             @Html.LabelFor(m => m.FromName, new { @class = "col-md-6 control-label" })
