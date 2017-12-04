@@ -78,12 +78,15 @@ namespace TutoringMarket.WebIdentity
 
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021", FirstName="Eva", LastName="Pürmayr", SchoolClass="5AHIF", Department="Informatik" });
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019", FirstName="Danijal", LastName="Orascanin", SchoolClass="5AHIF", Department="Informatik"});
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "a.keck", FirstName = "a", LastName = "keck"});
 
-            //TODO: Keck adden
             await AddUserRole("in130021", "Admin", UserManager, RoleManager);
             await AddUserRole("in130019", "Admin", UserManager, RoleManager);
+            await AddUserRole("a.keck", "Admin", UserManager, RoleManager);
             await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
             await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
+            await AddUserRole("a.keck", "Visitor", UserManager, RoleManager);
+            await AddUserRole("a.keck", "Teacher", UserManager, RoleManager);
 
             //Tutoren adden
             //await UserManager.CreateAsync(new ApplicationUser { UserName = "in130024", FirstName = "Jakob", LastName = "Rumpelsberger", SchoolClass = "5AHIF", Department = "Informatik" });
