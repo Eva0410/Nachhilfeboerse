@@ -9,8 +9,8 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class EditTutorsModel
     {
+        //Accepted tutors
         public List<Tutor> Tutors { get; set; }
-        public List<Subject> Subjects { get; set; }
         public List<Tutor> OutstandingTutors { get; set; }
 
         public void Init(IUnitOfWork uow)

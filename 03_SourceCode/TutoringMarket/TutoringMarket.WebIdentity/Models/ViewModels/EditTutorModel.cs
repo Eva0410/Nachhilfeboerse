@@ -13,9 +13,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class EditTutorModel
     {
-        public SelectList Classes { get; set; }
         public Tutor Tutor { get; set; }
-        public SelectList Departments { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }
         public SelectList Gender { get; set; }
@@ -30,8 +28,10 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
                 this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
                 if (this.Tutor == null)
                     this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
+                //Fill name, class, department
                 this.Tutor.FirstName = CurrentUser.FirstName;
                 this.Tutor.LastName = CurrentUser.LastName;
+                //class and department should exist (are inserted in the accountcontroller when user logs in)
                 var existingClass = uow.ClassRepository.Get(c => c.Name == CurrentUser.SchoolClass).FirstOrDefault();
                 if (existingClass != null)
                 {

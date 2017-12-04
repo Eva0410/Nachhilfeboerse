@@ -29,46 +29,39 @@
 <body>
 
     <h1 class="page-header">Ausstehende Tutoren</h1>
-
-    
-    @Html.ValidationMessage("Error")
-@foreach (var item in Model.OutstandingTutors)
-{
-    <form asp-action="CommentTutor">
-        <div class="teacher">
-            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
-            <label>E-mail:</label> @item.EMail <br />
-            <label>Handynummer:</label> @item.PhoneNumber<br />
-            <label>Abteilung:</label> @item.Department.Name <br />
-            <label>Klasse:</label> @item.Class.Name <br />
-            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
-            <label>Termine:</label> @item.Time <br />
-            <label>Preis:</label> @item.Price <br />
-            <label>Fächer:</label>
-            @foreach (var item2 in item.Subjects)
-                {
-                <div style="display:inline;">@item2.Name ;</div>
-            }   <br />
-            <label>Beschreibung:</label> @item.Description <br />
-            <label>Kommentare von Lehrern:</label><br />
-            @foreach (var comment in item.Comments)
-                {
-                <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
-            }
-            <br />
-
-            Hier Ihren Kommentar einfügen:
-            <input type="text" asp-for="@Model.Comment" />
-            <input class="btn btn-default" value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar zum Tutor \'@item.FirstName @item.LastName\' wirklich speichern?');" />
-            <input type="hidden" asp-for="@Model.Tutor_Id" value="@item.Id" />
-        </div>
-    </form>
-}
-
+    <p style="color:red; margin-left: 20px;">@Html.ValidationMessage("Error")</p>
     
     
+    @foreach (var item in Model.OutstandingTutors)
+    {
+        <form asp-action="CommentTutor">
+            <div class="teacher">
+                <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+                <label>E-mail:</label> @item.EMail <br />
+                <label>Handynummer:</label> @item.PhoneNumber<br />
+                <label>Abteilung:</label> @item.Department.Name <br />
+                <label>Klasse:</label> @item.Class.Name <br />
+                <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+                <label>Termine:</label> @item.Time <br />
+                <label>Preis:</label> @item.Price <br />
+                <label>Fächer:</label>
+                @foreach (var item2 in item.Subjects)
+                    {
+                    <div style="display:inline;">@item2.Name ;</div>
+                }   <br />
+                <label>Beschreibung:</label> @item.Description <br />
+                <label>Kommentare von Lehrern:</label><br />
+                @foreach (var comment in item.Comments)
+                    {
+                    <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
+                }
+                <br />
 
-
-
-
+                Hier Ihren Kommentar einfügen:
+                <input type="text" asp-for="@Model.Comment" />
+                <input class="btn btn-default" value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar zum Tutor \'@item.FirstName @item.LastName\' wirklich speichern?');" />
+                <input type="hidden" asp-for="@Model.Tutor_Id" value="@item.Id" />
+            </div>
+        </form>
+    }
 </body>

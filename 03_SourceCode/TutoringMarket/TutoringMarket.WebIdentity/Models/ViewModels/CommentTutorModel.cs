@@ -10,6 +10,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
     public class CommentTutorModel
     {
         public List<Tutor> OutstandingTutors { get; set; }
+        //Id of the tutor which has been commented on
         public int Tutor_Id { get; set; }
         public string Comment { get; set; }
         public void Init(IUnitOfWork uow)

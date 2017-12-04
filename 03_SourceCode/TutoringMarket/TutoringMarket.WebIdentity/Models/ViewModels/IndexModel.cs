@@ -12,12 +12,12 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
     public class IndexModel
     {
         public List<Tutor> Tutors { get; set; }
-        public String SortText { get; set; }
-        public String SortTextBefore { get; set; }
+        //public String SortText { get; set; }
+        //public String SortTextBefore { get; set; }
         public SelectList Subjects { get; set; }
         public string SelectedSubject { get; set; }
 
-
+        //TODO implement sort
         //public void SwitchSort(IUnitOfWork uow)
         //{
         //    switch (this.SortText)
@@ -39,7 +39,8 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public void FillTutors(IUnitOfWork uow)
         {
             //TODO: Sort client-seitig?
-            //TODO: Subjects von tutor_subject mitladen, tutor_subject.subject, weniger laden
+            //TODO: Subjects von tutor_subject mitladen, tutor_subject.subject, weniger laden; done
+            //TODO: clean up after implement sort
             //if (String.IsNullOrEmpty(this.SortTextBefore) || this.SortTextBefore != this.SortText)
             //{
             //    SwitchSort(uow);
