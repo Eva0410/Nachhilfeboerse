@@ -79,7 +79,7 @@
                 <div style="display:inline;">@sub.Name</div>
                 <a asp-action="EditTutorsDeleteSubject" asp-route-tid="@item.Id" asp-route-subid="@sub.Id" onclick="return confirm('Wollen Sie diesem Tutor dieses Fach wirklich entziehen?');">Fach Löschen</a><br />
             }
-            <button class="btn btn-default" asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Tutor Löschen</button>
+            <a class="btn btn-default" asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Tutor Löschen</a>
         </div>
     }
 
