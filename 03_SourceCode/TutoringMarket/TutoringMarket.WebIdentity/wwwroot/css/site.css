@@ -308,9 +308,29 @@ em.index {
     /*CONTACT PAGE START*/
 
 .contact {
+    width:auto;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.motivationNew2 {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 0;
+    margin-bottom: 50px;
+    font-family: 'meine-schrift';
+    color: black;
+    border-style: solid;
+    min-width: 250px;
+    border-width: 1px;
+    border-color: black;
+    vertical-align: middle;
+}
+@media screen and (max-width: 620px) {
+    .motivationNew2 {
+        display: none;
+    }
 }
 
     /*CONTACT PAGE END*/
