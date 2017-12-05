@@ -35,7 +35,7 @@ namespace TutoringMarket.Core.Enities
         [Required(ErrorMessage ="Bitte geben Sie Ihre möglichen Nachhilfezeiten ein."), Display(Name ="Zeit"), MaxLength(150, ErrorMessage ="Sie haben zu viele Zeiten eingegeben")]
         public String Time { get; set; }
 
-        [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz in €"), Range(0,100,ErrorMessage ="Der Stundensatz muss zwischen 0 und 100 sein!")]
+        [Required(ErrorMessage ="Bitte geben Sie Ihren gewünschten Stundensatz ein."), Display(Name ="Stundensatz in €"), Range(0,20,ErrorMessage ="Der Stundensatz muss zwischen 0 und 20 sein!")]
         public int Price { get; set; }
 
         [Display(Name="Abteilung"), ForeignKey("Department_Id")]
@@ -48,10 +48,10 @@ namespace TutoringMarket.Core.Enities
         public string IdentityName { get; set; }
         [Display(Name ="Geschlecht"), Required]
         public string Gender { get; set; }
-
-        public List<Tutor_Subject> Tutor_Subjects { get; set; }
-
-        [NotMapped]
+        public bool Accepted { get; set; }
+        //if a tutor is refreshed, the id can be inserted here
+        public int OldTutorId { get; set; }
         public List<Subject> Subjects { get; set; }
+        public List<TeacherComment> Comments { get; set; }
     }
 }

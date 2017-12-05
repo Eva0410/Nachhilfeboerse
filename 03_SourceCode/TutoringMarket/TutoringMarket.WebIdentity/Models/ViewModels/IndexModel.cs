@@ -12,12 +12,12 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
     public class IndexModel
     {
         public List<Tutor> Tutors { get; set; }
-        public String SortText { get; set; }
-        public String SortTextBefore { get; set; }
+        //public String SortText { get; set; }
+        //public String SortTextBefore { get; set; }
         public SelectList Subjects { get; set; }
         public string SelectedSubject { get; set; }
 
-
+        //TODO implement sort
         //public void SwitchSort(IUnitOfWork uow)
         //{
         //    switch (this.SortText)
@@ -39,7 +39,8 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public void FillTutors(IUnitOfWork uow)
         {
             //TODO: Sort client-seitig?
-            //TODO: Subjects von tutor_subject mitladen, tutor_subject.subject, weniger laden
+            //TODO: Subjects von tutor_subject mitladen, tutor_subject.subject, weniger laden; done
+            //TODO: clean up after implement sort
             //if (String.IsNullOrEmpty(this.SortTextBefore) || this.SortTextBefore != this.SortText)
             //{
             //    SwitchSort(uow);
@@ -58,38 +59,27 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             //TODO Model ändern
             if (this.SelectedSubject == "Alle" || this.SelectedSubject == null)
             {
-                var tutors = uow.TutorRepository.Get(orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties:"Class, Department, Tutor_Subjects").ToList();
-                List<Tutor> includedList = new List<Tutor>();
-                foreach (var item in tutors)
-                {
-                    var subjects = item.Tutor_Subjects;
-                    item.Subjects = new List<Subject>();
-                    foreach (var s in subjects)
-                    {
-                        item.Subjects.Add(uow.SubjectRepository.GetById(s.Subject_Id));
-                    }
-                    includedList.Add(item);
-                }
-                this.Tutors = includedList;
+                this.Tutors = uow.TutorRepository.Get(filter: t => t.Accepted == true, orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties:"Class, Department, Subjects").ToList();
             }
             else
             {
                 //TODO oben im Login_Partial den Namen angeben und nicht in130021
                 //TODO wenn model geändert ist, kompliziertn teil löschen!!!!
-                var tutors = uow.TutorSubjectRepository.Get(filter: ts => ts.Subject.Name == this.SelectedSubject, orderBy: ord => ord.OrderBy(ts => ts.Tutor.LastName), includeProperties:"Subject, Tutor").Select(ts => ts.Tutor).ToList();
-                List<Tutor> includedList = new List<Tutor>();
-                foreach (var item in tutors)
-                {
-                    Tutor tut = uow.TutorRepository.Get(filter: t => t.Id == item.Id, includeProperties: "Department, Class, Tutor_Subjects").FirstOrDefault();
-                    var subjects = tut.Tutor_Subjects;
-                    item.Subjects = new List<Subject>();
-                    foreach (var s in subjects)
-                    {
-                        tut.Subjects.Add(uow.SubjectRepository.GetById(s.Subject_Id));
-                    }
-                    includedList.Add(tut);
-                }
-                this.Tutors = includedList;
+                this.Tutors = uow.TutorRepository.Get(filter: t => t.Subjects.Where(s => s.Name == this.SelectedSubject).ToList().Count > 0 && t.Accepted == true, orderBy: ord => ord.OrderBy(t => t.LastName), includeProperties: "Class, Department, Subjects").ToList();
+                //var tutors = uow.TutorSubjectRepository.Get(filter: ts => ts.Subject.Name == this.SelectedSubject, orderBy: ord => ord.OrderBy(ts => ts.Tutor.LastName), includeProperties:"Subject, Tutor").Select(ts => ts.Tutor).ToList();
+                //List<Tutor> includedList = new List<Tutor>();
+                //foreach (var item in tutors)
+                //{
+                //    Tutor tut = uow.TutorRepository.Get(filter: t => t.Id == item.Id, includeProperties: "Department, Class, Tutor_Subjects").FirstOrDefault();
+                //    var subjects = tut.Tutor_Subjects;
+                //    item.Subjects = new List<Subject>();
+                //    foreach (var s in subjects)
+                //    {
+                //        tut.Subjects.Add(uow.SubjectRepository.GetById(s.Subject_Id));
+                //    }
+                //    includedList.Add(tut);
+                //}
+                //this.Tutors = includedList;
             }
         }
 

@@ -5,26 +5,83 @@
 @{
 }
 
-<form asp-action="EditTutors">
-    <h1>Tutoren bearbeiten</h1>
-    <table>
-        
-        @foreach (var item in Model.Tutors)
-        {
-            <tr>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td><a asp-action="DeleteTutor" asp-route-id="@item" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Löschen</a></td>
-            </tr>
-            
-            @foreach (var sub in @item.Tutor_Subjects)
-            {
-                <tr>
-                    <td>@sub.Subject_Id</td>
-                </tr>
-            }
-        }
-    </table>
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
+    </div>
 
-    <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
-</form>
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditMetadata">Metadaten bearbeiten</a></li>
+        </ul>
+    </div>
+</nav>
+<body>
+
+    <h1 class="page-header">Ausstehende Tutoren</h1>
+
+
+    @foreach (var item in @Model.OutstandingTutors)
+    {
+        <div class="teacher">
+            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+            <label>E-mail:</label> @item.EMail <br />
+            <label>Handynummer:</label> @item.PhoneNumber<br />
+            <label>Abteilung:</label> @item.Department.Name <br />
+            <label>Klasse:</label> @item.Class.Name <br />
+            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+            <label>Termine:</label> @item.Time <br />
+            <label>Preis:</label> @item.Price €<br />
+            <label>Fächer:</label><br />
+            @foreach (var item2 in item.Subjects)
+            {
+                <div style="display:inline;">@item2.Name</div><br />
+            }
+            <label>Beschreibung:</label> @item.Description <br />
+            <label>Kommentare von Lehrern:</label><br />
+            @foreach (var comment in item.Comments)
+            {
+                <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
+            }
+            <br />
+            <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich ablehnen?');">Ablehnen</a>
+            <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>
+        </div>
+    }
+
+    <h1 class="page-header">Tutoren bearbeiten</h1>
+    @Html.ValidationMessage("Error")
+
+    @foreach (var item in Model.Tutors)
+    {
+        <div class="teacher">
+            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+            <label>E-mail:</label> @item.EMail <br />
+            <label>Handynummer:</label> @item.PhoneNumber<br />
+            <label>Abteilung:</label> @item.Department.Name <br />
+            <label>Klasse:</label> @item.Class.Name <br />
+            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+            <label>Termine:</label> @item.Time <br />
+            <label>Preis:</label> @item.Price €<br />
+            <label>Beschreibung:</label> @item.Description <br />
+            <label>Fächer:</label> <br />
+            @foreach (var sub in @item.Subjects)
+            {
+                <div style="display:inline;">@sub.Name</div>
+                <a asp-action="EditTutorsDeleteSubject" asp-route-tid="@item.Id" asp-route-subid="@sub.Id" onclick="return confirm('Wollen Sie diesem Tutor dieses Fach wirklich entziehen?');">Fach Löschen</a><br />
+            }
+            <a class="btn btn-default" asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie diesen Tutor wirklich löschen?');">Tutor Löschen</a>
+        </div>
+    }
+
+</body>
+

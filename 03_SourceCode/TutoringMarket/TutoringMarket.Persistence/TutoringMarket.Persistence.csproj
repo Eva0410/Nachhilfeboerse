@@ -55,6 +55,22 @@
     <Compile Include="Migrations\201710041010237_initial_create.Designer.cs">
       <DependentUpon>201710041010237_initial_create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710100958247_new_model.cs" />
+    <Compile Include="Migrations\201710100958247_new_model.Designer.cs">
+      <DependentUpon>201710100958247_new_model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710170817271_Tutor_Accepted.cs" />
+    <Compile Include="Migrations\201710170817271_Tutor_Accepted.Designer.cs">
+      <DependentUpon>201710170817271_Tutor_Accepted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710171112544_Tutor_OldTutorID.cs" />
+    <Compile Include="Migrations\201710171112544_Tutor_OldTutorID.Designer.cs">
+      <DependentUpon>201710171112544_Tutor_OldTutorID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710240728394_CommentsForTeachers.cs" />
+    <Compile Include="Migrations\201710240728394_CommentsForTeachers.Designer.cs">
+      <DependentUpon>201710240728394_CommentsForTeachers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -72,6 +88,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201710041010237_initial_create.resx">
       <DependentUpon>201710041010237_initial_create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710100958247_new_model.resx">
+      <DependentUpon>201710100958247_new_model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710170817271_Tutor_Accepted.resx">
+      <DependentUpon>201710170817271_Tutor_Accepted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710171112544_Tutor_OldTutorID.resx">
+      <DependentUpon>201710171112544_Tutor_OldTutorID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710240728394_CommentsForTeachers.resx">
+      <DependentUpon>201710240728394_CommentsForTeachers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

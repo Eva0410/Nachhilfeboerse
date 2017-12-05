@@ -15,7 +15,7 @@ namespace TutoringMarket.Persistence
         public DbSet<SchoolClass> SchoolClasses { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Tutor_Subject> TutorSubjects { get; set; }
+        public DbSet<TeacherComment> TeacherComments { get; set; }
 
 
         public ApplicationDbContext_TutoringMarket() : base("name=DefaultConnection")

@@ -71,17 +71,18 @@ namespace TutoringMarket.Persistence
                 return _subjectRepository;
             }
         }
-        private GenericRepository<Tutor_Subject> _tutorSubjectRepository;
+        private GenericRepository<TeacherComment> _teacherCommentRepository;
 
-        public IGenericRepository<Tutor_Subject> TutorSubjectRepository
+        public IGenericRepository<TeacherComment> TeacherCommentRepository
         {
             get
             {
-                if (_tutorSubjectRepository == null)
-                    _tutorSubjectRepository = new GenericRepository<Tutor_Subject>(_context);
-                return _tutorSubjectRepository;
+                if (_teacherCommentRepository == null)
+                    _teacherCommentRepository = new GenericRepository<TeacherComment>(_context);
+                return _teacherCommentRepository;
             }
         }
+
 
 
         public UnitOfWork(string connectionString)

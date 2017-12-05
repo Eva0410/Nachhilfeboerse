@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace TutoringMarket.Core.Enities
 {
-    public class Tutor_Subject : EntityObject
+    public class TeacherComment : EntityObject
     {
-        [Display(Name = "Nachhilfelehrer"), ForeignKey("Tutor_Id")]
+        [Required(ErrorMessage ="Bitte geben Sie einen Kommentar ein!")]
+        public string Comment { get; set; }
+        //Bsp "p.bauer"
+        [Required]
+        public string TeacherIdentityName { get; set; }
+        [ForeignKey("Tutor_Id")]
         public Tutor Tutor { get; set; }
         public int Tutor_Id { get; set; }
-
-        [Display(Name = "Fach"), ForeignKey("Subject_Id")]
-        public Subject Subject { get; set; }
-        public int Subject_Id { get; set; }
     }
 }

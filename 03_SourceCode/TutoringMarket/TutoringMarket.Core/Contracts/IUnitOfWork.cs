@@ -15,8 +15,7 @@ namespace TutoringMarket.Core.Contracts
         IGenericRepository<Department> DepartmentRepository { get; }
         IGenericRepository<Review> ReviewRepository { get; }
         IGenericRepository<Subject> SubjectRepository { get; }
-        IGenericRepository<Tutor_Subject> TutorSubjectRepository { get; }
-
+        IGenericRepository<TeacherComment> TeacherCommentRepository { get; }
 
         void Save();
 

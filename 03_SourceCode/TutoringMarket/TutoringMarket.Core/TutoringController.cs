@@ -38,19 +38,15 @@ namespace TutoringMarket.Core
                 Department = departments.Where(d => d.Name == l[7]).FirstOrDefault(),
                 Class = classes.Where(c => c.Name == l[8]).FirstOrDefault(),
                 Gender = l[9],
-                IdentityName = l[10]
-
-            }).ToList();
-
-            string[][] csvTutorSubjects = "TestTutor_Subjects.csv".ReadStringMatrixFromCsv(true);
-
-            List<Tutor_Subject> tutor_subjects =csvTutorSubjects.Select(ts =>
-           new Tutor_Subject()
-           {    
-               Tutor = tutors.SingleOrDefault(t => t.LastName == ts[0]),
-               Subject = subjects.SingleOrDefault(s => s.Name == ts[1])
-
-           }).ToList();
+                IdentityName = l[10],
+                Accepted = Boolean.Parse(l[11]),
+                Subjects = l[12].Split(',').Select(s =>
+                new
+                {
+                    sub = subjects.FirstOrDefault(su => su.Name == s)
+                }).Select(a => a.sub).ToList()
+            }
+            ).ToList();
 
             List<Review> reviews = GetReviews(tutors);
 
@@ -61,7 +57,6 @@ namespace TutoringMarket.Core
             _unitOfWork.SubjectRepository.InsertMany(subjects);
             _unitOfWork.DepartmentRepository.InsertMany(departments);
             _unitOfWork.TutorRepository.InsertMany(tutors);
-            _unitOfWork.TutorSubjectRepository.InsertMany(tutor_subjects);
             _unitOfWork.ReviewRepository.InsertMany(reviews);
             _unitOfWork.Save();
 

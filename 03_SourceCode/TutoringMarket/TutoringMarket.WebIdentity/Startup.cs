@@ -78,12 +78,15 @@ namespace TutoringMarket.WebIdentity
 
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130021", FirstName="Eva", LastName="Pürmayr", SchoolClass="5AHIF", Department="Informatik" });
             await UserManager.CreateAsync(new ApplicationUser { UserName = "in130019", FirstName="Danijal", LastName="Orascanin", SchoolClass="5AHIF", Department="Informatik"});
+            await UserManager.CreateAsync(new ApplicationUser { UserName = "a.keck", FirstName = "a", LastName = "keck"});
 
-            //TODO: Keck adden
             await AddUserRole("in130021", "Admin", UserManager, RoleManager);
             await AddUserRole("in130019", "Admin", UserManager, RoleManager);
+            await AddUserRole("a.keck", "Admin", UserManager, RoleManager);
             await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
             await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
+            await AddUserRole("a.keck", "Visitor", UserManager, RoleManager);
+            await AddUserRole("a.keck", "Teacher", UserManager, RoleManager);
 
             //Tutoren adden
             //await UserManager.CreateAsync(new ApplicationUser { UserName = "in130024", FirstName = "Jakob", LastName = "Rumpelsberger", SchoolClass = "5AHIF", Department = "Informatik" });
@@ -92,8 +95,9 @@ namespace TutoringMarket.WebIdentity
 
             //Rollen für Test-Tutoren
             //TODO Test Tutoren löschen
-            await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
-           // await AddUserRole("in130019", "Tutor", UserManager, RoleManager);
+            //await AddUserRole("in130021", "Tutor", UserManager, RoleManager);
+            await AddUserRole("in130021", "Teacher", UserManager, RoleManager);
+            await AddUserRole("in130019", "Teacher", UserManager, RoleManager);
             //await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
             //await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
 
@@ -108,7 +112,7 @@ namespace TutoringMarket.WebIdentity
             }
             if (roleResult == null || !roleResult.Succeeded)
             {
-                Console.WriteLine("Fehler: Rolle " + roleName + " konnte nicht erstellt werden!");
+                Console.WriteLine("Debug-Info: Rolle " + roleName + " konnte nicht erstellt werden! Timestamp: " + DateTime.Now);
             }
         }
         private async Task AddUserRole(string name, string roleName, UserManager<ApplicationUser> um, RoleManager<IdentityRole> rm)
@@ -124,7 +128,7 @@ namespace TutoringMarket.WebIdentity
             }
             if (result == null || !result.Succeeded)
             {
-                Console.WriteLine("Fehler: User " + name + "konnte nicht zur Rolle " + roleName + " hinzugefügt werden!");
+                Console.WriteLine("Debug-Info: User " + name + "konnte nicht zur Rolle " + roleName + " hinzugefügt werden! Timestamp: " + DateTime.Now);
             }
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

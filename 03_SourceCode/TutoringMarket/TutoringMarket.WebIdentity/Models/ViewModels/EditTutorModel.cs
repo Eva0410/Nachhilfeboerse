@@ -13,9 +13,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class EditTutorModel
     {
-        public SelectList Classes { get; set; }
         public Tutor Tutor { get; set; }
-        public SelectList Departments { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }
         public SelectList Gender { get; set; }
@@ -24,31 +22,38 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 
         public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, ClaimsPrincipal user)
         {
-            this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name).FirstOrDefault();
             ApplicationUser CurrentUser = await um.FindByNameAsync(user.Identity.Name);
-            this.Tutor.FirstName = CurrentUser.FirstName;
-            this.Tutor.LastName = CurrentUser.LastName;
-            var existingClass = uow.ClassRepository.Get(c => c.Name == CurrentUser.SchoolClass).FirstOrDefault();
-            if (existingClass != null)
+            if (CurrentUser != null)
             {
-                this.Tutor.Class = existingClass;
-                this.Tutor.Class_Id = existingClass.Id;
+                this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
+                if (this.Tutor == null)
+                    this.Tutor = uow.TutorRepository.Get(t => t.IdentityName == user.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
+                //Fill name, class, department
+                this.Tutor.FirstName = CurrentUser.FirstName;
+                this.Tutor.LastName = CurrentUser.LastName;
+                //class and department should exist (are inserted in the accountcontroller when user logs in)
+                var existingClass = uow.ClassRepository.Get(c => c.Name == CurrentUser.SchoolClass).FirstOrDefault();
+                if (existingClass != null)
+                {
+                    this.Tutor.Class = existingClass;
+                    this.Tutor.Class_Id = existingClass.Id;
+                }
+
+                var existingDepartment = uow.DepartmentRepository.Get(d => d.Name == CurrentUser.Department).FirstOrDefault();
+                if (existingDepartment != null)
+                {
+                    this.Tutor.Department = existingDepartment;
+                    this.Tutor.Department_Id = existingDepartment.Id;
+                }
+
+                var gender = new List<string> { "Männlich", "Weiblich" };
+                this.Gender = new SelectList(gender);
+
+                var subjects = uow.SubjectRepository.Get(orderBy: ord => ord.OrderBy(s => s.Name)).ToList();
+                this.AvailableSubjects = new SelectList(subjects, "Id", "Name");
+
+                this.SelectedSubjects = this.Tutor.Subjects.Select(s => s.Id).ToList();
             }
-
-            var existingDepartment = uow.DepartmentRepository.Get(d => d.Name == CurrentUser.Department).FirstOrDefault();
-            if (existingDepartment != null)
-            {
-                this.Tutor.Department = existingDepartment;
-                this.Tutor.Department_Id = existingDepartment.Id;
-            }
-
-            var gender = new List<string> { "Männlich", "Weiblich" };
-            this.Gender = new SelectList(gender);
-
-            var subjects = uow.SubjectRepository.Get(orderBy: ord => ord.OrderBy(s => s.Name)).ToList();
-            this.AvailableSubjects = new SelectList(subjects, "Id", "Name");
-
-            this.SelectedSubjects = uow.TutorSubjectRepository.Get(ts => ts.Tutor_Id == this.Tutor.Id).Select(ts => ts.Subject_Id).ToList();
         }
     }
 }
