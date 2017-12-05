@@ -62,7 +62,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                     var message = new MailMessage();
-                    message.To.Add(new MailAddress("orascanin.99@gmail.com"));
+                    message.To.Add(new MailAddress("a.keck-jordan@htl-leonding.ac.at"));
                     message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
                     message.Subject = "Anfrage!";
                     message.Body = string.Format(body, model.FromName, model.FromEmail, model.Nachricht);
