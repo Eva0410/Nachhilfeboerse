@@ -26,7 +26,6 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             //set name, class
             this.FirstName = CurrentUser.FirstName;
             this.LastName = CurrentUser.LastName;
-            //Class should exist (inserted in accountcontroller when user logs in)
             this.SchoolClass = CurrentUser.SchoolClass;
 
             InitTutor(uow, id);

@@ -534,6 +534,13 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return View(model);
             }
         }
+        [Authorize(Roles ="Teacher")]
+        [HttpPost] 
+        public IActionResult CommentTutorFilter(CommentTutorModel model)
+        {
+            model.Init(this.uow);
+            return View("CommentTutor", model);
+        }
         [Authorize]
         public async Task<IActionResult> TutorRequest(int id)
         {
