@@ -85,7 +85,7 @@ namespace TutoringMarket.WebIdentity
             await AddUserRole("a.keck", "Admin", UserManager, RoleManager);
             await AddUserRole("in130021", "Visitor", UserManager, RoleManager);
             await AddUserRole("in130019", "Visitor", UserManager, RoleManager);
-            await AddUserRole("a.keck", "Visitor", UserManager, RoleManager);
+            //await AddUserRole("a.keck", "Visitor", UserManager, RoleManager);
             await AddUserRole("a.keck", "Teacher", UserManager, RoleManager);
 
             //Tutoren adden

@@ -534,6 +534,50 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return View(model);
             }
         }
+        [Authorize]
+        public async Task<IActionResult> TutorRequest(int id)
+        {
+            TutorRequestModel model = new TutorRequestModel();
+            await model.Init(this.uow, id, this.um, User.Identity.Name);
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TutorRequest(TutorRequestModel model)
+        {
+            model.InitTutor(this.uow, model.Tutor.Id);
+            if (!String.IsNullOrEmpty(model.Message))
+            {
+                try
+                {
+                    var message = new MailMessage();
+                    message.To.Add(new MailAddress(model.Tutor.EMail));
+                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.Subject = "Nachhilfeanfrage!";
+                    message.Body = model.Message + model.Comments + model.Ending;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "nachhilfeboerse.info@gmail.com",
+                            Password = "5nUtWnsz"
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                        return RedirectToAction("Sent");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Message", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
+                }
+            }
+            return View(model);
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
