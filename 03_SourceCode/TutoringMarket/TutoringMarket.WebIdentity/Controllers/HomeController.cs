@@ -63,7 +63,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                     var message = new MailMessage();
-                    message.To.Add(new MailAddress("orascanin.99@gmail.com"));
+                    message.To.Add(new MailAddress("a.keck-jordan@htl-leonding.ac.at"));
                     message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
                     message.Subject = "Anfrage!";
                     message.Body = string.Format(body, model.FromName, model.FromEmail, model.Nachricht);
@@ -546,6 +546,57 @@ namespace TutoringMarket.WebIdentity.Controllers
                 ModelState.AddModelError("Error", "Bitte geben Sie einen Kommentar ein!");
                 return View(model);
             }
+        }
+        [Authorize(Roles ="Teacher")]
+        [HttpPost] 
+        public IActionResult CommentTutorFilter(CommentTutorModel model)
+        {
+            model.Init(this.uow);
+            return View("CommentTutor", model);
+        }
+        [Authorize]
+        public async Task<IActionResult> TutorRequest(int id)
+        {
+            TutorRequestModel model = new TutorRequestModel();
+            await model.Init(this.uow, id, this.um, User.Identity.Name);
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TutorRequest(TutorRequestModel model)
+        {
+            model.InitTutor(this.uow, model.Tutor.Id);
+            if (!String.IsNullOrEmpty(model.Message))
+            {
+                try
+                {
+                    var message = new MailMessage();
+                    message.To.Add(new MailAddress(model.Tutor.EMail));
+                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.Subject = "Nachhilfeanfrage!";
+                    message.Body = model.Message + model.Comments + model.Ending;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "nachhilfeboerse.info@gmail.com",
+                            Password = "5nUtWnsz"
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                        return RedirectToAction("Sent");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Message", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
+                }
+            }
+            return View(model);
         }
         public IActionResult About()
         {

@@ -29,6 +29,14 @@
 <body>
 
     <h1 class="page-header">Ausstehende Tutoren</h1>
+    <form asp-action="CommentTutorFilter">
+        <div class="col-md-6 col-sm-6" id="blackFilter1">
+            <h3 id="h3filterFach">Fach</h3>
+
+            <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
+            <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern" />
+        </div>
+    </form>
     <p style="color:red; margin-left: 20px;">@Html.ValidationMessage("Error")</p>
     
     
