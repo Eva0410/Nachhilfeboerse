@@ -7,17 +7,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Contracts;
 using TutoringMarket.Core.Enities;
+using System.Web;
 
 namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class GetTutorModel
     {
+        public HttpPostedFileBase ImageFile { get; set; }
         public Tutor Tutor { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }
         public SelectList Gender { get; set; }
         //not used
-        public IFormFile Image { get; set; }
+        public String Image { get; set; }
         public async Task Init(IUnitOfWork uow, UserManager<ApplicationUser> um, string name)
         {
             this.Tutor = new Tutor();

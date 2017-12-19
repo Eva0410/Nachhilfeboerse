@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using TutoringMarket.Persistence;
 using System.Net.Mail;
+using System.IO;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -113,6 +114,18 @@ namespace TutoringMarket.WebIdentity.Controllers
         public async Task<IActionResult> GetTutor(GetTutorModel model)
         {
             model.Tutor.IdentityName = User.Identity.Name;
+
+            string fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
+            string extension = Path.GetExtension(model.ImageFile.FileName);
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            model.Image = "~/Image/" + fileName;
+            fileName = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Image/"), fileName);
+            model.ImageFile.SaveAs(fileName);
+            using (DbModels db = new DbModels())
+            {
+                db.Images.Add(model);
+                db.SaveChanges();
+            }
 
             if (ModelState.IsValid && model.SelectedSubjects != null)
             {
@@ -546,6 +559,50 @@ namespace TutoringMarket.WebIdentity.Controllers
             ViewData["Message"] = "Your contact page.";
 
             return View();
+        }
+        public ActionResult AdminMail()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        //TODO config datei
+        public async Task<ActionResult> AdminMail(AdminMailForm model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var body = "<p>Message:</p>";
+                    var message = new MailMessage();
+                    message.To.Add(new MailAddress("orascanin.99@gmail.com"));
+                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.Subject = "Anfrage!";
+                    message.Body = string.Format(body, model.Nachricht);
+                    message.IsBodyHtml = true;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "nachhilfeboerse.info@gmail.com",
+                            Password = "5nUtWnsz"
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                        return RedirectToAction("Sent");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Error", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
+                }
+            }
+            return View(model);
         }
         public ActionResult Sent()
         {

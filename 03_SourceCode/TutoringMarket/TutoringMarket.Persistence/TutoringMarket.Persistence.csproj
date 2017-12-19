@@ -71,6 +71,10 @@
     <Compile Include="Migrations\201710240728394_CommentsForTeachers.Designer.cs">
       <DependentUpon>201710240728394_CommentsForTeachers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712121146056_imagetypechange.cs" />
+    <Compile Include="Migrations\201712121146056_imagetypechange.Designer.cs">
+      <DependentUpon>201712121146056_imagetypechange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -100,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710240728394_CommentsForTeachers.resx">
       <DependentUpon>201710240728394_CommentsForTeachers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712121146056_imagetypechange.resx">
+      <DependentUpon>201712121146056_imagetypechange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

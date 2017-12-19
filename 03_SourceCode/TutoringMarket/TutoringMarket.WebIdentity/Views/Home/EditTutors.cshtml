@@ -55,6 +55,7 @@
             <br />
             <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich ablehnen?');">Ablehnen</a>
             <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>
+            <a class="btn btn-default" asp-action="AdminMail">Kontakt</a>
         </div>
     }
 
