@@ -10,6 +10,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
     public class TutorModel
     {
         public Tutor Tutor { get; set; }
+        public string filter { get; set; }
         //not used yet
         //public Review[] Reviews { get; set; }
         //public double Average { get; set; }

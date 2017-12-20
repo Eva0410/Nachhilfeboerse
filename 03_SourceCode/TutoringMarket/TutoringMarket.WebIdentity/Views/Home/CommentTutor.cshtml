@@ -69,6 +69,7 @@
                 <input type="text" asp-for="@Model.Comment" />
                 <input class="btn btn-default" value="Speichern" type="submit" onclick="return confirm('Wollen Sie diesen Kommentar zum Tutor \'@item.FirstName @item.LastName\' wirklich speichern?');" />
                 <input type="hidden" asp-for="@Model.Tutor_Id" value="@item.Id" />
+                <input type="hidden" asp-for="@Model.SelectedSubject" />
             </div>
         </form>
     }

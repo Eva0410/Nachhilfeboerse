@@ -34,9 +34,10 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
 
         [Authorize]
-        public IActionResult Index(String SortTextBefore)
+        public IActionResult Index(String SortTextBefore, string filter)
         {
             IndexModel model = new IndexModel();
+            model.SelectedSubject = filter;
             model.FillTutors(uow);
             return View(model);
         }
@@ -93,12 +94,13 @@ namespace TutoringMarket.WebIdentity.Controllers
 
 
         [Authorize]
-        public IActionResult TutorDetails(int id)
+        public IActionResult TutorDetails(int id, string filter)
         {
             TutorModel model = new TutorModel();
             if (uow.TutorRepository.GetById(id) == null)
                 return NotFound();
             model.Init(uow, id);
+            model.filter = filter;
             return View(model);
         }
         [Authorize(Roles = "Visitor")]
@@ -504,9 +506,10 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
         }
         [Authorize(Roles = "Teacher")]
-        public IActionResult CommentTutor()
+        public IActionResult CommentTutor(string filter)
         {
             CommentTutorModel model = new CommentTutorModel();
+            model.SelectedSubject = filter;
             model.Init(this.uow);
             return View(model);
         }
@@ -525,7 +528,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 this.uow.TeacherCommentRepository.Insert(comment);
                 this.uow.Save();
                 model.Init(this.uow);
-                return RedirectToAction("CommentTutor", model);
+                return RedirectToAction("CommentTutor", new { filter = model.SelectedSubject });
             }
             else
             {
@@ -534,8 +537,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return View(model);
             }
         }
-        [Authorize(Roles ="Teacher")]
-        [HttpPost] 
+        [Authorize(Roles = "Teacher")]
+        [HttpPost]
         public IActionResult CommentTutorFilter(CommentTutorModel model)
         {
             model.Init(this.uow);
