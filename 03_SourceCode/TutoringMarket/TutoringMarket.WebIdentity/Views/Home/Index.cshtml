@@ -56,16 +56,9 @@
     <form asp-action="index">
         <div class="col-md-6 col-sm-6" id="blackFilter1">
             <h3 id="h3filterFach">Fach</h3>
-
-            @*<input asp-for="@Model.SortText" type="submit" value="Schulstufe" />
-            <input asp-for="@Model.SortText" type="submit" value="Geld" />
-            <input asp-for="@Model.SortText" type="submit" value="Bewertung" />*@
-
-
             <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
-            <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern" />
-            @*<input type="hidden" asp-for="SortTextBefore" />
-            @Html.HiddenFor(t => t.SortTextBefore)*@
+            <select asp-for="@Model.SelectedSortProperty" asp-items="@Model.SortList"></select>
+            <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern & Sortieren" />
         </div>
     </form>
 
@@ -76,7 +69,7 @@
         @foreach (var item in @Model.Tutors)
         {
             <div class="teacher">
-                <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject">
+                <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject" asp-route-sort="@Model.SelectedSortProperty">
                     <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
                     <label>Abteilung:</label> @item.Department.Name <br />
                     <label>Klasse:</label> @item.Class.Name <br />

@@ -50,7 +50,7 @@
             </p>
             <p>@Model.Tutor.Description</p>
             <a class="btn btn-default" asp-action="TutorRequest" asp-route-id="@Model.Tutor.Id">Anfrage senden</a>
-            <a class="btn btn-default" asp-action="Index" asp-route-filter="@Model.filter">Zurück</a>
+            <a class="btn btn-default" asp-action="Index" asp-route-filter="@Model.filter" asp-route-sort="@Model.sort">Zurück</a>
         </div>
     </body>
 

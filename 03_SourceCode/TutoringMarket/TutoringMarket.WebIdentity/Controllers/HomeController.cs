@@ -32,11 +32,12 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             return View();
         }
-
+        //TODO sort property mitgeben
         [Authorize]
-        public IActionResult Index(String SortTextBefore, string filter)
+        public IActionResult Index(string filter, string sort)
         {
             IndexModel model = new IndexModel();
+            model.SelectedSortProperty = sort;
             model.SelectedSubject = filter;
             model.FillTutors(uow);
             return View(model);
@@ -45,7 +46,6 @@ namespace TutoringMarket.WebIdentity.Controllers
         [Authorize]
         public IActionResult Index(IndexModel model)
         {
-            //for sorting? TODO
             ModelState.Clear();
             model.FillTutors(uow);
             return View(model);
@@ -94,13 +94,14 @@ namespace TutoringMarket.WebIdentity.Controllers
 
 
         [Authorize]
-        public IActionResult TutorDetails(int id, string filter)
+        public IActionResult TutorDetails(int id, string filter, string sort)
         {
             TutorModel model = new TutorModel();
             if (uow.TutorRepository.GetById(id) == null)
                 return NotFound();
             model.Init(uow, id);
             model.filter = filter;
+            model.sort = sort;
             return View(model);
         }
         [Authorize(Roles = "Visitor")]
