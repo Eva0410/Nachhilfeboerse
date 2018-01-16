@@ -12,8 +12,9 @@ namespace TutoringMarket.Core.Enities
     public class Tutor : EntityObject
     {
         //TODO Bild beim einfügen konvertieren
-        [Display(Name ="Bild"), FileExtensions(Extensions =".jpg", ErrorMessage ="Das Bild muss im Format jpg hochgeladen werden!")]
-        public string Image { get; set; }
+        //  [Display(Name ="Bild"), FileExtensions(Extensions =".jpg", ErrorMessage ="Das Bild muss im Format jpg hochgeladen werden!")]
+        public byte[] Image { get; set; }
+
         [Required(ErrorMessage ="Bitte geben Sie Ihren Vornamen ein."), Display(Name ="Vorname")]
         public String FirstName { get; set; }
 

@@ -115,19 +115,19 @@ namespace TutoringMarket.WebIdentity.Controllers
         [Authorize(Roles = "Visitor")]
         public async Task<IActionResult> GetTutor(GetTutorModel model)
         {
-            model.Tutor.IdentityName = User.Identity.Name;
+            var extension= model.Image.FileName.Split('.').Last();
+            long size = model.Image.Length;
+            var filePath = Path.Combine(Environment.CurrentDirectory, model.Tutor.Id.ToString() + "." +extension);
 
-            string fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
-            string extension = Path.GetExtension(model.ImageFile.FileName);
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            model.Image = "~/Image/" + fileName;
-            fileName = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Image/"), fileName);
-            model.ImageFile.SaveAs(fileName);
-            using (DbModels db = new DbModels())
+
+            if (size > 0)
             {
-                db.Images.Add(model);
-                db.SaveChanges();
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.Image.CopyToAsync(stream);
+                }
             }
+
 
             if (ModelState.IsValid && model.SelectedSubjects != null)
             {
@@ -614,25 +614,28 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             return View();
         }
-        public ActionResult AdminMail()
+        public async Task<ActionResult> AdministrationMail(int id)
         {
-            return View();
+            AdminMailForm model = new AdminMailForm();
+            await model.Init(this.uow, id);
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         //TODO config datei
-        public async Task<ActionResult> AdminMail(AdminMailForm model)
+        public async Task<ActionResult> AdministrationMail(AdminMailForm model)
         {
+            model.InitTutor(this.uow, model.ID);
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var body = "<p>Message:</p>";
+                    var body = "<p>Message:</p><p>{0}</p>";
                     var message = new MailMessage();
-                    message.To.Add(new MailAddress("orascanin.99@gmail.com"));
+                    message.To.Add(new MailAddress(model.Tutor.EMail));
                     message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
-                    message.Subject = "Anfrage!";
+                    message.Subject = "Nachricht vom Administrator der Nachhilfebörse.";
                     message.Body = string.Format(body, model.Nachricht);
                     message.IsBodyHtml = true;
 

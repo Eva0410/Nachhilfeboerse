@@ -1,6 +1,6 @@
 @model TutoringMarket.WebIdentity.Models.ViewModels.AdminMailForm
 @{
-    ViewData["Title"] = "AdminMail";
+    ViewData["Title"] = "AdministrationMail";
 }
 <nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
     <div class="navbar-header">
@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfeb&ouml;rse</a>
     </div>
 
     <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
@@ -28,12 +28,14 @@
 
 <body>
 
-    <h1 class="page-header">Kontaktiere uns</h1>
+    <h1 class="page-header">Kontaktiere @Model.LastName @Model.FirstName</h1>
+
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
+        <input type="hidden" asp-for="@Model.ID" />
 
         <div class="contact">
             <div class="form-group">
