@@ -116,21 +116,22 @@ namespace TutoringMarket.WebIdentity.Controllers
         [Authorize(Roles = "Visitor")]
         public async Task<IActionResult> GetTutor(GetTutorModel model)
         {
-            var extension= model.Image.FileName.Split('.').Last();
-            long size = model.Image.Length;
-            var filePath = Path.Combine(Environment.CurrentDirectory, model.Tutor.Id.ToString() + "." +extension);
-
-            if (size > 0)
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.Image.CopyToAsync(stream);
-                }
-            }
-
-
+            model.Tutor.IdentityName = User.Identity.Name;
             if (ModelState.IsValid && model.SelectedSubjects != null)
             {
+                //Save image
+
+                if (model.Image != null && model.Image.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        model.Image.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        string s = Convert.ToBase64String(fileBytes);
+                        model.Tutor.Image = s;
+                    }
+                }
+
                 //add list of subjects to tutor
                 List<Subject> subjects = new List<Subject>();
                 foreach (var item in model.SelectedSubjects)
@@ -163,7 +164,6 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
                 }
-
                 await model.FillList(uow, this.um, User.Identity.Name);
                 return View(model);
             }
@@ -190,6 +190,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     var changed = GetChangedProperties(oldTutor, model.Tutor);
                     Tutor changedTutor = new Tutor();
+                    //copy all other properties from old tutor
                     GenericRepository<Tutor>.CopyProperties(changedTutor, oldTutor);
 
                     //overrite changed properties
@@ -198,6 +199,17 @@ namespace TutoringMarket.WebIdentity.Controllers
                         var prop = oldTutor.GetType().GetProperty(item);
                         var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
                         prop.SetValue(changedTutor, value);
+                    }
+                    //update image
+                    if (model.Image != null && model.Image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            model.Image.CopyTo(ms);
+                            var fileBytes = ms.ToArray();
+                            string s = Convert.ToBase64String(fileBytes);
+                            changedTutor.Image = s;
+                        }
                     }
                     //update subjects
                     changedTutor.Subjects = new List<Subject>();

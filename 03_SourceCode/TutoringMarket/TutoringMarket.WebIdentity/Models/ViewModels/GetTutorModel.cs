@@ -8,12 +8,24 @@ using System.Threading.Tasks;
 using TutoringMarket.Core.Contracts;
 using TutoringMarket.Core.Enities;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class GetTutorModel
     {
         public IFormFile Image { get; set; }
+        [FileExtensions(Extensions = "jpg", ErrorMessage = "Bild darf nur im jpg-Format hochgeladen werden!")]
+        public string ImageFileName
+        {
+            get
+            {
+                if (Image != null)
+                    return Image.FileName;
+                else
+                    return null;
+            }
+        }
         public Tutor Tutor { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }

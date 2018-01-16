@@ -55,8 +55,10 @@
                         <div class="col-md-10">
                             <p>Upload one or more files using this form:</p>
                             <input asp-for="@Model.Image" accept="image/*" type="file" />
+                            <span asp-validation-for="@Model.ImageFileName" class="text-danger"></span>
                         </div>
                     </div>
+                
 
                     <div class="col-md-6 col-sm-6">
                         <div style="width:7.5cm">

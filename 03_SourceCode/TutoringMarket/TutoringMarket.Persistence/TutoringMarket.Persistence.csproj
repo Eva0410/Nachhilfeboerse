@@ -83,6 +83,10 @@
     <Compile Include="Migrations\201801160826279_ChangedImageName.Designer.cs">
       <DependentUpon>201801160826279_ChangedImageName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801161041373_ImageBackToString.cs" />
+    <Compile Include="Migrations\201801161041373_ImageBackToString.Designer.cs">
+      <DependentUpon>201801161041373_ImageBackToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -121,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801160826279_ChangedImageName.resx">
       <DependentUpon>201801160826279_ChangedImageName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801161041373_ImageBackToString.resx">
+      <DependentUpon>201801161041373_ImageBackToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
