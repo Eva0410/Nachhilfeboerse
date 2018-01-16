@@ -55,9 +55,10 @@
 
     <form asp-action="index">
         <div class="col-md-6 col-sm-6" id="blackFilter1">
-            <h3 id="h3filterFach">Fach</h3>
-            <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select>
-            <select asp-for="@Model.SelectedSortProperty" asp-items="@Model.SortList"></select>
+            <h3 id="h3filterFach">Filtern:</h3>
+            <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select><br />
+            <h3 id="h3filterFach">Sortieren:</h3>
+            <select asp-for="@Model.SelectedSortProperty" asp-items="@Model.SortList"></select><br /><br />
             <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern & Sortieren" />
         </div>
     </form>
@@ -70,15 +71,19 @@
         {
             <div class="teacher">
                 <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject" asp-route-sort="@Model.SelectedSortProperty">
-                    <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
-                    <label>Abteilung:</label> @item.Department.Name <br />
-                    <label>Klasse:</label> @item.Class.Name <br />
-                    <label>Termine:</label> @item.Time <br />
-                    <label>Fächer:</label>
-                    @foreach (var item2 in item.Subjects)
-                    {
-                        <div style="display:inline;">@item2.Name ;</div>
-                    }
+                    <div class="indexImage"></div>
+                    <div style="padding-left: 2px;">
+                        <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+                        <label>Abteilung:</label> @item.Department.Name <br />
+                        <label>Klasse:</label> @item.Class.Name <br />
+                        <label>Termine:</label> @item.Time <br />
+                        <label>Fächer:</label>
+                        @foreach (var item2 in item.Subjects)
+                        {
+                            <div style="display:inline;">@item2.Name ;</div>
+                        }
+                    </div>
+                    
                 </a>
             </div>
         }

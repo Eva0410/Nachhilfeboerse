@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfeb&ouml;rse</a>
     </div>
 
     <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
@@ -30,22 +30,14 @@
 <body>
     <h1 class="page-header">Anfrage senden</h1>
 
-    <div class="motivationNew2">
-        <center>
-            <h1 id="quote">
-                We can't solve your Problem if you don't tell us about it.
-            </h1>
-        </center>
-    </div> <br />
-
     <form asp-action="TutorRequest">
 
-        <div class="form-group">
+        <div class="centerAnfrage">
             <h4> Vorgefertigte Nachricht:</h4>
-            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", @readonly=true })
-            @Html.TextAreaFor(m => m.Comments, new { @class = "form-control" })
-            @Html.TextAreaFor(m => m.Ending, new { @class = "form-control", @readonly = true })
-            <input type="submit" value="Senden" />
+            @Model.Message  
+            <textarea class="form-control3">@Model.Comments</textarea>
+            @Model.Ending
+            <input class="btn btn-default" type="submit" value="Senden" style="margin-bottom:5px;"/>
             <input type="hidden" asp-for="@Model.Tutor.Id" />
         </div>
     </form>

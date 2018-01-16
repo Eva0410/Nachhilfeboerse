@@ -120,7 +120,6 @@ namespace TutoringMarket.WebIdentity.Controllers
             long size = model.Image.Length;
             var filePath = Path.Combine(Environment.CurrentDirectory, model.Tutor.Id.ToString() + "." +extension);
 
-
             if (size > 0)
             {
                 using (var stream = new FileStream(filePath, FileMode.Create))
