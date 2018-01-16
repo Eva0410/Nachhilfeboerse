@@ -70,6 +70,7 @@
         {
             <div class="teacher">
                 <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject" asp-route-sort="@Model.SelectedSortProperty">
+                    
                     <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
                     <label>Abteilung:</label> @item.Department.Name <br />
                     <label>Klasse:</label> @item.Class.Name <br />

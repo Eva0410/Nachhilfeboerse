@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,12 +14,22 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
 {
     public class EditTutorModel
     {
+        public IFormFile Image { get; set; }
+        [FileExtensions(Extensions = "jpg", ErrorMessage = "Bild darf nur im jpg-Format hochgeladen werden!")]
+        public string ImageFileName
+        {
+            get
+            {
+                if (this.Image != null)
+                    return this.Image.FileName;
+                else
+                    return null;
+            }
+        }
         public Tutor Tutor { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }
         public SelectList Gender { get; set; }
-        //not used
-        public IFormFile Image { get; set; }
 
         public async Task FillList(IUnitOfWork uow, UserManager<ApplicationUser> um, ClaimsPrincipal user)
         {

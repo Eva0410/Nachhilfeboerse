@@ -28,7 +28,7 @@
 
 <body>
     <div align="center">
-        <form class="anfrageForm" accept-charset="UTF-8" asp-action="EditTutor">
+        <form class="anfrageForm" accept-charset="UTF-8" enctype="multipart/form-data" asp-action="EditTutor">
             <h1 class="page-header">
                 <label>@Model.Tutor.LastName</label>
                 <input type="hidden" asp-for="@Model.Tutor.LastName" />
@@ -47,8 +47,16 @@
 
 
             <div id="getTutorFormular">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p>Upload one or more files using this form:</p>
+                        <input asp-for="@Model.Image" accept="image/*" type="file" />
+                        <span asp-validation-for="@Model.ImageFileName" class="text-danger"></span>
+                    </div>
+                </div>
                 <div class="col-md-6 col-sm-6">
                     <div style="width:7.5cm">
+
                         <label asp-for="@Model.Tutor.Birthday"></label>
                         <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
                         <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
@@ -116,8 +124,6 @@
                             <input type="submit" class="myButton" value="Einreichen" onclick="return alert('Ihre Änderungen werden eingereicht und werden so bald wie möglich vom Administrator überprüft und bestätigt (erst dann sind die Änderungen für andere sichtbar)');"/>
                             <a class="myButton" asp-action="Index">Zurück</a>
                         </footer>
-                    </td>
-                </tr>
         </form>
 
         <form asp-action="DeleteTutoringProfile">
