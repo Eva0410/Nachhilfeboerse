@@ -26,6 +26,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
                     return null;
             }
         }
+        public string ImageAsString { get; set; }
         public Tutor Tutor { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }

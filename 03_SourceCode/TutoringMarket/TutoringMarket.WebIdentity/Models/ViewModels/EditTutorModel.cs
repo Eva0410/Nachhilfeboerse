@@ -20,12 +20,13 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         {
             get
             {
-                if (this.Image != null)
-                    return this.Image.FileName;
+                if (Image != null)
+                    return Image.FileName;
                 else
                     return null;
             }
         }
+        public string ImageAsString { get; set; }
         public Tutor Tutor { get; set; }
         public List<int> SelectedSubjects { get; set; }
         public SelectList AvailableSubjects { get; set; }
