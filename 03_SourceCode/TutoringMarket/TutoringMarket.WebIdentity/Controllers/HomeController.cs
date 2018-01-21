@@ -14,6 +14,7 @@ using System.Net;
 using TutoringMarket.Persistence;
 using System.Net.Mail;
 using System.IO;
+using System.Drawing;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -114,140 +115,186 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Visitor")]
-        public async Task<IActionResult> GetTutor(GetTutorModel model)
+        //id describes the method, which should be invoked (0 == preview image, 1 == save tutor, 2 == delete image)
+        public async Task<IActionResult> GetTutor(GetTutorModel model, int id)
         {
-            model.Tutor.IdentityName = User.Identity.Name;
-            if (ModelState.IsValid && model.SelectedSubjects != null)
+            
+            //preview
+            if (id == 0)
             {
-                //Save image
-
-                if (model.Image != null && model.Image.Length > 0)
+                if (ModelState.Where(k => k.Key == nameof(model.ImageFileName)).Count() == 0 || ModelState.Where(k => k.Key == nameof(model.ImageFileName)).FirstOrDefault().Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        model.Image.CopyTo(ms);
-                        var fileBytes = ms.ToArray();
-                        string s = Convert.ToBase64String(fileBytes);
-                        model.Tutor.Image = s;
-                    }
-                }
-
-                //add list of subjects to tutor
-                List<Subject> subjects = new List<Subject>();
-                foreach (var item in model.SelectedSubjects)
-                {
-                    subjects.Add(uow.SubjectRepository.GetById(item));
-                }
-                model.Tutor.Subjects = subjects;
-
-                //Tutor is not accepted in the beginning
-                model.Tutor.Accepted = false;
-
-                this.uow.TutorRepository.Insert(model.Tutor);
-                this.uow.Save();
-
-                //update roles
-                var user = await um.FindByNameAsync(User.Identity.Name);
-                await um.AddToRoleAsync(user, "Tutor");
-                await um.RemoveFromRoleAsync(user, "Visitor");
-
-                //the cookie must be refreshed
-                await sim.SignOutAsync();
-                await sim.SignInAsync(user, true);
-
-                return RedirectToAction("Index");
-
-            }
-            else
-            {
-                if (model.SelectedSubjects == null)
-                {
-                    ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
+                    //save the filename of the picture, and the image as base64 string
+                    model.ImageAsString = ConvertImage(model.Image, model.ImageAsString);
                 }
                 await model.FillList(uow, this.um, User.Identity.Name);
                 return View(model);
             }
+            else if (id == 1)
+            {
+                model.Tutor.IdentityName = User.Identity.Name;
+                if (ModelState.IsValid && model.SelectedSubjects != null)
+                {
+                    //Save image
+                    model.Tutor.Image = ConvertImage(model.Image, model.ImageAsString);
+
+                    //add list of subjects to tutor
+                    List<Subject> subjects = new List<Subject>();
+                    foreach (var item in model.SelectedSubjects)
+                    {
+                        subjects.Add(uow.SubjectRepository.GetById(item));
+                    }
+                    model.Tutor.Subjects = subjects;
+
+                    //Tutor is not accepted in the beginning
+                    model.Tutor.Accepted = false;
+
+                    this.uow.TutorRepository.Insert(model.Tutor);
+                    this.uow.Save();
+
+                    //update roles
+                    var user = await um.FindByNameAsync(User.Identity.Name);
+                    await um.AddToRoleAsync(user, "Tutor");
+                    await um.RemoveFromRoleAsync(user, "Visitor");
+
+                    //the cookie must be refreshed
+                    await sim.SignOutAsync();
+                    await sim.SignInAsync(user, true);
+
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    if (model.SelectedSubjects == null)
+                    {
+                        ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
+                    }
+                    await model.FillList(uow, this.um, User.Identity.Name);
+                    //save image as string
+                    model.ImageAsString = ConvertImage(model.Image, model.ImageAsString);
+                    return View(model);
+                }
+            }
+            else if (id == 2)
+            {
+                await model.FillList(uow, um, User.Identity.Name);
+                model.ImageAsString = string.Empty;
+                return View(model);
+            }
+            return NotFound();
         }
         [Authorize(Roles = "Tutor")]
         public async Task<IActionResult> EditTutor()
         {
             EditTutorModel model = new EditTutorModel();
             await model.FillList(uow, um, User);
+            if(model.Tutor.Image != null)
+            {
+                model.ImageAsString = model.Tutor.Image;
+            }
             return View(model);
         }
         [Authorize(Roles = "Tutor")]
         [HttpPost]
-        public async Task<IActionResult> EditTutor(EditTutorModel model)
+        public async Task<IActionResult> EditTutor(EditTutorModel model, int id)
         {
-            var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
-            if (ModelState.IsValid)
+            if (id == 0)
             {
-                //find the old version of the tutor
-                var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
-                if (oldTutor == null)
-                    oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
-                if (oldTutor != null) //in case the tutor is not in role tutor anymore (removed from admin), website will crash
+                if (ModelState.Where(k => k.Key == nameof(model.ImageFileName)).Count() == 0 || ModelState.Where(k => k.Key == nameof(model.ImageFileName)).FirstOrDefault().Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid)
                 {
-                    var changed = GetChangedProperties(oldTutor, model.Tutor);
-                    Tutor changedTutor = new Tutor();
-                    //copy all other properties from old tutor
-                    GenericRepository<Tutor>.CopyProperties(changedTutor, oldTutor);
-
-                    //overrite changed properties
-                    foreach (var item in changed)
-                    {
-                        var prop = oldTutor.GetType().GetProperty(item);
-                        var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
-                        prop.SetValue(changedTutor, value);
-                    }
-                    //update image
-                    if (model.Image != null && model.Image.Length > 0)
-                    {
-                        using (var ms = new MemoryStream())
-                        {
-                            model.Image.CopyTo(ms);
-                            var fileBytes = ms.ToArray();
-                            string s = Convert.ToBase64String(fileBytes);
-                            changedTutor.Image = s;
-                        }
-                    }
-                    //update subjects
-                    changedTutor.Subjects = new List<Subject>();
-                    foreach (var item in model.SelectedSubjects)
-                    {
-                        changedTutor.Subjects.Add(uow.SubjectRepository.GetById(item));
-                    }
-                    //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
-                    changedTutor.Id = 0;
-                    //handling the accept/reject problem
-                    if (oldTutor.Accepted == true)
-                    {
-                        changedTutor.Accepted = false;
-                        changedTutor.OldTutorId = oldTutor.Id;
-                    }
-                    else
-                    {
-                        this.uow.TutorRepository.Delete(oldTutor.Id);
-                        this.uow.Save();
-                    }
-
-                    this.uow.TutorRepository.Insert(changedTutor);
-                    this.uow.Save();
-                    return RedirectToAction("Index");
+                    //save the image as base64 string
+                    model.ImageAsString = ConvertImage(model.Image, model.ImageAsString);
                 }
-                return NotFound();
-            }
-            else
-            {
-                if (model.SelectedSubjects == null)
-                {
-                    ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
-                }
-                await model.FillList(uow, um, User);
+                await model.FillList(uow, this.um, User);
                 return View(model);
             }
+            else if (id == 1)
+            {
+                var errors = ModelState.Select(e => e.Value.Errors).Where(v => v.Count > 0).ToList(); //for debugging
+                if (ModelState.IsValid)
+                {
+                    //find the old version of the tutor
+                    var oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.OldTutorId != 0, includeProperties: "Subjects").FirstOrDefault();
+                    if (oldTutor == null)
+                        oldTutor = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name, includeProperties: "Subjects").FirstOrDefault();
+                    if (oldTutor != null) //in case the tutor is not in role tutor anymore (removed from admin), website will crash
+                    {
+                        var changed = GetChangedProperties(oldTutor, model.Tutor);
+                        Tutor changedTutor = new Tutor();
+                        //copy all other properties from old tutor
+                        GenericRepository<Tutor>.CopyProperties(changedTutor, oldTutor);
+
+                        //overrite changed properties
+                        foreach (var item in changed)
+                        {
+                            var prop = oldTutor.GetType().GetProperty(item);
+                            var value = model.Tutor.GetType().GetProperty(item).GetValue(model.Tutor, null);
+                            prop.SetValue(changedTutor, value);
+                        }
+                        //update image
+                        changedTutor.Image = ConvertImage(model.Image, model.ImageAsString);
+                        //update subjects
+                        changedTutor.Subjects = new List<Subject>();
+                        foreach (var item in model.SelectedSubjects)
+                        {
+                            changedTutor.Subjects.Add(uow.SubjectRepository.GetById(item));
+                        }
+                        //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
+                        changedTutor.Id = 0;
+                        //handling the accept/reject problem
+                        if (oldTutor.Accepted == true)
+                        {
+                            changedTutor.Accepted = false;
+                            changedTutor.OldTutorId = oldTutor.Id;
+                        }
+                        else
+                        {
+                            this.uow.TutorRepository.Delete(oldTutor.Id);
+                            this.uow.Save();
+                        }
+
+                        this.uow.TutorRepository.Insert(changedTutor);
+                        this.uow.Save();
+                        return RedirectToAction("Index");
+                    }
+                    return NotFound();
+                }
+                else
+                {
+                    if (model.SelectedSubjects == null)
+                    {
+                        ModelState.AddModelError("SelectedSubjects", "Bitte wähle deine Fächer aus!");
+                    }
+                    //save image as string
+                    model.ImageAsString = ConvertImage(model.Image, model.ImageAsString);
+                    await model.FillList(uow, um, User);
+                    return View(model);
+                }
+            }
+            else if (id == 2)
+            {
+                await model.FillList(uow, um, User);
+                model.ImageAsString = string.Empty;
+                return View(model);
+            }
+            return NotFound();
 
         }
+        public string ConvertImage(IFormFile Image, string ImageAsString)
+        {
+            if (Image != null && Image.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    Image.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    return Convert.ToBase64String(fileBytes);
+                }
+            }
+            return ImageAsString;
+        }
+
         [HttpPost]
         [Authorize(Roles = "Tutor")]
         public async Task<IActionResult> DeleteTutoringProfile()
@@ -626,6 +673,7 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             return View();
         }
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> AdministrationMail(int id)
         {
             AdminMailForm model = new AdminMailForm();
@@ -634,7 +682,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles="Admin")]
         //TODO config datei
         public async Task<ActionResult> AdministrationMail(AdminMailForm model)
         {
@@ -643,12 +691,11 @@ namespace TutoringMarket.WebIdentity.Controllers
             {
                 try
                 {
-                    var body = "<p>Message:</p><p>{0}</p>";
                     var message = new MailMessage();
                     message.To.Add(new MailAddress(model.Tutor.EMail));
                     message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
                     message.Subject = "Nachricht vom Administrator der Nachhilfebörse.";
-                    message.Body = string.Format(body, model.Nachricht);
+                    message.Body = string.Format(model.Nachricht);
                     message.IsBodyHtml = true;
 
                     using (var smtp = new SmtpClient())
@@ -673,6 +720,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             return View(model);
         }
+        [Authorize]
         public ActionResult Sent()
         {
             return View();

@@ -31,13 +31,13 @@
 
 <body>
     <div align="center">
+
         <form method="post" class="anfrageForm" enctype="multipart/form-data" accept-charset="UTF-8" asp-action="GetTutor">
-            
+            <input type="hidden" asp-for="ImageAsString" value="@Model.ImageAsString"/>
             <h1 class="page-header">
                 <label>@Model.Tutor.LastName</label>
-                <input type="hidden" asp-for="@Model.Tutor.LastName" />
                 <label>@Model.Tutor.FirstName</label>
-                <input type="hidden" asp-for="@Model.Tutor.FirstName" />
+
                 werde auch du Tutor
             </h1>
 
@@ -48,90 +48,97 @@
                     </h1>
                 </center>
             </div>
+            <p>Aktuell ausgewähltes Bild:</p>
+            <img src="@String.Format("data:image/jpg;base64,{0}", Model.ImageAsString)" />
 
+            <input type="hidden" asp-for="@Model.Tutor.FirstName" />
+            <input type="hidden" asp-for="@Model.Tutor.LastName" />
             <div id="getTutorFormular">
 
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <p>Upload one or more files using this form:</p>
-                            <input asp-for="@Model.Image" accept="image/*" type="file" />
-                            <span asp-validation-for="@Model.ImageFileName" class="text-danger"></span>
-                        </div>
-                    </div>
-                
-
-                    <div class="col-md-6 col-sm-6">
-                        <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Birthday"></label>
-                            <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
-                            <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>E-Mail*</label>
-                            <input type="text" placeholder="E-Mail" class="form-control" asp-for="@Model.Tutor.EMail">
-                            <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>Handynummer</label>
-                            <input type="text" placeholder="Handynummer" class="form-control" asp-for="@Model.Tutor.PhoneNumber">
-                            <span asp-validation-for="@Model.Tutor.PhoneNumber" class="text-danger"></span>
-                            <br />
-                        </div>
-
-
-                        <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Price">Stundensatz in €/h</label>
-                            <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price" step="1">
-                            <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>Fächer</label>
-                            <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects"></select>
-                            <option asp-validation-for="@Model.SelectedSubjects" class="text-danger"></option>
-                            <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
-                            <p class="pmobile">Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-sm-6">
-                        <div style="width:7.5cm">
-                            <label>Zeit*</label>
-                            <textarea type="text" placeholder="z.B.: Montag 12-14 Uhr und Mittwoch 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
-                            <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
-                            <br />
-                        </div>
-
-                        <div style="width:7.5cm">
-                            <label>Beschreibung</label>
-                            <textarea type="text" placeholder="Motivationsspruch / Beschreibung" class="form-control2" asp-for="@Model.Tutor.Description"></textarea>
-
-                            <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
-                        </div>
-                        <br />
-                        <div style="width:7.5cm">
-                            <label asp-for="@Model.Tutor.Gender"></label>
-                            <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
-                        </div>
-
-                        <label>@Model.Tutor.Department.Name</label>
-                        <input type="hidden" asp-for="@Model.Tutor.Department_Id" />
-
-                        <label>@Model.Tutor.Class.Name</label>
-                        <input type="hidden" asp-for="@Model.Tutor.Class_Id" />
-
-                        <footer>
-                            <input type="submit" class="myButton" value="Einreichen" onclick="return alert('Ihr Profil wird eingereicht und wird so bald wie möglich vom Administrator überprüft und bestätigt (erst dann ist dein Profil für andere sichtbar)');" />
-                            <a class="myButton" asp-action="Index">Zurück</a>
-                        </footer>
-
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p>Neues Bild auswählen:</p>
+                        <input asp-for="@Model.Image" accept="image/*" type="file" />
+                        <span asp-validation-for="@Model.ImageFileName" class="text-danger"></span>
+                        <input type="submit" value="Vorschau laden" />
+                        <input type="submit" class="myButton" value="Bild löschen" onclick="document.getElementById('idField').value = '2'; return confirm('Wollen Sie Ihr Bild wirklich löschen?');" />
                     </div>
                 </div>
+
+
+                <div class="col-md-6 col-sm-6">
+                    <div style="width:7.5cm">
+                        <label asp-for="@Model.Tutor.Birthday"></label>
+                        <input type="date" placeholder="Geburtstag*" class="form-control" asp-for="@Model.Tutor.Birthday">
+                        <span asp-validation-for="@Model.Tutor.Birthday" class="text-danger"></span>
+                        <br />
+                    </div>
+
+                    <div style="width:7.5cm">
+                        <label>E-Mail*</label>
+                        <input type="text" placeholder="E-Mail" class="form-control" asp-for="@Model.Tutor.EMail">
+                        <span asp-validation-for="@Model.Tutor.EMail" class="text-danger"></span>
+                        <br />
+                    </div>
+
+                    <div style="width:7.5cm">
+                        <label>Handynummer</label>
+                        <input type="text" placeholder="Handynummer" class="form-control" asp-for="@Model.Tutor.PhoneNumber">
+                        <span asp-validation-for="@Model.Tutor.PhoneNumber" class="text-danger"></span>
+                        <br />
+                    </div>
+
+
+                    <div style="width:7.5cm">
+                        <label asp-for="@Model.Tutor.Price">Stundensatz in €/h</label>
+                        <input type="number" placeholder="Preis*" class="form-control" asp-for="@Model.Tutor.Price" step="1">
+                        <span asp-validation-for="@Model.Tutor.Price" class="text-danger"></span>
+                        <br />
+                    </div>
+
+                    <div style="width:7.5cm">
+                        <label>Fächer</label>
+                        <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects"></select>
+                        <option asp-validation-for="@Model.SelectedSubjects" class="text-danger"></option>
+                        <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
+                        <p class="pmobile">Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div style="width:7.5cm">
+                        <label>Zeit*</label>
+                        <textarea type="text" placeholder="z.B.: Montag 12-14 Uhr und Mittwoch 15-17 Uhr" class="form-control2" asp-for="@Model.Tutor.Time"></textarea>
+                        <span asp-validation-for="@Model.Tutor.Time" class="text-danger"></span>
+                        <br />
+                    </div>
+
+                    <div style="width:7.5cm">
+                        <label>Beschreibung</label>
+                        <textarea type="text" placeholder="Motivationsspruch / Beschreibung" class="form-control2" asp-for="@Model.Tutor.Description"></textarea>
+
+                        <span asp-validation-for="@Model.Tutor.Description" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div style="width:7.5cm">
+                        <label asp-for="@Model.Tutor.Gender"></label>
+                        <select asp-items="@Model.Gender" asp-for="@Model.Tutor.Gender"></select>
+                    </div>
+
+                    <label>@Model.Tutor.Department.Name</label>
+                    <input type="hidden" asp-for="@Model.Tutor.Department_Id" />
+
+                    <label>@Model.Tutor.Class.Name</label>
+                    <input type="hidden" asp-for="@Model.Tutor.Class_Id" />
+
+                    <footer>
+                        <input type="hidden" id="idField" name="id" value="0" />
+                        <input type="submit" class="myButton" value="Einreichen" onclick="document.getElementById('idField').value = '1'; return alert('Ihr Profil wird eingereicht und wird so bald wie möglich vom Administrator überprüft und bestätigt (erst dann ist dein Profil für andere sichtbar)');"/>
+                        <a class="myButton" asp-action="Index">Zurück</a>
+                    </footer>
+
+                </div>
+            </div>
         </form> 
     </div>
 </body>
