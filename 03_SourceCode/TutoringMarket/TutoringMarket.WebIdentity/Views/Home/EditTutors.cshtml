@@ -33,7 +33,6 @@
     @foreach (var item in @Model.OutstandingTutors)
     {
         <div class="teacher">
-            <img src="@String.Format("data:image/jpg;base64,{0}", item.Image)" />
             <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
             <label>E-mail:</label> @item.EMail <br />
             <label>Handynummer:</label> @item.PhoneNumber<br />
