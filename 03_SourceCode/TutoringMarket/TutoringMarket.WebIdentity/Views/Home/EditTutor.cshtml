@@ -47,15 +47,15 @@
             </div>
 
             <p>Aktuell ausgewähltes Bild:</p>
-            <img src="@String.Format("data:image/jpg;base64,{0}", Model.ImageAsString)" />
+            <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.ImageAsString))"></div>
 
             <div id="getTutorFormular">
                 <div class="form-group">
-                    <div class="col-md-10">
+                    <div>
                         <p>Neues Bild auswählen:</p>
-                        <input asp-for="@Model.Image" accept="image/*" type="file" />
+                        <input style="margin-bottom:10px;" asp-for="@Model.Image" accept="image/*" type="file" />
                         <span asp-validation-for="@Model.ImageFileName" class="text-danger"></span>
-                        <input type="submit" value="Vorschau laden" />
+                        <input type="submit" class="myButton" value="Vorschau laden" />
                         <input type="submit" class="myButton" value="Bild löschen" onclick="document.getElementById('idField').value = '2'; return confirm('Wollen Sie Ihr Bild wirklich löschen?');" />
 
                     </div>
@@ -131,8 +131,10 @@
                             <input type="submit" class="myButton" value="Einreichen" onclick="document.getElementById('idField').value = '1';return alert('Ihre Änderungen werden eingereicht und werden so bald wie möglich vom Administrator überprüft und bestätigt (erst dann sind die Änderungen für andere sichtbar)');"/>
                             <a class="myButton" asp-action="Index">Zurück</a>
                         </footer>
+                    </div>
+                
         </form>
-
+   
         <form asp-action="DeleteTutoringProfile">
             <input style="margin-top:5px;" type="submit" value="Profil löschen" class="myButton" onclick="return confirm('Wollen Sie Ihr Profil wirklich löschen?');" />
         </form> 

@@ -1,5 +1,21 @@
 ﻿/*GENERAL*/
 
+.teacherDetails {
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    width: 90%;
+    height: auto;
+    margin-left: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 18px;
+    padding-bottom: 2px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
 .h3border {
     padding: 0px 10px 0px 10px;
     border-bottom: 0.5px solid #505050;
@@ -102,11 +118,27 @@
 
 /*INDEX PAGE*/
 
+.indexHover {
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    height: 100%;
+    width: 100%;
+    font-size: 50px;
+    text-align: center;
+    line-height: 250px;
+    opacity: 0;
+}
+    .indexHover:hover {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.6);
+    }
 .indexImage {
-    width: 200px;
-    height: 220px;
-    background-image: url("../images/blank.jpg");
+    position: relative;
+    width: 250px;
+    height: 250px;
     background-size: cover;
+    background-position: center;
 }
 
 .greenBack {
@@ -174,29 +206,45 @@ em.index {
 }
 
 .whiteBox {
-    background-color: #FFF;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color: #F5F5F5;
     height: auto;
     width: 46%;
     min-width: 300px;
-    border-radius: 12px;
     position: absolute;
     top: 28vh;
     margin-left: 15vh;
     margin-bottom: 5vh;
+    text-align: center;
+}
+
+.whiteBoxIndex {
+    /* border-radius: 2px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color: #F5F5F5;*/
+    height: auto;
+    width: 80%;
+    min-width: 300px;
+    position: absolute;
+    /* top: 28vh;
+    margin-left: 15vh;
+    margin-bottom: 5vh;*/
+    text-align: center;
 }
 
 @media screen and (max-width: 1050px) {
-    .whiteBox {
+    .whiteBoxIndex {
         position: relative;
-        margin: -110px auto 0 auto;
+        margin: 150px auto 0 auto;
     }
 }
 
 .teacher {
-    border-radius: 5px;
-    border: 0.5px solid #505050;
-    background-color: white;
-    width: 200px;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1px;
+    background-color: #f8f8f8;
+    width: 250px;
     height: auto;
     margin-left: 18px;
     margin-top: 10px;
@@ -207,29 +255,64 @@ em.index {
     display: inline-block;
     overflow: hidden;
 }
+
+.indexTeacherFont {
+    color: #33658a;
+    font-size: 13px;
+    text-align: center;
+}
+.indexTeacherFächer {
+    color: #33658a;
+    display: inline-block;
+    margin-bottom: 3px;
+    font-size: 13px;
+    border-color: transparent;
+    background-color: #cee0ed;
+    padding: 3px 3px 3px 3px;
+}
+
+.teacherIndex {
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1px;
+    text-align:left;
+    background-color: #f9f9f9;
+    width: 250px;
+    height: 420px;
+    margin-left: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 18px;
+    padding-bottom: 2px;
+    display: inline-block;
+    overflow: hidden;
+}
 @media screen and (max-width: 1050px) {
     .teacher {
-        width: 230px;
+        width: 200px;
         left: 50%;
     }
 }
 
+.h3index{
+    font-size: 15px;
+}
+
 #blackFilter1 {
-    background-color: #313131;
-    padding-left: 5px;
-    padding-bottom: 10px;
-    height: 40%;
-    width: auto;
-    border-radius: 7px;
-    margin-right: 15vh;
-    margin-top: 5vh;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    background-color: #f5f5f5;
     float: right;
+    height: 100%;
+    margin-top: 20px;
+    margin-right: 20px;
+    width: 250px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 @media screen and (max-width: 1050px) {
     #blackFilter1 {
         width: 90%;
-        margin: -40px 5% -100px 5%;
+        margin: -25px 5% -100px 5%;
     }
 }
 
@@ -240,7 +323,7 @@ em.index {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: .03em;
-    color: #ccc;
+    color: black;
     border: none;
     background: none;
 }
@@ -251,7 +334,7 @@ em.index {
     font-size: 18px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }   
 
 @media screen and (min-width: 1050px) {
@@ -264,6 +347,15 @@ em.index {
 /*INDEX PAGE END*/
 
 /*GETTUTOR PAGE*/
+
+.imageTutor{
+position: relative;
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+}
+
 
 .motivation2 {
     margin-left: 10%;
