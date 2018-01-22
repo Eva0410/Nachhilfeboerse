@@ -71,7 +71,13 @@
         {
             <div class="teacherIndex">
                 <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject" asp-route-sort="@Model.SelectedSortProperty">
-                    <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"><div class="indexHover">Mehr</div></div>
+                    @if (String.IsNullOrEmpty(item.Image))
+                    {
+                        <div class="blankImage"><div class="indexHover">Mehr</div></div>
+                    }
+                    else {
+                        <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"><div class="indexHover">Mehr</div></div>
+                    }
                     <div style="margin-left:10px;">
                         <center><h3 class="h3index">@item.FirstName @item.LastName</h3></center>
                        <table>

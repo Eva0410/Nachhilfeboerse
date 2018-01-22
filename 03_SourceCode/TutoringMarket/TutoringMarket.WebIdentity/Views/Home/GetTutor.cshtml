@@ -49,8 +49,14 @@
                 </center>
             </div>
             <p>Aktuell ausgewähltes Bild:</p>
-            <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.ImageAsString))"></div>
-
+            @if (String.IsNullOrEmpty(Model.ImageAsString))
+            {
+                <div class="blankImage"></div>
+            }
+            else
+            {
+                <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.ImageAsString))"></div>
+            }
                 <input type="hidden" asp-for="@Model.Tutor.FirstName" />
                 <input type="hidden" asp-for="@Model.Tutor.LastName" />
                 <div id="getTutorFormular">
