@@ -33,31 +33,38 @@
     @foreach (var item in @Model.OutstandingTutors)
     {
         <div class="teacher">
-            <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"></div>
-                <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
-                <label>E-mail:</label> @item.EMail <br />
-                <label>Handynummer:</label> @item.PhoneNumber<br />
-                <label>Abteilung:</label> @item.Department.Name <br />
-                <label>Klasse:</label> @item.Class.Name <br />
-                <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
-                <label>Termine:</label> @item.Time <br />
-                <label>Preis:</label> @item.Price €<br />
-                <label>Fächer:</label><br />
-                @foreach (var item2 in item.Subjects)
+            @if (String.IsNullOrEmpty(item.Image))
+            {
+                <div class="blankImage"></div>
+            }
+            else
+            {
+                <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"></div>
+            }
+            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+            <label>E-mail:</label> @item.EMail <br />
+            <label>Handynummer:</label> @item.PhoneNumber<br />
+            <label>Abteilung:</label> @item.Department.Name <br />
+            <label>Klasse:</label> @item.Class.Name <br />
+            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+            <label>Termine:</label> @item.Time <br />
+            <label>Preis:</label> @item.Price €<br />
+            <label>Fächer:</label><br />
+            @foreach (var item2 in item.Subjects)
                 {
-                    <div style="display:inline;">@item2.Name</div><br />
-                }
-                <label>Beschreibung:</label> @item.Description <br />
-                <label>Kommentare von Lehrern:</label><br />
-                @foreach (var comment in item.Comments)
+                <div style="display:inline;">@item2.Name</div><br />
+            }
+            <label>Beschreibung:</label> @item.Description <br />
+            <label>Kommentare von Lehrern:</label><br />
+            @foreach (var comment in item.Comments)
                 {
-                    <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
-                }
-                <br />
-                <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich ablehnen?');">Ablehnen</a>
-                <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>
-                <a class="btn btn-default" asp-action="AdministrationMail" asp-route-id="@item.Id">Kontakt</a>
-            </div>
+                <div style="display:inline;">@comment.Comment von @comment.TeacherIdentityName<br /></div>
+            }
+            <br />
+            <a class="btn btn-default" asp-action="EditTutorsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich ablehnen?');">Ablehnen</a>
+            <a class="btn btn-default" asp-action="EditTutorsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Tutor \'@item.FirstName @item.LastName\' wirklich akzeptieren?');">Akzeptieren</a>
+            <a class="btn btn-default" asp-action="AdministrationMail" asp-route-id="@item.Id">Kontakt</a>
+        </div>
     }
 
     <h1 class="page-header">Tutoren bearbeiten</h1>
@@ -66,25 +73,32 @@
     @foreach (var item in Model.Tutors)
     {
         <div class="teacher">
-            <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"></div>
-                <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
-                <label>E-mail:</label> @item.EMail <br />
-                <label>Handynummer:</label> @item.PhoneNumber<br />
-                <label>Abteilung:</label> @item.Department.Name <br />
-                <label>Klasse:</label> @item.Class.Name <br />
-                <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
-                <label>Termine:</label> @item.Time <br />
-                <label>Preis:</label> @item.Price €<br />
-                <label>Beschreibung:</label> @item.Description <br />
-                <label>Fächer:</label> <br />
-                @foreach (var sub in @item.Subjects)
+            @if (String.IsNullOrEmpty(item.Image))
+            {
+                <div class="blankImage"></div>
+            }
+            else
+            {
+                <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"></div>
+            }
+            <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+            <label>E-mail:</label> @item.EMail <br />
+            <label>Handynummer:</label> @item.PhoneNumber<br />
+            <label>Abteilung:</label> @item.Department.Name <br />
+            <label>Klasse:</label> @item.Class.Name <br />
+            <label>Geburtstag:</label> @item.Birthday.ToString("d") <br />
+            <label>Termine:</label> @item.Time <br />
+            <label>Preis:</label> @item.Price €<br />
+            <label>Beschreibung:</label> @item.Description <br />
+            <label>Fächer:</label> <br />
+            @foreach (var sub in @item.Subjects)
                 {
-                    <div style="display:inline;">@sub.Name</div>
+                <div style="display:inline;">@sub.Name</div>
                     <a asp-action="EditTutorsDeleteSubject" asp-route-tid="@item.Id" asp-route-subid="@sub.Id" onclick="return confirm('Wollen Sie diesem Tutor dieses Fach wirklich entziehen?');">Fach Löschen</a><br />
-                }
-                <a class="btn btn-default" asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return alert('Wollen Sie diesen Tutor wirklich löschen?');">Tutor Löschen</a>
-                <a class="btn btn-default" asp-action="AdministrationMail" asp-route-id="@item.Id">Kontakt</a>
-            </div>
+            }
+            <a class="btn btn-default" asp-action="EditTutorsDeleteProfile" asp-route-id="@item.Id" onclick="return alert('Wollen Sie diesen Tutor wirklich löschen?');">Tutor Löschen</a>
+            <a class="btn btn-default" asp-action="AdministrationMail" asp-route-id="@item.Id">Kontakt</a>
+        </div>
     }
 
 </body>

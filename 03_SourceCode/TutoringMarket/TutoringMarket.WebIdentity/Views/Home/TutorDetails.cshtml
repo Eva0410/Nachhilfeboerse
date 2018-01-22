@@ -23,45 +23,52 @@
     </div>
 </nav>
 
-    <body>
-        <h1 class="page-header">@Model.Tutor.FirstName @Model.Tutor.LastName</h1>
+<body>
+    <h1 class="page-header">@Model.Tutor.FirstName @Model.Tutor.LastName</h1>
 
-        <!--<p>Fächer</p>
-        foreach (var item in Model.Tutor.Tutor_Subjects)
-        {
-            <p>item.Subject.Name</p>
-        }-->
-        <div class="teacherDetails">
-            <div class="col-md-6 col-sm-6 indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.Tutor.Image))"></div>
-            <div class="col-md-3 col-sm-3">
-                <p><label>Klasse:</label> @Model.Tutor.Class.Name</p>
-                <p><label>Abteilung:</label> @Model.Tutor.Department.Name</p>
-                <p><label>E-mail:</label> @Model.Tutor.EMail</p>
-                <p><label>Geschlecht:</label> @Model.Tutor.Gender</p>
-                <p><label>Geburtstag:</label> @Model.Tutor.Birthday.ToString("d")</p>
-                <p><label>Handynummer:</label> @Model.Tutor.PhoneNumber</p>
-                <p><label>Preis /h:</label> @Model.Tutor.Price€</p>
-            </div>
-            <div class="col-md-6 col-sm-6">
-
-                
-                <p><label>Termine:</label> @Model.Tutor.Time</p>
-
-                <p>
-                    <label>Fächer:</label>
-                    @foreach (var item in Model.Tutor.Subjects)
+    <!--<p>Fächer</p>
+    foreach (var item in Model.Tutor.Tutor_Subjects)
+    {
+        <p>item.Subject.Name</p>
+    }-->
+    <div class="teacherDetails">
+        @if (String.IsNullOrEmpty(Model.Tutor.Image))
             {
-                        <td> @item.Name; </td>
-                    }
-                </p>
-                <p>@Model.Tutor.Description</p>
-                <a class="btn btn-default" asp-action="TutorRequest" asp-route-id="@Model.Tutor.Id">Anfrage senden</a>
-                <a class="btn btn-default" asp-action="Index" asp-route-filter="@Model.filter" asp-route-sort="@Model.sort">Zurück</a>
-            </div>
+            <div class="blankImage"></div>
+        }
+        else
+        {
+            <div class="col-md-6 col-sm-6 indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.Tutor.Image))"></div>
+        }
+        <div class="col-md-3 col-sm-3">
+            <p><label>Klasse:</label> @Model.Tutor.Class.Name</p>
+            <p><label>Abteilung:</label> @Model.Tutor.Department.Name</p>
+            <p><label>E-mail:</label> @Model.Tutor.EMail</p>
+            <p><label>Geschlecht:</label> @Model.Tutor.Gender</p>
+            <p><label>Geburtstag:</label> @Model.Tutor.Birthday.ToString("d")</p>
+            <p><label>Handynummer:</label> @Model.Tutor.PhoneNumber</p>
+            <p><label>Preis /h:</label> @Model.Tutor.Price€</p>
         </div>
-        
-        
-    </body>
+        <div class="col-md-6 col-sm-6">
+
+
+            <p><label>Termine:</label> @Model.Tutor.Time</p>
+
+            <p>
+                <label>Fächer:</label>
+                @foreach (var item in Model.Tutor.Subjects)
+            {
+                    <td> @item.Name; </td>
+                }
+            </p>
+            <p>@Model.Tutor.Description</p>
+            <a class="btn btn-default" asp-action="TutorRequest" asp-route-id="@Model.Tutor.Id">Anfrage senden</a>
+            <a class="btn btn-default" asp-action="Index" asp-route-filter="@Model.filter" asp-route-sort="@Model.sort">Zurück</a>
+        </div>
+    </div>
+
+
+</body>
 
 
 
