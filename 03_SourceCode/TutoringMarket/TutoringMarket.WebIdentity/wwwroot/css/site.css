@@ -1,5 +1,21 @@
 ﻿/*GENERAL*/
 
+.teacherDetails {
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    width: 90%;
+    height: auto;
+    margin-left: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 18px;
+    padding-bottom: 2px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
 .h3border {
     padding: 0px 10px 0px 10px;
     border-bottom: 0.5px solid #505050;
@@ -228,7 +244,7 @@ em.index {
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
     border-radius: 1px;
     background-color: #f8f8f8;
-    width: auto;
+    width: 250px;
     height: auto;
     margin-left: 18px;
     margin-top: 10px;
@@ -331,6 +347,15 @@ em.index {
 /*INDEX PAGE END*/
 
 /*GETTUTOR PAGE*/
+
+.imageTutor{
+position: relative;
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+}
+
 
 .motivation2 {
     margin-left: 10%;
