@@ -44,6 +44,7 @@
     {
         <form asp-action="CommentTutor">
             <div class="teacher">
+                <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"></div>
                 <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
                 <label>E-mail:</label> @item.EMail <br />
                 <label>Handynummer:</label> @item.PhoneNumber<br />

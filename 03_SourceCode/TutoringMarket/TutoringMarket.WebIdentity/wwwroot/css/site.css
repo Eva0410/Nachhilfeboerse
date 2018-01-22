@@ -141,6 +141,15 @@
     background-position: center;
 }
 
+.blankImage {
+    background-image: url("../images/blank.jpg");
+    position: relative;
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+}
+
 .greenBack {
     background-color: #B150EE;
     height: 25vh;
@@ -277,7 +286,7 @@ em.index {
     text-align:left;
     background-color: #f9f9f9;
     width: 250px;
-    height: 420px;
+    height: 435px;
     margin-left: 18px;
     margin-top: 20px;
     margin-bottom: 10px;
