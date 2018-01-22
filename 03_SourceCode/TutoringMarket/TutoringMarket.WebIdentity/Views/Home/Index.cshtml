@@ -35,7 +35,7 @@
             Liste
             <em class="index">aller Tutoren</em>
         </h1>
-
+        
         <div>
             @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
             {
@@ -74,6 +74,7 @@
                     <div class="indexImage"></div>
                     <div style="padding-left: 2px;">
                         <center><h3 class="h3border">@item.FirstName @item.LastName</h3></center>
+                        
                         <label>Abteilung:</label> @item.Department.Name <br />
                         <label>Klasse:</label> @item.Class.Name <br />
                         <label>Termine:</label> @item.Time <br />
