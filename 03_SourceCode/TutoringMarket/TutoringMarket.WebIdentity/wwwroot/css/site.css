@@ -314,8 +314,9 @@ em.index {
 }
 @media screen and (max-width: 1050px) {
     .teacher {
-        width: 200px;
         left: 50%;
+        transform: translate(15%);
+        margin-top: 100px;
     }
 }
 

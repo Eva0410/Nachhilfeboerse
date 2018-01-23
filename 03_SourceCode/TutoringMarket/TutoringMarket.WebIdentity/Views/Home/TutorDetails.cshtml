@@ -25,7 +25,15 @@
 
     <body>
         <div class="teacherDetails">
-            <div class="detailsImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.Tutor.Image))"></div>
+            @if (String.IsNullOrEmpty(Model.Tutor.Image))
+            {
+                <div class="detailsImage blankImage"></div>
+            }
+            else
+            {
+                <div class="detailsImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", Model.Tutor.Image))"></div>
+            }
+            
             <div> 
                 <h1 style="margin-top: -100px" class="page-header">@Model.Tutor.FirstName @Model.Tutor.LastName</h1>
             </div>
