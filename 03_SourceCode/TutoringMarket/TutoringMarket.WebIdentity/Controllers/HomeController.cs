@@ -242,16 +242,19 @@ namespace TutoringMarket.WebIdentity.Controllers
                         }
                         //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
                         changedTutor.Id = 0;
+                        changedTutor.Accepted = false;
                         //handling the accept/reject problem
                         if (oldTutor.Accepted == true)
                         {
-                            changedTutor.Accepted = false;
                             changedTutor.OldTutorId = oldTutor.Id;
                         }
                         else
                         {
                             this.uow.TutorRepository.Delete(oldTutor.Id);
                             this.uow.Save();
+                            var tmp = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.Accepted == true).FirstOrDefault();
+                            if (tmp != null)
+                                changedTutor.OldTutorId = tmp.Id;
                         }
 
                         this.uow.TutorRepository.Insert(changedTutor);
