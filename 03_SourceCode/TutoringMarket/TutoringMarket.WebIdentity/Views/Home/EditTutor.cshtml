@@ -134,7 +134,7 @@
 
                         <footer>
                             <input type="hidden" id="idField" name="id" value="0" />
-                            <input type="submit" class="myButton" value="Einreichen" onclick="document.getElementById('idField').value = '1';return alert('Ihre Änderungen werden eingereicht und werden so bald wie möglich vom Administrator überprüft und bestätigt (erst dann sind die Änderungen für andere sichtbar)');"/>
+                            <input type="submit" class="myButton" value="Einreichen" onclick="document.getElementById('idField').value = '1';return confirm('Ihre Änderungen werden eingereicht und werden so bald wie möglich vom Administrator überprüft und bestätigt (erst dann sind die Änderungen für andere sichtbar)');"/>
                             <a class="myButton" asp-action="Index">Zurück</a>
                         </footer>
                     </div>

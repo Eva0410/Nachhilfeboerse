@@ -18,7 +18,9 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string  SchoolClass { get; set; }
+        [Required]
         public string Comments { get; set; }
+        [Required]
         public string Ending { get; set; }
         public async Task Init(IUnitOfWork uow, int id, UserManager<ApplicationUser> um, string name)
         {

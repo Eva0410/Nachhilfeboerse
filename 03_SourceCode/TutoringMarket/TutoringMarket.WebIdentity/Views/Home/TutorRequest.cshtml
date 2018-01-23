@@ -35,10 +35,12 @@
         <div class="centerAnfrage">
             <h4> Vorgefertigte Nachricht:</h4>
             @Model.Message  
-            <textarea class="form-control3">@Model.Comments</textarea>
+            <textarea class="form-control3" asp-for="@Model.Comments">@Model.Comments</textarea>
             @Model.Ending
             <input class="btn btn-default" type="submit" value="Senden" style="margin-bottom:5px;"/>
             <input type="hidden" asp-for="@Model.Tutor.Id" />
+            <input type="hidden" asp-for="@Model.Message" />
+            <input type="hidden" asp-for="@Model.Ending" />
         </div>
     </form>
 </body>
