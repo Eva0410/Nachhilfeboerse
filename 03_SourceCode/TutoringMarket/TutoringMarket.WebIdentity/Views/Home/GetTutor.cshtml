@@ -139,7 +139,7 @@
 
                         <footer>
                             <input type="hidden" id="idField" name="id" value="0" />
-                            <input type="submit" class="myButton" value="Einreichen" onclick="document.getElementById('idField').value = '1'; return alert('Ihr Profil wird eingereicht und wird so bald wie möglich vom Administrator überprüft und bestätigt (erst dann ist dein Profil für andere sichtbar)');" />
+                            <input type="submit" class="myButton" value="Einreichen" onclick="document.getElementById('idField').value = '1'; return confirm('Ihr Profil wird eingereicht und wird so bald wie möglich vom Administrator überprüft und bestätigt (erst dann ist dein Profil für andere sichtbar)');" />
                             <a class="myButton" asp-action="Index">Zurück</a>
                         </footer>
 

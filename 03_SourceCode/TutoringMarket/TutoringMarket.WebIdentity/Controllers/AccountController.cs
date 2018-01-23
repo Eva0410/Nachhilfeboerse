@@ -95,22 +95,22 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //}
 
                 //for offline testing (Server ist nicht erreichbar von daheim, daher müssen Name, Klasse und Abteilung hard codiert werden)
-                string fullName = "Test Test";
-                string schoolClass = "3AHIF";
-                string department = "Informatik";
+                //string fullName = "Test Test";
+                //string schoolClass = "3AHIF";
+                //string department = "Informatik";
 
                 //real code
-               // string fullName = "";
-               // string schoolClass = "";
-               // string department = "";
+                string fullName = "";
+                string schoolClass = "";
+                string department = "";
 
                 bool isTeacher = false;
 
                 //Liefert Name, Klasse, Abteilung, isTeacher und ob die Anmeldedaten gültig sind
-                //bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
+                bool result = GetResult(model.UserName, model.Password, ref fullName, ref schoolClass, ref department, ref isTeacher);
 
                 //offline testing (Die Anmeldedaten sind gültig daheim)
-                bool result = true; //server was offline
+                //bool result = true; //server was offline
                 if (result)
                 {
                     //Neuer User (Achtung Name muss ein Leerzeichen enthalten!)
