@@ -510,6 +510,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow.Save();
 
             refreshedTutor.Accepted = true;
+            refreshedTutor.OldTutorId = 0;
             uow.TutorRepository.Update(refreshedTutor);
 
             uow.Save();
