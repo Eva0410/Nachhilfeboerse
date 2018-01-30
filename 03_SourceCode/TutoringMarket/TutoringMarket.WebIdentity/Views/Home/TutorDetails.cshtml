@@ -80,6 +80,29 @@
                     <a class="btn btn-default" asp-action="TutorRequest" asp-route-id="@Model.Tutor.Id">Anfrage senden</a>
                     <a class="btn btn-default" asp-action="Index" asp-route-filter="@Model.filter" asp-route-sort="@Model.sort">Zurück</a>
                 </div>
+                <p>Average: @Model.Average</p>
+                <div>
+                    @foreach (var item in Model.Reviews)
+                    {
+                        <p>@item.Books</p>
+                        <p>@item.Comment</p>
+                        <p>@item.Author</p>
+                    }
+                </div>
+                <form asp-action="TutorDetails">
+                    <p>Neuen Kommentar eingeben:</p>
+                    Kommentar
+                    <input type="text" asp-for="@Model.NewReview.Comment" />
+                    <span asp-validation-for="@Model.NewReview.Comment"></span>
+                    Bücher
+                    <input type="number" asp-for="@Model.NewReview.Books" />
+                    <span asp-validation-for="@Model.NewReview.Books"></span>
+                    <input type="submit" value="Speichern" />
+                    <input type="hidden" asp-for="@Model.Tutor_Id" />
+                    <input type="hidden" asp-for="@Model.sort" />
+                    <input type="hidden" asp-for="@Model.filter" />
+                </form>
+
             </div>
         </div>
         

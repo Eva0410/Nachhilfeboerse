@@ -94,17 +94,39 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
 
-
         [Authorize]
         public IActionResult TutorDetails(int id, string filter, string sort)
         {
             TutorModel model = new TutorModel();
             if (uow.TutorRepository.GetById(id) == null)
                 return NotFound();
-            model.Init(uow, id);
+            model.Tutor_Id = id;
+            model.Init(uow);
             model.filter = filter;
             model.sort = sort;
             return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TutorDetails(TutorModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                Review r = model.NewReview;
+                r.Approved = false;
+                ApplicationUser user = await um.FindByNameAsync(User.Identity.Name);
+                r.Author = String.Format("{0} {1}, {2}", user.FirstName, user.LastName, user.SchoolClass);
+                r.Tutor_Id = model.Tutor_Id;
+                uow.ReviewRepository.Insert(r);
+                uow.Save();
+                model.Init(uow);
+                return RedirectToAction("TutorDetails", model);
+            }
+            else
+            {
+                model.Init(uow);
+                return View(model);
+            }
         }
         [Authorize(Roles = "Visitor")]
         public async Task<IActionResult> GetTutor()
