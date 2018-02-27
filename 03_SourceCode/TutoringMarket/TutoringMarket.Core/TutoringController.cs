@@ -69,7 +69,8 @@ namespace TutoringMarket.Core
                    Tutor = tutors.SingleOrDefault(t => t.LastName == (l[0])),
                    Books = Convert.ToInt32(l[1]),
                    Comment = l[2],
-                   Approved = Convert.ToBoolean(l[3])
+                   Approved = Convert.ToBoolean(l[3]),
+                   Date = DateTime.Now
                }).ToList();
         }
         public List<Subject> GetSubjects(string[][] list)

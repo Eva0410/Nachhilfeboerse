@@ -99,6 +99,10 @@
     <Compile Include="Migrations\201801301205007_Review_new3.Designer.cs">
       <DependentUpon>201801301205007_Review_new3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802260946035_ReviewDate.cs" />
+    <Compile Include="Migrations\201802260946035_ReviewDate.Designer.cs">
+      <DependentUpon>201802260946035_ReviewDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -149,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801301205007_Review_new3.resx">
       <DependentUpon>201801301205007_Review_new3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802260946035_ReviewDate.resx">
+      <DependentUpon>201802260946035_ReviewDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

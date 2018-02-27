@@ -117,6 +117,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 ApplicationUser user = await um.FindByNameAsync(User.Identity.Name);
                 r.Author = String.Format("{0} {1}, {2}", user.FirstName, user.LastName, user.SchoolClass);
                 r.Tutor_Id = model.Tutor_Id;
+                r.Date = DateTime.Now;
                 uow.ReviewRepository.Insert(r);
                 uow.Save();
                 model.Init(uow);
@@ -413,40 +414,42 @@ namespace TutoringMarket.WebIdentity.Controllers
             return RedirectToAction("AdministrationArea", model);
         }
         //TODO Access Denied Page designen
-        //not used yet
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet]
-        //public IActionResult EditReviews()
-        //{
-        //    EditReviewsModel model = new EditReviewsModel();
-        //    model.Init(uow);
-        //    return View(model);
-        //}
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
-        //{
-        //    var r = uow.ReviewRepository.GetById(id);
-        //    if (r == null)
-        //        return NotFound();
+        //TODO Reviews im Nachhinein bearbeiten
+        //TODO Max Anzahl Zeichen bei Kommentar
+        //TODO reviews accept
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult EditReviews()
+        {
+            EditReviewsModel model = new EditReviewsModel();
+            model.Init(uow);
+            return View(model);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
+        {
+            var r = uow.ReviewRepository.GetById(id);
+            if (r == null)
+                return NotFound();
 
-        //    uow.ReviewRepository.Delete(r);
-        //    uow.Save();
-        //    return RedirectToAction("EditReviews");
-        //}
+            uow.ReviewRepository.Delete(r);
+            uow.Save();
+            return RedirectToAction("EditReviews");
+        }
 
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
-        //{
-        //    var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
-        //    if (review == null)
-        //        return NotFound();
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
+        {
+            var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
+            if (review == null)
+                return NotFound();
 
-        //    review.Approved = true;
-        //    uow.ReviewRepository.Update(review);
+            review.Approved = true;
+            uow.ReviewRepository.Update(review);
 
-        //    uow.Save();
-        //    return RedirectToAction("EditReviews");
-        //}
+            uow.Save();
+            return RedirectToAction("EditReviews");
+        }
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditMetadata()

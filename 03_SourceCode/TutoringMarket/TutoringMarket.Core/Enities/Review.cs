@@ -20,7 +20,8 @@ namespace TutoringMarket.Core.Enities
         public int Tutor_Id { get; set; }
         [Required]
         public bool Approved { get; set; }
-
+        [Required]
+        public DateTime Date { get; set; }
         public string Author { get; set; }
     }
 }
