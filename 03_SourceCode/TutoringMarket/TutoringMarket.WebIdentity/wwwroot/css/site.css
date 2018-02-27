@@ -167,6 +167,7 @@
     background-position: center;
 }
 
+
 .greenBack {
     background-color: #6CA6CD;
     height: 25vh;
@@ -512,13 +513,35 @@ position: relative;
         font-family: 'school';
         src: url('school.ttf') format('truetype');
     }
-
-
-    #loginbackground {
-        background-image: url('../images/bestBackground3.jpg');
-        background-size: cover;
-        background-attachment: fixed;
+@-webkit-keyframes backgroundScroll {
+    0% {
+        background-position: 0px 0px;
     }
+
+    25% {
+        background-position: 0px 15px;
+    }
+
+    50% {
+        background-position: 0px 0px;
+    }
+
+    75% {
+        background-position: 0px 15px;
+    }
+
+    100% {
+        background-position: 0px 0px;
+    }
+}
+
+#loginbackground {
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-animation: backgroundScroll 30s infinite;
+    animation: backgroundScroll 30s infinite;
+}
 
 
     ul {
