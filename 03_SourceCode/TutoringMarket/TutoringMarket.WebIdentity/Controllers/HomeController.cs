@@ -542,7 +542,42 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             DeleteTutorComments(refreshedTutor.Id);
 
+            SendMail(refreshedTutor.EMail, String.Format("Hallo {0}, \r\n\r\n dein Profil wurde soeben vom Administrator freigegeben! Ab jetzt können alle Schüler dein Profil sehen und dich kontaktieren. \r\n\r\n Liebe Grüße \r\n Nachhilfebörse HTL Leonding", refreshedTutor.FirstName), "Profil freigegeben");
+
             return RedirectToAction("EditTutors");
+        }
+        private async void SendMail(string mail, string messageText, string subject)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var message = new MailMessage();
+                    message.To.Add(new MailAddress(mail));
+                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.Subject = subject;
+                    message.Body = string.Format(messageText);
+                    message.IsBodyHtml = false;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "nachhilfeboerse.info@gmail.com",
+                            Password = "5nUtWnsz"
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Error", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
+                }
+            }
         }
         private void DeleteTutorComments(int tutor_id)
         {
@@ -747,6 +782,32 @@ namespace TutoringMarket.WebIdentity.Controllers
                     ModelState.AddModelError("Error", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
                 }
             }
+            return View(model);
+        }
+        [Authorize(Roles ="Admin")]
+        public IActionResult MailAllTutors()
+        {
+            return View(new MailAllTutorsModel());
+        }
+        [Authorize(Roles ="Admin")]
+        [HttpPost]
+        public IActionResult MailAllTutors(MailAllTutorsModel model)
+        {
+            var tutors = this.uow.TutorRepository.Get(t => t.Accepted);
+            foreach (var item in tutors)
+            {
+                SendMail(item.EMail, model.Message, model.Subject);
+            }
+            if (ModelState.IsValid)
+                return View("Sent");
+            else
+                return View(model);
+        }
+        [Authorize(Roles ="Admin")]
+        public IActionResult Statistics()
+        {
+            StatisticsModel model = new StatisticsModel();
+            model.Init();
             return View(model);
         }
         [Authorize]

@@ -1,0 +1,32 @@
+@model TutoringMarket.WebIdentity.Models.ViewModels.MailAllTutorsModel
+@{
+    ViewData["Title"] = "MailAllTutors";
+}
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfeb&ouml;rse</a>
+    </div>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+    </div>
+</nav>
+<h2>Alle Tutoren kontaktieren</h2>
+<form asp-action="MailAllTutors">
+    <label>Betreff</label>
+    <input asp-for="@Model.Subject" />
+    <span asp-validation-for="@Model.Subject"></span>
+    <label>Nachricht</label>
+    @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
+    <span asp-validation-for="@Model.Message"></span>
+    <input type="submit" value="Senden" />
+    <p style="color:red;">@Html.ValidationMessage("Error")</p>
+</form>
+
