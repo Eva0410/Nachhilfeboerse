@@ -168,9 +168,10 @@
 }
 
 
+
 .greenBack {
     background-color: #6CA6CD;
-    height: 25vh;
+    height: 18vh;
     width: 100%;
     margin-top: -20px;
 }
@@ -263,7 +264,7 @@ em.index {
 @media screen and (max-width: 1050px) {
     .whiteBoxIndex {
         position: relative;
-        margin: 150px auto 0 auto;
+        margin: 20px auto 0 auto;
     }
 }
 
@@ -325,7 +326,149 @@ em.index {
     font-size: 15px;
 }
 
-#blackFilter1 {
+#filterMobile {
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    background-color: #f5f5f5;
+    float: right;
+    height: 60px;
+    width: 60px;
+    overflow: hidden;
+    margin-right: -30px;
+    margin-top: -25px;
+    border-radius: 50%;
+}
+
+@media screen and (min-width: 1050px) {
+    #filterMobile {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html, body {
+    height: 100%;
+    z-index:1;
+}
+
+.navMain, #content {
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.navMain {
+    width: 240px;
+    height: 100%;
+    left: -240px;
+    position: absolute;
+    background-color: #f5f5f5;
+}
+
+#content {
+    margin-top: -25px;
+    margin-left: -25px;
+}
+
+.reviews {
+    margin-top: 5px;
+    background-color: white;
+    -webkit-box-shadow: 1px 1px 8px -1px rgba(0,0,0,0.39);
+    -moz-box-shadow: 1px 1px 8px -1px rgba(0,0,0,0.39);
+    box-shadow: 1px 1px 8px -1px rgba(0,0,0,0.39);
+    padding: 10px 0 2px 15px;
+    border-radius: 2px;
+}
+
+#openBtn{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-left:25px;
+    margin-top: 12.5px;
+    padding: 10px;
+}
+#closeBtn{
+    width: 25px;
+    height: 25px;
+    border-radius:50%;
+    margin-top: 12.5px;
+    margin-left: -31px;
+    padding: 10px;
+}
+
+#openBtn {
+    display: block;
+}
+
+#closeBtn {
+    display: none;
+}
+
+
+/* if nav open */
+
+#openNav:target .navMain {
+    left: 0;
+}
+
+#openNav:target #content {
+    margin-left: 260px;
+    position: fixed;
+}
+
+#openNav:target #openBtn {
+    display: none;
+}
+
+#openNav:target #closeBtn {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#filterMobile2 {
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+    background-color: #f5f5f5;
+    float: right;
+    height:60px;
+    width:60px;
+    overflow: hidden;
+    margin-right: -30px;
+    margin-top: -25px;
+    border-radius: 50%;
+}
+@media screen and (min-width: 1050px) {
+    #filterMobile2 {
+        display: none;
+    }
+}
+
+#blackFilter1{
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19);
     background-color: #f5f5f5;
     float: right;
@@ -334,18 +477,18 @@ em.index {
     margin-right: 20px;
     width: 250px;
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 5px;   
 }
 
 @media screen and (max-width: 1050px) {
     #blackFilter1 {
-        width: 90%;
-        margin: -25px 5% -100px 5%;
+        display: none;
     }
 }
 
+
 #h3filterFach {
-    margin: 15px 0 5px 0px;
+    margin: 11px 0 5px 0px;
     padding: 0;
     font-size: 15px;
     font-weight: 500;
@@ -542,6 +685,14 @@ position: relative;
     -webkit-animation: backgroundScroll 30s infinite;
     animation: backgroundScroll 30s infinite;
 }
+@media screen and (max-width: 1000px) {
+    #loginbackground {
+        background-repeat: no-repeat;
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
 
 
     ul {
@@ -1010,3 +1161,4 @@ position: relative;
             display: none
         }
     }
+
