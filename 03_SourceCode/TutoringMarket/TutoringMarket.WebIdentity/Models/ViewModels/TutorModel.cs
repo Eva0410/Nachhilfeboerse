@@ -23,7 +23,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             this.Tutor = uow.TutorRepository.Get(filter: t => t.Id == this.Tutor_Id, includeProperties:"Department, Class, Subjects").FirstOrDefault();
             this.Reviews = uow.ReviewRepository.Get(filter: r => r.Tutor_Id == this.Tutor_Id && r.Approved == true);
             if (this.Reviews.Length != 0)
-                this.Average = this.Reviews.Average(r => r.Books);
+                this.Average = Math.Round(this.Reviews.Average(r => r.Books),1);
             else
                 this.Average = 0;
             NewReview = new Review();

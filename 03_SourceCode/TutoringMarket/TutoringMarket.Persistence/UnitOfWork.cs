@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Contracts;
 using TutoringMarket.Core.Enities;
+using TutoringMarket.Core.Statistics;
 
 namespace TutoringMarket.Persistence
 {
@@ -136,5 +137,44 @@ namespace TutoringMarket.Persistence
             _context.Database.Delete();
         }
 
+        public string GetDepartmentWithMostTutors()
+        {
+            return _context.Tutors.Include(nameof(Tutor.Department)).Where(t => t.Accepted).GroupBy(t => t.Department).OrderByDescending(grp => grp.Count()).FirstOrDefault().Key.Name;
+        }
+
+        public int GetTutorsCount()
+        {
+            return _context.Tutors.Count(t => t.Accepted);
+        }
+
+        public int GetTutorsWithImagePercentage()
+        {
+            try
+            {
+                return _context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / _context.Tutors.Count(t => t.Accepted);
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+        }
+
+        List<DataPoint> IUnitOfWork.GetTutorsPerGender()
+        {
+            var list = new List<DataPoint>();
+            list.Add(new DataPoint() { Label = "Weiblich", Y = _context.Tutors.Count(t => t.Gender == "Weiblich" && t.Accepted) });
+            list.Add(new DataPoint() { Label="Männlich", Y=_context.Tutors.Count(t => t.Gender == "Männlich" && t.Accepted) });
+            return list;
+        }
+
+        List<DataPoint> IUnitOfWork.GetTutorsPerClass()
+        {
+           return _context.Tutors.Where(t => t.Accepted).GroupBy(t => t.Class).Select(grp =>
+            new DataPoint()
+            {
+                Y = grp.Count(),
+                Label = grp.Key.Name
+            }).ToList();
+        }
     }
 }

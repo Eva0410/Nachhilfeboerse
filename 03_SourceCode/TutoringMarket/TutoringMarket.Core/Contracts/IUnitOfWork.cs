@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Enities;
+using TutoringMarket.Core.Statistics;
 
 namespace TutoringMarket.Core.Contracts
 {
@@ -21,5 +22,10 @@ namespace TutoringMarket.Core.Contracts
 
         void DeleteDatabase();
         List<Tutor> GetTutorsByReviews();
+        List<DataPoint> GetTutorsPerGender();
+        List<DataPoint> GetTutorsPerClass();
+        string GetDepartmentWithMostTutors();
+        int GetTutorsCount();
+        int GetTutorsWithImagePercentage();
     }
 }

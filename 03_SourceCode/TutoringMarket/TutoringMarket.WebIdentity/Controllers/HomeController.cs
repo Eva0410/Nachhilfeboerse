@@ -15,6 +15,7 @@ using TutoringMarket.Persistence;
 using System.Net.Mail;
 using System.IO;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -807,7 +808,9 @@ namespace TutoringMarket.WebIdentity.Controllers
         public IActionResult Statistics()
         {
             StatisticsModel model = new StatisticsModel();
-            model.Init();
+            model.Init(this.uow);
+            ViewBag.TutorsPerClassDataPoints = JsonConvert.SerializeObject(model.TutorsPerClass);
+            ViewBag.TutorsPerGenderDataPoints = JsonConvert.SerializeObject(model.TutorsPerGender);
             return View(model);
         }
         [Authorize]
@@ -815,7 +818,6 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             return View();
         }
-
         public IActionResult Error()
         {
             return View();

@@ -2,52 +2,41 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+<div id="tutorsPerClassChartContainer"></div>
+<div id="tutorsPerGenderChartContainer"></div>
+<div>
+    <label>Abteilung mit den meisten Tutoren: @Model.DepartmentWithMostTutors</label>
+    <label>Anzahl an Tutoren gesamt: @Model.TutorsCount</label>
+    <label>Tutoren mit Bild: @Model.TutorsWithImagePercentage %</label>
+</div>
+<script type="text/javascript">
 
-@*<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfebörse</a>
-        </div>
-
-        <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
-
-            <ul class="nav navbar-nav navbar-right">
-                <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
-            </ul>
-            <ul>
-                <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditMetadata">Metadaten bearbeiten</a></li>
-                <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditReviews">Bewertungen bearbeiten</a></li>
-                <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="EditTutors">Tutoren bearbeiten</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <body>
-        <form asp-action="Statistics">
-
-            <h1 >Statistiken:</h1>
-            <div>
-                @{var myChart = new Chart(width: 600, height: 400)
-                .AddTitle("Chart Title")
-                .AddSeries(
-                    name: "Employee",
-                    xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
-                    yValues: new[] { "2", "6", "4", "5", "3" })
-                .Write();
-                }
-            </div>
-        </form>
-
-    </body>*@
-@*{var myChart = new Chart(width: 600, height: 400)
-              .AddTitle("Chart Title")
-              .AddSeries(
-                  name: "Employee",
-                  xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
-                  yValues: new[] { "2", "6", "4", "5", "3" })
-              .Write();
-}*q
+    window.onload = function () {
+        var tutorperclasschart = new CanvasJS.Chart("tutorsPerClassChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Tutoren pro Klasse"
+            },
+            data: [
+                {                    type: "column",
+                    dataPoints:  @Html.Raw(ViewBag.TutorsPerClassDataPoints)
+}
+]
+});
+        tutorperclasschart.render();
+                var tutorspergenderchart = new CanvasJS.Chart("tutorsPerClassGenderContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Tutoren pro Geschlecht"
+            },
+            data: [
+                {                    type: "pie",
+                    dataPoints:  @Html.Raw(ViewBag.TutorsPerGenderDataPoints)
+}
+]
+});
+        tutorspergenderchart.render();
+};
+</script>
