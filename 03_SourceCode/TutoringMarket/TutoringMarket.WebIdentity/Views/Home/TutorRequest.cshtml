@@ -34,10 +34,13 @@
 
         <div class="centerAnfrage">
             <h4> Vorgefertigte Nachricht:</h4>
-            @Model.Message  
+            @Model.Message
             <textarea class="form-control3" asp-for="@Model.Comments">@Model.Comments</textarea>
             @Model.Ending
-            <input class="btn btn-default" type="submit" value="Senden" style="margin-bottom:5px;"/>
+            <br />
+            <a class="btn btn-default" asp-action="TutorDetails" asp-route-id="@Model.Tutor.Id">Zur&uuml;ck</a>
+            <input class="btn btn-default" type="submit" value="Senden" style="margin-bottom:5px;" /> <br />
+            @Html.ValidationMessageFor(m => m.Message)
             <input type="hidden" asp-for="@Model.Tutor.Id" />
             <input type="hidden" asp-for="@Model.Message" />
             <input type="hidden" asp-for="@Model.Ending" />

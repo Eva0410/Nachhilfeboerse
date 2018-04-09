@@ -2,13 +2,28 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<div id="tutorsPerClassChartContainer"></div>
-<div id="tutorsPerGenderChartContainer"></div>
 <div>
-    <label>Abteilung mit den meisten Tutoren: @Model.DepartmentWithMostTutors</label>
-    <label>Anzahl an Tutoren gesamt: @Model.TutorsCount</label>
-    <label>Tutoren mit Bild: @Model.TutorsWithImagePercentage %</label>
+    <label>Abteilung mit den meisten Tutoren: @Model.DepartmentWithMostTutors</label> <br />
+    <label>Anzahl an Tutoren gesamt: @Model.TutorsCount</label> <br />
+    <label>Tutoren mit Bild: @Model.TutorsWithImagePercentage %</label> <br /> <br />
+    <label>Anzahl an Bewertungen (gesamt): @Model.ReviewsCount</label> <br />
+    <label>Durchschnittswert aller Bewertungen: @Model.ReviewsAverage</label> <br />
+    <label>Durchschnittsanzahl an Bewertungen pro Tutor: @Model.ReviewPerTutor</label> <br /> <br />
+    <label>Anzahl der versendeten Anfragen: @Model.RequestCount</label> <br />
+    <label>Klassen, die am meisten Anfragen versendet haben (Top 5):</label> <br />
+    <ol>
+        @foreach (var item in Model.TopFiveRequestingClasses)
+        {
+            <li>@item.Name</li> <br />
+        }
+    </ol> <br />
+    <label>Tutor, der am öftesten angefragt wird: @Model.MostRequestedTutor.FirstName @Model.MostRequestedTutor.LastName, @Model.MostRequestedTutor.Class.Name </label> <br />
 </div>
+<div id="tutorsPerClassChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="tutorsPerGenderChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="monthsWithRequestsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="requestsOnTutorWithImageChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+
 <script type="text/javascript">
 
     window.onload = function () {
@@ -19,13 +34,13 @@
                 text: "Tutoren pro Klasse"
             },
             data: [
-                {                    type: "column",
-                    dataPoints:  @Html.Raw(ViewBag.TutorsPerClassDataPoints)
-}
-]
-});
-        tutorperclasschart.render();
-                var tutorspergenderchart = new CanvasJS.Chart("tutorsPerClassGenderContainer", {
+                {
+                    type: "column",
+                    dataPoints:  @Html.Raw(ViewBag.TutorsPerClassDataPoints),
+                }
+            ]
+        });
+        var tutorspergenderchart = new CanvasJS.Chart("tutorsPerGenderChartContainer", {
             theme: "theme2",
             animationEnabled: true,
             title: {
@@ -33,10 +48,41 @@
             },
             data: [
                 {                    type: "pie",
-                    dataPoints:  @Html.Raw(ViewBag.TutorsPerGenderDataPoints)
-}
-]
-});
+                    dataPoints:  @Html.Raw(ViewBag.TutorsPerGenderDataPoints),
+                }
+            ]
+        });
+        var monthsWithRequestsChart = new CanvasJS.Chart("monthsWithRequestsChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Anfragen pro Monat"
+            },
+            data: [
+                {                    type: "column",
+                    dataPoints:  @Html.Raw(ViewBag.MonthsWithRequestsDataPoints),
+                }
+            ]
+        });
+        var requestsOnTutorWithImageChart = new CanvasJS.Chart("requestsOnTutorWithImageChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Anfragen an Tutoren mit Bild in Prozent"
+            },
+            data: [
+                {                    type: "pie",
+                    dataPoints:  @Html.Raw(ViewBag.RequestsOnTutorsWithImagePercentageDataPoints),
+                }
+            ]
+        });
+
+        tutorperclasschart.render();
+
         tutorspergenderchart.render();
+
+        monthsWithRequestsChart.render();
+
+        requestsOnTutorWithImageChart.render();
 };
 </script>

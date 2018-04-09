@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Contracts;
 using TutoringMarket.Core.Enities;
 using TutoringMarket.Core.Statistics;
+using Microsoft.AspNetCore.Identity;
 
 namespace TutoringMarket.Persistence
 {
@@ -83,8 +85,17 @@ namespace TutoringMarket.Persistence
                 return _teacherCommentRepository;
             }
         }
+        private GenericRepository<TutorRequest> _tutorRequestRepository;
 
-
+        public IGenericRepository<TutorRequest> TutorRequestRepository
+        {
+            get
+            {
+                if (_tutorRequestRepository == null)
+                    _tutorRequestRepository = new GenericRepository<TutorRequest>(_context);
+                return _tutorRequestRepository;
+            }
+        }
 
         public UnitOfWork(string connectionString)
         {
@@ -151,7 +162,7 @@ namespace TutoringMarket.Persistence
         {
             try
             {
-                return _context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / _context.Tutors.Count(t => t.Accepted);
+                return _context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / _context.Tutors.Count(t => t.Accepted) *100;
             }
             catch(Exception e)
             {
@@ -175,6 +186,81 @@ namespace TutoringMarket.Persistence
                 Y = grp.Count(),
                 Label = grp.Key.Name
             }).ToList();
+        }
+
+        public int GetReviewsCount()
+        {
+            return _context.Reviews.Count(r => r.Approved);
+        }
+
+        public double GetAverageReview()
+        {
+            return Math.Round(_context.Reviews.Where(r => r.Approved).Average(r => r.Books),2);
+        }
+
+        public double GetAverageCountReviewsPerTutor()
+        {
+            try
+            {
+                return Math.Round((double)GetReviewsCount() / (double) GetTutorsCount(),2);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+
+        public int GetRequestsCount()
+        {
+            return _context.TutorRequests.Count();
+        }
+
+        public List<SchoolClass> GetTopFiveRequestingClasses()
+        {
+            return _context.TutorRequests.GroupBy(tr => tr.SchoolClass).Select(grp =>
+            new
+            {
+                SchoolClass = _context.SchoolClasses.Where(s => s.Name == grp.Key).FirstOrDefault(),
+                count = grp.Count()
+            }).OrderByDescending(a => a.count).Take(5).Select(a => a.SchoolClass).ToList();
+        }
+
+        public Tutor GetMostRequestedTutor()
+        {
+            int id = _context.TutorRequests.Include("Class").GroupBy(r => r.Tutor_Id).Select(a =>
+            new
+            {
+                Tutor_Id = a.Key,
+                sum = a.Count()
+            }).OrderByDescending(a => a.sum).FirstOrDefault().Tutor_Id;
+            return _context.Tutors.Where(t => t.Id == id).FirstOrDefault();
+
+        }
+
+        public List<DataPoint> GetMonthsWithMostRequests()
+        {
+            List<DataPoint> points = new List<DataPoint>();
+            for (int i = 0; i < 12; i++)
+            {
+                var d = new DataPoint();
+                d.Label = GetString(i + 1);
+                d.Y = _context.TutorRequests.Count(r => r.Date.Month == i + 1);
+                points.Add(d);
+            }
+            return points;
+        }
+        private string GetString(int month)
+        {
+            return new DateTime(2000,month, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("de"));
+        }
+
+        public List<DataPoint> GetRequestPercentageOnTutorsWithImage()
+        {
+            List<DataPoint> list = new List<DataPoint>();
+            double noimage = Math.Round((double)_context.TutorRequests.Include("Tutor").Count(tr => !String.IsNullOrEmpty(tr.Tutor.Image)) / (double)GetRequestsCount() * 100,2);
+            list.Add(new DataPoint() { Label = "Mit Bild", Y = 100 - noimage });
+            list.Add(new DataPoint() { Label = "Ohne Bild", Y = noimage });
+            return list;
         }
     }
 }

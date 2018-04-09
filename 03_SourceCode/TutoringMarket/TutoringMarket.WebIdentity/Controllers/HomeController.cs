@@ -715,8 +715,18 @@ namespace TutoringMarket.WebIdentity.Controllers
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
-                        return RedirectToAction("Sent");
                     }
+
+                    //save message
+                    var request = new TutorRequest();
+                    request.Date = DateTime.Now;
+                    request.Tutor_Id = model.Tutor.Id;
+                    ApplicationUser CurrentUser = await um.FindByNameAsync(User.Identity.Name);
+                    request.SchoolClass = CurrentUser.SchoolClass;
+
+                    uow.TutorRequestRepository.Insert(request);
+                    uow.Save();
+                    return RedirectToAction("Sent");
                 }
                 catch (Exception ex)
                 {
@@ -811,6 +821,10 @@ namespace TutoringMarket.WebIdentity.Controllers
             model.Init(this.uow);
             ViewBag.TutorsPerClassDataPoints = JsonConvert.SerializeObject(model.TutorsPerClass);
             ViewBag.TutorsPerGenderDataPoints = JsonConvert.SerializeObject(model.TutorsPerGender);
+
+            ViewBag.MonthsWithRequestsDataPoints = JsonConvert.SerializeObject(model.MonthsWithRequests);
+            ViewBag.RequestsOnTutorsWithImagePercentageDataPoints = JsonConvert.SerializeObject(model.RequestsOnTutorsWithImage);
+
             return View(model);
         }
         [Authorize]
