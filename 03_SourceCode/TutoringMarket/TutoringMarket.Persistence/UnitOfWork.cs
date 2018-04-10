@@ -96,7 +96,26 @@ namespace TutoringMarket.Persistence
                 return _tutorRequestRepository;
             }
         }
-
+        private GenericRepository<TeacherCommentStatisticEntry> _teacherCommentStatisticsRepository;
+        public IGenericRepository<TeacherCommentStatisticEntry> TeacherCommentStatisticsRepository
+        {
+            get
+            {
+                if (_teacherCommentStatisticsRepository == null)
+                    _teacherCommentStatisticsRepository = new GenericRepository<TeacherCommentStatisticEntry>(_context);
+                return _teacherCommentStatisticsRepository;
+            }
+        }
+        private GenericRepository<AcceptStatistics> _acceptStatisticsRespository;
+        public IGenericRepository<AcceptStatistics> AcceptStatisticsRepository
+        {
+            get
+            {
+                if (_acceptStatisticsRespository == null)
+                    _acceptStatisticsRespository = new GenericRepository<AcceptStatistics>(_context);
+                return _acceptStatisticsRespository;
+            }
+        }
         public UnitOfWork(string connectionString)
         {
             _context = new ApplicationDbContext_TutoringMarket(connectionString);
@@ -158,16 +177,9 @@ namespace TutoringMarket.Persistence
             return _context.Tutors.Count(t => t.Accepted);
         }
 
-        public int GetTutorsWithImagePercentage()
+        public double GetTutorsWithImagePercentage()
         {
-            try
-            {
-                return _context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / _context.Tutors.Count(t => t.Accepted) *100;
-            }
-            catch(Exception e)
-            {
-                return 0;
-            }
+                return Math.Round((double) _context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / (double) GetTutorsCount() *100,2);
         }
 
         List<DataPoint> IUnitOfWork.GetTutorsPerGender()
@@ -260,6 +272,29 @@ namespace TutoringMarket.Persistence
             double noimage = Math.Round((double)_context.TutorRequests.Include("Tutor").Count(tr => !String.IsNullOrEmpty(tr.Tutor.Image)) / (double)GetRequestsCount() * 100,2);
             list.Add(new DataPoint() { Label = "Mit Bild", Y = 100 - noimage });
             list.Add(new DataPoint() { Label = "Ohne Bild", Y = noimage });
+            return list;
+        }
+
+        public string GetTeacherWithMostComments()
+        {
+            return _context.TeacherCommentStatistics.GroupBy(t => t.TeacherIdentityName).OrderByDescending(grp => grp.Count()).FirstOrDefault().Key;
+        }
+        public List<DataPoint> GetAcceptedReviews()
+        {
+            List<DataPoint> list = new List<DataPoint>();
+            int accepted = _context.AcceptStatistics.Count(a => a.ReviewAccepted != null && (bool)a.ReviewAccepted);
+            int declined = _context.AcceptStatistics.Count(a => a.ReviewAccepted != null && (bool)a.ReviewAccepted == false);
+            list.Add(new DataPoint() { Label = "Akzeptiert", Y = accepted });
+            list.Add(new DataPoint() { Label = "Abgelehnt", Y = declined });
+            return list;
+        }
+        public List<DataPoint> GetAcceptedTutors()
+        {
+            List<DataPoint> list = new List<DataPoint>();
+            int accepted = _context.AcceptStatistics.Count(a => a.TutorAccepted != null && (bool)a.TutorAccepted);
+            int declined = _context.AcceptStatistics.Count(a => a.TutorAccepted != null && (bool)a.TutorAccepted == false);
+            list.Add(new DataPoint() { Label = "Akzeptiert", Y = accepted });
+            list.Add(new DataPoint() { Label = "Abgelehnt", Y = declined });
             return list;
         }
     }

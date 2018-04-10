@@ -217,12 +217,14 @@
     <Compile Include="Contracts\IEntityObject.cs" />
     <Compile Include="Contracts\IGenericRepository.cs" />
     <Compile Include="Contracts\IUnitOfWork.cs" />
+    <Compile Include="Enities\AcceptStatistics.cs" />
     <Compile Include="Enities\TeacherComment.cs" />
     <Compile Include="Enities\SchoolClass.cs" />
     <Compile Include="Enities\Department.cs" />
     <Compile Include="Enities\EntityObject.cs" />
     <Compile Include="Enities\Review.cs" />
     <Compile Include="Enities\Subject.cs" />
+    <Compile Include="Enities\TeacherCommentStatisticEntry.cs" />
     <Compile Include="Enities\Tutor.cs" />
     <Compile Include="Enities\MyString.cs" />
     <Compile Include="Enities\TutorRequest.cs" />

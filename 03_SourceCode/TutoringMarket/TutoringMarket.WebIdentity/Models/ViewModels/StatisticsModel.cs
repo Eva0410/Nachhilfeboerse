@@ -17,7 +17,7 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public List<DataPoint> TutorsPerGender { get; set; }
         public string DepartmentWithMostTutors { get; set; }
         public int TutorsCount { get; set; }
-        public int TutorsWithImagePercentage { get; set; }
+        public double TutorsWithImagePercentage { get; set; }
         public int ReviewsCount { get; set; }
         public double ReviewsAverage { get; set; }
         public double ReviewPerTutor { get; set; }
@@ -26,6 +26,9 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
         public Tutor MostRequestedTutor { get; set; }
         public List<DataPoint> MonthsWithRequests { get; set; }
         public List<DataPoint> RequestsOnTutorsWithImage { get; set; }
+        public string TeacherWithMostComments { get; set; }
+        public List<DataPoint> AcceptedReviews { get; set; }
+        public List<DataPoint> AcceptedTutors { get; set; }
         public void Init(IUnitOfWork uow)
         {
             this.TutorsPerClass = uow.GetTutorsPerClass();
@@ -41,6 +44,9 @@ namespace TutoringMarket.WebIdentity.Models.ViewModels
             this.MostRequestedTutor = uow.GetMostRequestedTutor();
             this.RequestsOnTutorsWithImage = uow.GetRequestPercentageOnTutorsWithImage();
             this.MonthsWithRequests = uow.GetMonthsWithMostRequests();
+            this.TeacherWithMostComments = uow.GetTeacherWithMostComments();
+            this.AcceptedReviews = uow.GetAcceptedReviews();
+            this.AcceptedTutors = uow.GetAcceptedTutors();
         }
     }
 }

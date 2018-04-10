@@ -1,0 +1,23 @@
+Emails im Code:
+
+HomeController:
+
+Methode Contact:
+
+Zeile 68:
+Keck's Email: a.keck-jordan@htl-leonding.ac.at
+
+Zeile 69, 78, 79
+Email von der die Email versendet werden soll: nachhilfeboerse.info@gmail.com pw 5nUtWnsz
+
+Methode SendMail:
+
+Zeile 557, 566,567: nachhilfeboerse.info@gmail.com
+
+Methode TutorRequest:
+
+Zeile 701, 709,710: nachhilfeboerse.info@gmail.com
+
+Methode AdministrationMail:
+
+Zeile 771, 779, 780: nachhilfeboerse.info@gmail.com

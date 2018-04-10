@@ -19,6 +19,18 @@
         }
     </table>
     <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
+    <h3>Bereits veröffentlichte Bewertungen:</h3>
+    <table>
+        @foreach (var item in Model.AllReviews)
+        {
+            <tr>
+                <td>@item.Books</td>
+                <td>@item.Comment</td>
+                <td>@item.Tutor.LastName, @item.Tutor.FirstName</td>
+                <td><a asp-action="EditReviewsDeleteReviewAfterwards" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich entfernen?');">Entfernen</a></td>
+            </tr>
+        }
+    </table>
 </form>
 
 

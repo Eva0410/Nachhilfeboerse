@@ -35,7 +35,6 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             return View();
         }
-        //TODO sort property mitgeben
         [Authorize]
         public IActionResult Index(string filter, string sort)
         {
@@ -111,7 +110,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         [HttpPost]
         public async Task<IActionResult> TutorDetails(TutorModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Review r = model.NewReview;
                 r.Approved = false;
@@ -142,7 +141,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         //id describes the method, which should be invoked (0 == preview image, 1 == save tutor, 2 == delete image)
         public async Task<IActionResult> GetTutor(GetTutorModel model, int id)
         {
-            
+
             //preview
             if (id == 0)
             {
@@ -213,7 +212,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             EditTutorModel model = new EditTutorModel();
             await model.FillList(uow, um, User);
-            if(model.Tutor.Image != null)
+            if (model.Tutor.Image != null)
             {
                 model.ImageAsString = model.Tutor.Image;
             }
@@ -373,7 +372,6 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         //TODO Info (Admin muss sich neu einloggen um Administrator-Rechte zu bekommen
-        //TODO handle back button
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
@@ -415,9 +413,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             return RedirectToAction("AdministrationArea", model);
         }
         //TODO Access Denied Page designen
-        //TODO Reviews im Nachhinein bearbeiten
         //TODO Max Anzahl Zeichen bei Kommentar
-        //TODO reviews accept
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditReviews()
@@ -434,6 +430,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 return NotFound();
 
             uow.ReviewRepository.Delete(r);
+            //save for statistics
+            uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { ReviewAccepted = false });
             uow.Save();
             return RedirectToAction("EditReviews");
         }
@@ -447,9 +445,22 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             review.Approved = true;
             uow.ReviewRepository.Update(review);
-
+            uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { ReviewAccepted = true });
             uow.Save();
             return RedirectToAction("EditReviews");
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditReviewsDeleteReviewAfterwards(EditReviewsModel model, int id)
+        {
+            var r = uow.ReviewRepository.GetById(id);
+            if (r == null)
+                return NotFound();
+
+            uow.ReviewRepository.Delete(r);
+            uow.Save();
+
+            return RedirectToAction("EditReviews");
+
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -511,6 +522,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 DeleteTutorComments(t.Id);
 
                 uow.TutorRepository.Delete(t);
+
+                uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { TutorAccepted = false });
                 uow.Save();
 
                 if (uow.TutorRepository.Get(filter: tut => tut.IdentityName == t.IdentityName).Count() == 0)
@@ -538,7 +551,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             refreshedTutor.Accepted = true;
             refreshedTutor.OldTutorId = 0;
             uow.TutorRepository.Update(refreshedTutor);
-
+            uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { TutorAccepted = true });
             uow.Save();
 
             DeleteTutorComments(refreshedTutor.Id);
@@ -664,6 +677,13 @@ namespace TutoringMarket.WebIdentity.Controllers
                 };
                 this.uow.TeacherCommentRepository.Insert(comment);
                 this.uow.Save();
+
+                //save to generate statistics
+                TeacherCommentStatisticEntry c = new TeacherCommentStatisticEntry();
+                c.TeacherIdentityName = User.Identity.Name;
+                this.uow.TeacherCommentStatisticsRepository.Insert(c);
+                this.uow.Save();
+
                 model.Init(this.uow);
                 return RedirectToAction("CommentTutor", new { filter = model.SelectedSubject });
             }
@@ -748,7 +768,7 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             return View();
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AdministrationMail(int id)
         {
             AdminMailForm model = new AdminMailForm();
@@ -757,8 +777,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
-        //TODO config datei
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AdministrationMail(AdminMailForm model)
         {
             model.InitTutor(this.uow, model.ID);
@@ -795,12 +814,12 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult MailAllTutors()
         {
             return View(new MailAllTutorsModel());
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult MailAllTutors(MailAllTutorsModel model)
         {
@@ -814,7 +833,7 @@ namespace TutoringMarket.WebIdentity.Controllers
             else
                 return View(model);
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Statistics()
         {
             StatisticsModel model = new StatisticsModel();
@@ -824,6 +843,9 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             ViewBag.MonthsWithRequestsDataPoints = JsonConvert.SerializeObject(model.MonthsWithRequests);
             ViewBag.RequestsOnTutorsWithImagePercentageDataPoints = JsonConvert.SerializeObject(model.RequestsOnTutorsWithImage);
+
+            ViewBag.AcceptedReviews = JsonConvert.SerializeObject(model.AcceptedReviews);
+            ViewBag.AcceptedTutors = JsonConvert.SerializeObject(model.AcceptedTutors);
 
             return View(model);
         }

@@ -11,7 +11,6 @@ namespace TutoringMarket.Core.Enities
 {
     public class Tutor : EntityObject
     {
-        //TODO Bild beim einfügen konvertieren
         [Display(Name ="Bild")]
         public string Image { get; set; }
 

@@ -19,6 +19,8 @@ namespace TutoringMarket.Core.Contracts
         IGenericRepository<Subject> SubjectRepository { get; }
         IGenericRepository<TeacherComment> TeacherCommentRepository { get; }
         IGenericRepository<TutorRequest> TutorRequestRepository { get; }
+        IGenericRepository<TeacherCommentStatisticEntry> TeacherCommentStatisticsRepository { get; }
+        IGenericRepository<AcceptStatistics> AcceptStatisticsRepository { get; }
 
         void Save();
 
@@ -28,7 +30,7 @@ namespace TutoringMarket.Core.Contracts
         List<DataPoint> GetTutorsPerClass();
         string GetDepartmentWithMostTutors();
         int GetTutorsCount();
-        int GetTutorsWithImagePercentage();
+        double GetTutorsWithImagePercentage();
 
         int GetReviewsCount();
         double GetAverageReview();
@@ -39,5 +41,9 @@ namespace TutoringMarket.Core.Contracts
         Tutor GetMostRequestedTutor();
         List<DataPoint> GetMonthsWithMostRequests();
         List<DataPoint> GetRequestPercentageOnTutorsWithImage();
+
+        string GetTeacherWithMostComments();
+        List<DataPoint> GetAcceptedTutors();
+        List<DataPoint> GetAcceptedReviews();
     }
 }

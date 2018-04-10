@@ -254,6 +254,14 @@
     <Compile Include="Migrations\201804091113018_TutorRequestChanged.Designer.cs">
       <DependentUpon>201804091113018_TutorRequestChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804100744550_TeacherStatistics.cs" />
+    <Compile Include="Migrations\201804100744550_TeacherStatistics.Designer.cs">
+      <DependentUpon>201804100744550_TeacherStatistics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804100800096_AcceptStatistics.cs" />
+    <Compile Include="Migrations\201804100800096_AcceptStatistics.Designer.cs">
+      <DependentUpon>201804100800096_AcceptStatistics.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -313,6 +321,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804091113018_TutorRequestChanged.resx">
       <DependentUpon>201804091113018_TutorRequestChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804100744550_TeacherStatistics.resx">
+      <DependentUpon>201804100744550_TeacherStatistics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804100800096_AcceptStatistics.resx">
+      <DependentUpon>201804100800096_AcceptStatistics.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

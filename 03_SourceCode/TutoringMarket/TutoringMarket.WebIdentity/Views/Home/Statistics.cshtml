@@ -14,15 +14,19 @@
     <ol>
         @foreach (var item in Model.TopFiveRequestingClasses)
         {
-            <li>@item.Name</li> <br />
+            <li>@item.Name</li>
+            <br />
         }
     </ol> <br />
     <label>Tutor, der am öftesten angefragt wird: @Model.MostRequestedTutor.FirstName @Model.MostRequestedTutor.LastName, @Model.MostRequestedTutor.Class.Name </label> <br />
+    <label>Lehrer, der die meisten Kommentarre abgegeben hat: @Model.TeacherWithMostComments</label> <br />
 </div>
 <div id="tutorsPerClassChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
 <div id="tutorsPerGenderChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
 <div id="monthsWithRequestsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
 <div id="requestsOnTutorWithImageChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="acceptedTutorsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="acceptedReviewsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
 
 <script type="text/javascript">
 
@@ -76,6 +80,30 @@
                 }
             ]
         });
+        var acceptedTutorsChart = new CanvasJS.Chart("acceptedTutorsChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Akzeptierte / Abgelehnte Tutoren"
+            },
+            data: [
+                {                    type: "doughnut",
+                    dataPoints:  @Html.Raw(ViewBag.AcceptedTutors),
+                }
+            ]
+        });
+        var acceptedReviewsChart = new CanvasJS.Chart("acceptedReviewsChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Akzeptierte / Abgelehnte Bewertungen"
+            },
+            data: [
+                {                    type: "doughnut",
+                    dataPoints:  @Html.Raw(ViewBag.AcceptedReviews),
+                }
+            ]
+        });
 
         tutorperclasschart.render();
 
@@ -84,5 +112,9 @@
         monthsWithRequestsChart.render();
 
         requestsOnTutorWithImageChart.render();
+
+        acceptedTutorsChart.render();
+
+        acceptedReviewsChart.render();
 };
 </script>

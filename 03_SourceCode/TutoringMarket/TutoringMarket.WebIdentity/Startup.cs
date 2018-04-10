@@ -100,7 +100,6 @@ namespace TutoringMarket.WebIdentity
             //await AddUserRole("in130019", "Teacher", UserManager, RoleManager);
             //await AddUserRole("in130024", "Tutor", UserManager, RoleManager);
             //await AddUserRole("in130015", "Tutor", UserManager, RoleManager);
-
         }
         private async Task CreateRole(RoleManager<IdentityRole> rm, string roleName)
         {
