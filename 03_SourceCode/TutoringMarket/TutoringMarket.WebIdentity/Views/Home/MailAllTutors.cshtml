@@ -16,6 +16,9 @@
         <ul class="nav navbar-nav navbar-right">
             <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
         </ul>
+        <ul>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
+        </ul>
     </div>
 </nav>
 <h2>Alle Tutoren kontaktieren</h2>
@@ -26,6 +29,7 @@
     <label>Nachricht</label>
     @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
     <span asp-validation-for="@Model.Message"></span>
+    <a class="btn btn-default" asp-action="EditTutors">Zur&uuml;ck</a>
     <input type="submit" value="Senden" />
     <p style="color:red;">@Html.ValidationMessage("Error")</p>
 </form>
