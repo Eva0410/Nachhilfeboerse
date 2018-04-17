@@ -37,7 +37,14 @@
             <br />
         }
     </ol> <br />
-    <label>Tutor, der am öftesten angefragt wird: @Model.MostRequestedTutor.FirstName @Model.MostRequestedTutor.LastName, @Model.MostRequestedTutor.Class.Name </label> <br />
+    @if (Model.MostRequestedTutor.FirstName == null || Model.MostRequestedTutor.LastName == null || Model.MostRequestedTutor.Class == null)
+    {
+        <label>Tutor, der am öftesten angefragt wird: - </label> <br />
+    }
+    else  
+    {
+        <label>Tutor, der am öftesten angefragt wird: @Model.MostRequestedTutor.FirstName @Model.MostRequestedTutor.LastName, @Model.MostRequestedTutor.Class.Name </label> <br />
+    }
     <label>Lehrer, der die meisten Kommentarre abgegeben hat: @Model.TeacherWithMostComments</label> <br />
 </div>
 <div id="tutorsPerClassChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>

@@ -195,6 +195,8 @@ namespace TutoringMarket.Persistence
         {
             try
             {
+                if (GetTutorsCount() == 0)
+                    return 0;
                 return Math.Round((double)_context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / (double)GetTutorsCount() * 100, 2);
             }
             catch (Exception e)
@@ -263,6 +265,8 @@ namespace TutoringMarket.Persistence
         {
             try
             {
+                if (GetTutorsCount() == 0)
+                    return 0;
                 return Math.Round((double)GetReviewsCount() / (double) GetTutorsCount(),2);
             }
             catch (Exception e)
