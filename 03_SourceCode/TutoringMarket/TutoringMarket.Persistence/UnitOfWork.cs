@@ -169,45 +169,94 @@ namespace TutoringMarket.Persistence
 
         public string GetDepartmentWithMostTutors()
         {
-            return _context.Tutors.Include(nameof(Tutor.Department)).Where(t => t.Accepted).GroupBy(t => t.Department).OrderByDescending(grp => grp.Count()).FirstOrDefault().Key.Name;
+            try
+            {
+                return _context.Tutors.Include(nameof(Tutor.Department)).Where(t => t.Accepted).GroupBy(t => t.Department).OrderByDescending(grp => grp.Count()).FirstOrDefault().Key.Name;
+            }
+            catch(Exception e)
+            {
+                return "-";
+            }
         }
 
         public int GetTutorsCount()
         {
-            return _context.Tutors.Count(t => t.Accepted);
+            try
+            {
+                return _context.Tutors.Count(t => t.Accepted);
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
         }
 
         public double GetTutorsWithImagePercentage()
         {
-                return Math.Round((double) _context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / (double) GetTutorsCount() *100,2);
+            try
+            {
+                return Math.Round((double)_context.Tutors.Count(t => !String.IsNullOrEmpty(t.Image) && t.Accepted) / (double)GetTutorsCount() * 100, 2);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
 
         List<DataPoint> IUnitOfWork.GetTutorsPerGender()
         {
             var list = new List<DataPoint>();
-            list.Add(new DataPoint() { Label = "Weiblich", Y = _context.Tutors.Count(t => t.Gender == "Weiblich" && t.Accepted) });
-            list.Add(new DataPoint() { Label="Männlich", Y=_context.Tutors.Count(t => t.Gender == "Männlich" && t.Accepted) });
+            try
+            {
+                list.Add(new DataPoint() { Label = "Weiblich", Y = _context.Tutors.Count(t => t.Gender == "Weiblich" && t.Accepted) });
+                list.Add(new DataPoint() { Label = "Männlich", Y = _context.Tutors.Count(t => t.Gender == "Männlich" && t.Accepted) });
+            }
+            catch(Exception e)
+            {
+
+            }
             return list;
         }
 
         List<DataPoint> IUnitOfWork.GetTutorsPerClass()
         {
-           return _context.Tutors.Where(t => t.Accepted).GroupBy(t => t.Class).Select(grp =>
-            new DataPoint()
+            try
             {
-                Y = grp.Count(),
-                Label = grp.Key.Name
-            }).ToList();
+                return _context.Tutors.Where(t => t.Accepted).GroupBy(t => t.Class).Select(grp =>
+                 new DataPoint()
+                 {
+                     Y = grp.Count(),
+                     Label = grp.Key.Name
+                 }).ToList();
+            }
+            catch(Exception e)
+            {
+                return new List<DataPoint>();
+            }
         }
 
         public int GetReviewsCount()
         {
-            return _context.Reviews.Count(r => r.Approved);
+            try
+            {
+                return _context.Reviews.Count(r => r.Approved);
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
         }
 
         public double GetAverageReview()
         {
-            return Math.Round(_context.Reviews.Where(r => r.Approved).Average(r => r.Books),2);
+            try
+            {
+                return Math.Round(_context.Reviews.Where(r => r.Approved).Average(r => r.Books), 2);
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
         }
 
         public double GetAverageCountReviewsPerTutor()
@@ -224,77 +273,139 @@ namespace TutoringMarket.Persistence
 
         public int GetRequestsCount()
         {
-            return _context.TutorRequests.Count();
+            try
+            {
+                return _context.TutorRequests.Count();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
         }
 
         public List<SchoolClass> GetTopFiveRequestingClasses()
         {
-            return _context.TutorRequests.GroupBy(tr => tr.SchoolClass).Select(grp =>
-            new
+            try
             {
-                SchoolClass = _context.SchoolClasses.Where(s => s.Name == grp.Key).FirstOrDefault(),
-                count = grp.Count()
-            }).OrderByDescending(a => a.count).Take(5).Select(a => a.SchoolClass).ToList();
+                return _context.TutorRequests.GroupBy(tr => tr.SchoolClass).Select(grp =>
+                new
+                {
+                    SchoolClass = _context.SchoolClasses.Where(s => s.Name == grp.Key).FirstOrDefault(),
+                    count = grp.Count()
+                }).OrderByDescending(a => a.count).Take(5).Select(a => a.SchoolClass).ToList();
+            }
+            catch(Exception e)
+            {
+                return new List<SchoolClass>();
+            }
         }
 
         public Tutor GetMostRequestedTutor()
         {
-            int id = _context.TutorRequests.Include("Class").GroupBy(r => r.Tutor_Id).Select(a =>
-            new
+            try
             {
-                Tutor_Id = a.Key,
-                sum = a.Count()
-            }).OrderByDescending(a => a.sum).FirstOrDefault().Tutor_Id;
-            return _context.Tutors.Where(t => t.Id == id).FirstOrDefault();
-
+                int id = _context.TutorRequests.Include("Class").GroupBy(r => r.Tutor_Id).Select(a =>
+                new
+                {
+                    Tutor_Id = a.Key,
+                    sum = a.Count()
+                }).OrderByDescending(a => a.sum).FirstOrDefault().Tutor_Id;
+                return _context.Tutors.Where(t => t.Id == id).FirstOrDefault();
+            }
+            catch(Exception e)
+            {
+                return new Tutor();
+            }
         }
 
         public List<DataPoint> GetMonthsWithMostRequests()
         {
             List<DataPoint> points = new List<DataPoint>();
-            for (int i = 0; i < 12; i++)
+            try
             {
-                var d = new DataPoint();
-                d.Label = GetString(i + 1);
-                d.Y = _context.TutorRequests.Count(r => r.Date.Month == i + 1);
-                points.Add(d);
+                for (int i = 0; i < 12; i++)
+                {
+                    var d = new DataPoint();
+                    d.Label = GetString(i + 1);
+                    d.Y = _context.TutorRequests.Count(r => r.Date.Month == i + 1);
+                    points.Add(d);
+                }
+            }
+            catch(Exception e)
+            {
+
             }
             return points;
         }
         private string GetString(int month)
         {
-            return new DateTime(2000,month, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("de"));
+            try
+            {
+                return new DateTime(2000, month, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("de"));
+            }
+            catch(Exception e)
+            {
+                return "-";
+            }
         }
 
         public List<DataPoint> GetRequestPercentageOnTutorsWithImage()
         {
             List<DataPoint> list = new List<DataPoint>();
-            double noimage = Math.Round((double)_context.TutorRequests.Include("Tutor").Count(tr => !String.IsNullOrEmpty(tr.Tutor.Image)) / (double)GetRequestsCount() * 100,2);
-            list.Add(new DataPoint() { Label = "Mit Bild", Y = 100 - noimage });
-            list.Add(new DataPoint() { Label = "Ohne Bild", Y = noimage });
+            try
+            {
+                double noimage = Math.Round((double)_context.TutorRequests.Include("Tutor").Count(tr => !String.IsNullOrEmpty(tr.Tutor.Image)) / (double)GetRequestsCount() * 100, 2);
+                list.Add(new DataPoint() { Label = "Mit Bild", Y = 100 - noimage });
+                list.Add(new DataPoint() { Label = "Ohne Bild", Y = noimage });
+            }
+            catch(Exception e)
+            {
+
+            }
             return list;
         }
 
         public string GetTeacherWithMostComments()
         {
-            return _context.TeacherCommentStatistics.GroupBy(t => t.TeacherIdentityName).OrderByDescending(grp => grp.Count()).FirstOrDefault().Key;
+            try
+            {
+                return _context.TeacherCommentStatistics.GroupBy(t => t.TeacherIdentityName).OrderByDescending(grp => grp.Count()).FirstOrDefault().Key;
+            }
+            catch(Exception e)
+            {
+                return "-";
+            }
         }
         public List<DataPoint> GetAcceptedReviews()
         {
             List<DataPoint> list = new List<DataPoint>();
-            int accepted = _context.AcceptStatistics.Count(a => a.ReviewAccepted != null && (bool)a.ReviewAccepted);
-            int declined = _context.AcceptStatistics.Count(a => a.ReviewAccepted != null && (bool)a.ReviewAccepted == false);
-            list.Add(new DataPoint() { Label = "Akzeptiert", Y = accepted });
-            list.Add(new DataPoint() { Label = "Abgelehnt", Y = declined });
+            try
+            {
+                int accepted = _context.AcceptStatistics.Count(a => a.ReviewAccepted != null && (bool)a.ReviewAccepted);
+                int declined = _context.AcceptStatistics.Count(a => a.ReviewAccepted != null && (bool)a.ReviewAccepted == false);
+                list.Add(new DataPoint() { Label = "Akzeptiert", Y = accepted });
+                list.Add(new DataPoint() { Label = "Abgelehnt", Y = declined });
+            }
+            catch(Exception e)
+            {
+
+            }
             return list;
         }
         public List<DataPoint> GetAcceptedTutors()
         {
             List<DataPoint> list = new List<DataPoint>();
-            int accepted = _context.AcceptStatistics.Count(a => a.TutorAccepted != null && (bool)a.TutorAccepted);
-            int declined = _context.AcceptStatistics.Count(a => a.TutorAccepted != null && (bool)a.TutorAccepted == false);
-            list.Add(new DataPoint() { Label = "Akzeptiert", Y = accepted });
-            list.Add(new DataPoint() { Label = "Abgelehnt", Y = declined });
+            try
+            {
+                int accepted = _context.AcceptStatistics.Count(a => a.TutorAccepted != null && (bool)a.TutorAccepted);
+                int declined = _context.AcceptStatistics.Count(a => a.TutorAccepted != null && (bool)a.TutorAccepted == false);
+                list.Add(new DataPoint() { Label = "Akzeptiert", Y = accepted });
+                list.Add(new DataPoint() { Label = "Abgelehnt", Y = declined });
+            }
+            catch(Exception e)
+            {
+
+            }
             return list;
         }
     }

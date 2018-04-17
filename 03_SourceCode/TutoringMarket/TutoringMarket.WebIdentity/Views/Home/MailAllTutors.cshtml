@@ -21,16 +21,18 @@
         </ul>
     </div>
 </nav>
-<h2>Alle Tutoren kontaktieren</h2>
+<h1 class="page-header">Alle Tutoren kontaktieren</h1>
 <form asp-action="MailAllTutors">
-    <label>Betreff</label>
-    <input asp-for="@Model.Subject" />
-    <span asp-validation-for="@Model.Subject"></span>
-    <label>Nachricht</label>
-    @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
-    <span asp-validation-for="@Model.Message"></span>
-    <a class="btn btn-default" asp-action="EditTutors">Zur&uuml;ck</a>
-    <input type="submit" value="Senden" />
-    <p style="color:red;">@Html.ValidationMessage("Error")</p>
+    <div class="centerAnfrage">
+        <label>Betreff</label><br />
+        <input asp-for="@Model.Subject" />
+        <span asp-validation-for="@Model.Subject"></span> <br />
+        <label>Nachricht</label>
+        @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
+        <span asp-validation-for="@Model.Message"></span>
+        <a class="btn btn-default" asp-action="EditTutors">Zur&uuml;ck</a>
+        <input class="btn btn-default" type="submit" value="Senden" />
+        <p style="color:red;">@Html.ValidationMessage("Error")</p>
+    </div>
+   
 </form>
-

@@ -28,13 +28,13 @@
     <table>
         @foreach (var item in Model.Reviews)
         {
-            <tr>
-                <td>@item.Books</td>
-                <td>@item.Comment</td>
-                <td>@item.Tutor.LastName, @item.Tutor.FirstName</td>
-                <td><a asp-action="EditReviewsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich akzeptieren?');">Akzeptieren</a></td>
-                <td><a asp-action="EditReviewsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich löschen?');">Löschen</a></td>
-            </tr>
+        <tr>
+            <td style="padding-right:5px;">@item.Tutor.LastName @item.Tutor.FirstName;</td>
+            <td style="padding-right:5px;">@item.Books von 5;</td>
+            <td style="padding-right:5px;">@item.Comment</td>
+            <td style="padding-right:5px;"><a asp-action="EditReviewsAccept" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich akzeptieren?');">Akzeptieren</a></td>
+            <td><a asp-action="EditReviewsDelete" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich löschen?');">Löschen</a></td>
+        </tr>
         }
     </table>
     <a class="btn btn-default" asp-action="AdministrationArea">Zurück</a>
@@ -42,12 +42,12 @@
     <table>
         @foreach (var item in Model.AllReviews)
         {
-            <tr>
-                <td>@item.Books</td>
-                <td>@item.Comment</td>
-                <td>@item.Tutor.LastName, @item.Tutor.FirstName</td>
-                <td><a asp-action="EditReviewsDeleteReviewAfterwards" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich entfernen?');">Entfernen</a></td>
-            </tr>
+        <tr>
+            <td style="padding-right:5px;">@item.Tutor.LastName @item.Tutor.FirstName;</td>
+            <td style="padding-right:5px;">@item.Books von 5;</td>
+            <td style="padding-right:5px;">@item.Comment </td>
+            <td><a asp-action="EditReviewsDeleteReviewAfterwards" asp-route-id="@item.Id" onclick="return confirm('Wollen Sie den Kommentar \'@item.Comment\' wirklich entfernen?');">Entfernen</a></td>
+        </tr>
         }
     </table>
 </form>
