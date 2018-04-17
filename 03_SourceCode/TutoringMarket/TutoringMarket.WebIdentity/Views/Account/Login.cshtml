@@ -16,6 +16,7 @@
 </nav>
 
 <head>
+
     <script language="JavaScript">
         function schreiben() {
             var r_text = new Array();
@@ -23,12 +24,26 @@
             r_text[1] = "You only fail when you stop trying";
             r_text[2] = "Be somebody nobody thought you could be";
             r_text[3] = "You didn't come this far to only come this far";
-            r_text[4] = "The way to get started is to quit talking and begin doing";
             r_text[5] = "Do what you can with all you have, wherever you are";
             r_text[6] = "Sometimes you win sometimes you learn";
             var i = Math.floor(7 * Math.random());
             document.write(r_text[i]);
         }
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var images = new Array();
+        images[0] = "winter1.jpg";
+        images[1] = "winter4.jpg";
+        images[2] = "winter5.jpg";
+        images[3] = "winter6.jpg";
+        images[4] = "sommer1.jpg";
+        images[5] = "sommer2.jpg";
+        images[6] = "sommer3.jpg";
+        images[7] = "sommer4.jpg";
+        $('body').css({ 'background': 'url(../images/' + images[Math.floor(Math.random() * images.length)] + ')' });
+        document.body.style.backgroundSize = "cover";
     </script>
 
 </head>

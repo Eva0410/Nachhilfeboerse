@@ -95,8 +95,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 //}
 
                 //for offline testing (Server ist nicht erreichbar von daheim, daher müssen Name, Klasse und Abteilung hard codiert werden)
-                //string fullName = "Test Test";
-                //string schoolClass = "3AHIF";
+                //string fullName = "Danijal Orascanin";
+                //string schoolClass = "5AHIF";
                 //string department = "Informatik";
 
                 //real code

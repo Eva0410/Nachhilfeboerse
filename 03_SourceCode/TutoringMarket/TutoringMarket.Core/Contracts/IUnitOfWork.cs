@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TutoringMarket.Core.Enities;
+using TutoringMarket.Core.Statistics;
 
 namespace TutoringMarket.Core.Contracts
 {
@@ -16,10 +18,32 @@ namespace TutoringMarket.Core.Contracts
         IGenericRepository<Review> ReviewRepository { get; }
         IGenericRepository<Subject> SubjectRepository { get; }
         IGenericRepository<TeacherComment> TeacherCommentRepository { get; }
+        IGenericRepository<TutorRequest> TutorRequestRepository { get; }
+        IGenericRepository<TeacherCommentStatisticEntry> TeacherCommentStatisticsRepository { get; }
+        IGenericRepository<AcceptStatistics> AcceptStatisticsRepository { get; }
 
         void Save();
 
         void DeleteDatabase();
         List<Tutor> GetTutorsByReviews();
+        List<DataPoint> GetTutorsPerGender();
+        List<DataPoint> GetTutorsPerClass();
+        string GetDepartmentWithMostTutors();
+        int GetTutorsCount();
+        double GetTutorsWithImagePercentage();
+
+        int GetReviewsCount();
+        double GetAverageReview();
+        double GetAverageCountReviewsPerTutor();
+
+        int GetRequestsCount();
+        List<SchoolClass> GetTopFiveRequestingClasses();
+        Tutor GetMostRequestedTutor();
+        List<DataPoint> GetMonthsWithMostRequests();
+        List<DataPoint> GetRequestPercentageOnTutorsWithImage();
+
+        string GetTeacherWithMostComments();
+        List<DataPoint> GetAcceptedTutors();
+        List<DataPoint> GetAcceptedReviews();
     }
 }

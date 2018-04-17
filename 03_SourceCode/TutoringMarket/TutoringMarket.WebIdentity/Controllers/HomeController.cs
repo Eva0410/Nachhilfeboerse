@@ -15,6 +15,7 @@ using TutoringMarket.Persistence;
 using System.Net.Mail;
 using System.IO;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace TutoringMarket.WebIdentity.Controllers
 {
@@ -34,7 +35,6 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             return View();
         }
-        //TODO sort property mitgeben
         [Authorize]
         public IActionResult Index(string filter, string sort)
         {
@@ -94,17 +94,40 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
 
-
         [Authorize]
         public IActionResult TutorDetails(int id, string filter, string sort)
         {
             TutorModel model = new TutorModel();
             if (uow.TutorRepository.GetById(id) == null)
                 return NotFound();
-            model.Init(uow, id);
+            model.Tutor_Id = id;
+            model.Init(uow);
             model.filter = filter;
             model.sort = sort;
             return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TutorDetails(TutorModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Review r = model.NewReview;
+                r.Approved = false;
+                ApplicationUser user = await um.FindByNameAsync(User.Identity.Name);
+                r.Author = String.Format("{0} {1}, {2}", user.FirstName, user.LastName, user.SchoolClass);
+                r.Tutor_Id = model.Tutor_Id;
+                r.Date = DateTime.Now;
+                uow.ReviewRepository.Insert(r);
+                uow.Save();
+                model.Init(uow);
+                return RedirectToAction("TutorDetails", model);
+            }
+            else
+            {
+                model.Init(uow);
+                return View(model);
+            }
         }
         [Authorize(Roles = "Visitor")]
         public async Task<IActionResult> GetTutor()
@@ -118,7 +141,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         //id describes the method, which should be invoked (0 == preview image, 1 == save tutor, 2 == delete image)
         public async Task<IActionResult> GetTutor(GetTutorModel model, int id)
         {
-            
+
             //preview
             if (id == 0)
             {
@@ -189,7 +212,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         {
             EditTutorModel model = new EditTutorModel();
             await model.FillList(uow, um, User);
-            if(model.Tutor.Image != null)
+            if (model.Tutor.Image != null)
             {
                 model.ImageAsString = model.Tutor.Image;
             }
@@ -242,16 +265,19 @@ namespace TutoringMarket.WebIdentity.Controllers
                         }
                         //For updating the references, a new tutor has to be created and inserted; the old tutor will be deleted
                         changedTutor.Id = 0;
+                        changedTutor.Accepted = false;
                         //handling the accept/reject problem
                         if (oldTutor.Accepted == true)
                         {
-                            changedTutor.Accepted = false;
                             changedTutor.OldTutorId = oldTutor.Id;
                         }
                         else
                         {
                             this.uow.TutorRepository.Delete(oldTutor.Id);
                             this.uow.Save();
+                            var tmp = this.uow.TutorRepository.Get(t => t.IdentityName == User.Identity.Name && t.Accepted == true).FirstOrDefault();
+                            if (tmp != null)
+                                changedTutor.OldTutorId = tmp.Id;
                         }
 
                         this.uow.TutorRepository.Insert(changedTutor);
@@ -346,7 +372,6 @@ namespace TutoringMarket.WebIdentity.Controllers
             return View(model);
         }
         //TODO Info (Admin muss sich neu einloggen um Administrator-Rechte zu bekommen
-        //TODO handle back button
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AdministrationArea(AdministrationsAreaModel model)
@@ -388,40 +413,55 @@ namespace TutoringMarket.WebIdentity.Controllers
             return RedirectToAction("AdministrationArea", model);
         }
         //TODO Access Denied Page designen
-        //not used yet
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet]
-        //public IActionResult EditReviews()
-        //{
-        //    EditReviewsModel model = new EditReviewsModel();
-        //    model.Init(uow);
-        //    return View(model);
-        //}
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
-        //{
-        //    var r = uow.ReviewRepository.GetById(id);
-        //    if (r == null)
-        //        return NotFound();
+        //TODO Max Anzahl Zeichen bei Kommentar
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult EditReviews()
+        {
+            EditReviewsModel model = new EditReviewsModel();
+            model.Init(uow);
+            return View(model);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditReviewsDelete(EditMetadataModel model, int id)
+        {
+            var r = uow.ReviewRepository.GetById(id);
+            if (r == null)
+                return NotFound();
 
-        //    uow.ReviewRepository.Delete(r);
-        //    uow.Save();
-        //    return RedirectToAction("EditReviews");
-        //}
+            uow.ReviewRepository.Delete(r);
+            //save for statistics
+            uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { ReviewAccepted = false });
+            uow.Save();
+            return RedirectToAction("EditReviews");
+        }
 
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
-        //{
-        //    var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
-        //    if (review == null)
-        //        return NotFound();
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditReviewsAccept(EditReviewsModel model, int id)
+        {
+            var review = uow.ReviewRepository.Get(filter: r => r.Id == id, includeProperties: "Tutor").FirstOrDefault();
+            if (review == null)
+                return NotFound();
 
-        //    review.Approved = true;
-        //    uow.ReviewRepository.Update(review);
+            review.Approved = true;
+            uow.ReviewRepository.Update(review);
+            uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { ReviewAccepted = true });
+            uow.Save();
+            return RedirectToAction("EditReviews");
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditReviewsDeleteReviewAfterwards(EditReviewsModel model, int id)
+        {
+            var r = uow.ReviewRepository.GetById(id);
+            if (r == null)
+                return NotFound();
 
-        //    uow.Save();
-        //    return RedirectToAction("EditReviews");
-        //}
+            uow.ReviewRepository.Delete(r);
+            uow.Save();
+
+            return RedirectToAction("EditReviews");
+
+        }
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditMetadata()
@@ -482,6 +522,8 @@ namespace TutoringMarket.WebIdentity.Controllers
                 DeleteTutorComments(t.Id);
 
                 uow.TutorRepository.Delete(t);
+
+                uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { TutorAccepted = false });
                 uow.Save();
 
                 if (uow.TutorRepository.Get(filter: tut => tut.IdentityName == t.IdentityName).Count() == 0)
@@ -507,13 +549,49 @@ namespace TutoringMarket.WebIdentity.Controllers
             uow.Save();
 
             refreshedTutor.Accepted = true;
+            refreshedTutor.OldTutorId = 0;
             uow.TutorRepository.Update(refreshedTutor);
-
+            uow.AcceptStatisticsRepository.Insert(new AcceptStatistics { TutorAccepted = true });
             uow.Save();
 
             DeleteTutorComments(refreshedTutor.Id);
 
+            SendMail(refreshedTutor.EMail, String.Format("Hallo {0}, \r\n\r\n dein Profil wurde soeben vom Administrator freigegeben! Ab jetzt können alle Schüler dein Profil sehen und dich kontaktieren. \r\n\r\n Liebe Grüße \r\n Nachhilfebörse HTL Leonding", refreshedTutor.FirstName), "Profil freigegeben");
+
             return RedirectToAction("EditTutors");
+        }
+        private async void SendMail(string mail, string messageText, string subject)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var message = new MailMessage();
+                    message.To.Add(new MailAddress(mail));
+                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.Subject = subject;
+                    message.Body = string.Format(messageText);
+                    message.IsBodyHtml = false;
+
+                    using (var smtp = new SmtpClient())
+                    {
+                        var credential = new NetworkCredential
+                        {
+                            UserName = "nachhilfeboerse.info@gmail.com",
+                            Password = "5nUtWnsz"
+                        };
+                        smtp.Credentials = credential;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.EnableSsl = true;
+                        await smtp.SendMailAsync(message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Error", "Ein Fehler ist aufgetreten! Tipp: Haben Sie Ihre Verbindung zum Internet überprüft?");
+                }
+            }
         }
         private void DeleteTutorComments(int tutor_id)
         {
@@ -599,6 +677,13 @@ namespace TutoringMarket.WebIdentity.Controllers
                 };
                 this.uow.TeacherCommentRepository.Insert(comment);
                 this.uow.Save();
+
+                //save to generate statistics
+                TeacherCommentStatisticEntry c = new TeacherCommentStatisticEntry();
+                c.TeacherIdentityName = User.Identity.Name;
+                this.uow.TeacherCommentStatisticsRepository.Insert(c);
+                this.uow.Save();
+
                 model.Init(this.uow);
                 return RedirectToAction("CommentTutor", new { filter = model.SelectedSubject });
             }
@@ -650,8 +735,18 @@ namespace TutoringMarket.WebIdentity.Controllers
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
-                        return RedirectToAction("Sent");
                     }
+
+                    //save message
+                    var request = new TutorRequest();
+                    request.Date = DateTime.Now;
+                    request.Tutor_Id = model.Tutor.Id;
+                    ApplicationUser CurrentUser = await um.FindByNameAsync(User.Identity.Name);
+                    request.SchoolClass = CurrentUser.SchoolClass;
+
+                    uow.TutorRequestRepository.Insert(request);
+                    uow.Save();
+                    return RedirectToAction("Sent");
                 }
                 catch (Exception ex)
                 {
@@ -673,7 +768,7 @@ namespace TutoringMarket.WebIdentity.Controllers
 
             return View();
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AdministrationMail(int id)
         {
             AdminMailForm model = new AdminMailForm();
@@ -682,8 +777,7 @@ namespace TutoringMarket.WebIdentity.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
-        //TODO config datei
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AdministrationMail(AdminMailForm model)
         {
             model.InitTutor(this.uow, model.ID);
@@ -720,12 +814,46 @@ namespace TutoringMarket.WebIdentity.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "Admin")]
+        public IActionResult MailAllTutors()
+        {
+            return View(new MailAllTutorsModel());
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult MailAllTutors(MailAllTutorsModel model)
+        {
+            var tutors = this.uow.TutorRepository.Get(t => t.Accepted);
+            foreach (var item in tutors)
+            {
+                SendMail(item.EMail, model.Message, model.Subject);
+            }
+            if (ModelState.IsValid)
+                return View("Sent");
+            else
+                return View(model);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult Statistics()
+        {
+            StatisticsModel model = new StatisticsModel();
+            model.Init(this.uow);
+            ViewBag.TutorsPerClassDataPoints = JsonConvert.SerializeObject(model.TutorsPerClass);
+            ViewBag.TutorsPerGenderDataPoints = JsonConvert.SerializeObject(model.TutorsPerGender);
+
+            ViewBag.MonthsWithRequestsDataPoints = JsonConvert.SerializeObject(model.MonthsWithRequests);
+            ViewBag.RequestsOnTutorsWithImagePercentageDataPoints = JsonConvert.SerializeObject(model.RequestsOnTutorsWithImage);
+
+            ViewBag.AcceptedReviews = JsonConvert.SerializeObject(model.AcceptedReviews);
+            ViewBag.AcceptedTutors = JsonConvert.SerializeObject(model.AcceptedTutors);
+
+            return View(model);
+        }
         [Authorize]
         public ActionResult Sent()
         {
             return View();
         }
-
         public IActionResult Error()
         {
             return View();

@@ -58,7 +58,7 @@
             <div id="getTutorFormular">
                 <div class="form-group">
                     <div>
-                        <p>Neues Bild auswählen:</p>
+                        <p>Neues Bild auswählen (.jpg*):</p>
                         <input style="margin-bottom:10px;" asp-for="@Model.Image" accept="image/*" type="file" />
                         <span asp-validation-for="@Model.ImageFileName" class="text-danger"></span>
                         <input type="submit" class="myButton" value="Vorschau laden" />
@@ -101,7 +101,7 @@
                         <label>Fächer</label>
                         <select asp-items="@Model.AvailableSubjects" asp-for="@Model.SelectedSubjects"></select>
                         <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
-                        <p class="pmobile">Bitte halte die Steuerungstaste (Controltaste) gedrückt, wenn du mehrere Fächer auswählen willst</p>
+                        <p class="pmobile">Bitte halte die Steuerungstaste bzw. die Commandtaste gedrückt, wenn du mehrere Fächer auswählen willst</p>
                     </div>
                 </div>
 

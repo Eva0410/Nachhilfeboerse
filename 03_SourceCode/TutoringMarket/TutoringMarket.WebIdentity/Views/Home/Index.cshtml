@@ -24,92 +24,98 @@
             {
                 <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="CommentTutor">Tutoren kommentieren</a></li>
            }
-        </ul> 
+        </ul>
     </div>
 </nav>
 
-<body style="background-color: white">            
-    
-    <div class="greenBack">
-        <h1 class="index">
-            Liste
-            <em class="index">aller Tutoren</em>
-        </h1>
-        
-        <div>
-            @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
-            {
-                <button class="teacherButton" type="button"
-                        onclick="location.href='@Url.Action("GetTutor", "Home")'">
-                    Werde auch du Tutor
-                </button>
-            }
+<body id="openNav" style="background-color: white">
+        <div class="greenBack">
+            <h1 class="index">
+                Liste
+                <em class="index">aller Tutoren</em>
+            </h1>
 
-            @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
-            {
-                <a style="text-decoration:none;" class="teacherButton" asp-action="EditTutor">Tutorprofil ändern</a>
-            }
-        </div>
+            <div>
+                @if (ViewContext.HttpContext.User.IsInRole("Visitor"))
+                 {
+                    <button class="teacherButton" type="button"
+                            onclick="location.href='@Url.Action("GetTutor", "Home")'">
+                        Werde auch du Tutor
+                    </button>
+                 }
 
-    </div>
-
-    <form asp-action="index">
-        <div id="blackFilter1">
-            <h3 id="h3filterFach">Filtern:</h3>
-            <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select><br />
-            <h3 id="h3filterFach">Sortieren:</h3>
-            <select asp-for="@Model.SelectedSortProperty" asp-items="@Model.SortList"></select><br /><br />
-            <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern & Sortieren" />
-        </div>
-    </form>
-    
-    <div class="col-md-6 col-sm-6 whiteBoxIndex">
-
-        <h3 id="h3borderTutor">Liste aller Tutoren</h3>
-
-        @foreach (var item in @Model.Tutors)
-        {
-            <div class="teacherIndex">
-                <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject" asp-route-sort="@Model.SelectedSortProperty">
-                    @if (String.IsNullOrEmpty(item.Image))
-                    {
-                        <div class="blankImage"><div class="indexHover">Mehr</div></div>
-                    }
-                    else {
-                        <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"><div class="indexHover">Mehr</div></div>
-                    }
-                    <div style="margin-left:10px;">
-                        <center><h3 class="h3index">@item.FirstName @item.LastName</h3></center>
-                       <table>
-                           <tr>
-                               <td style="width:50%; text-align: center;">
-                                   <p class="indexTeacherFont">Abteilung: @item.Department.Name <br /></p>
-                               </td>
-                               <td style="width: 50%; text-align:center;">
-                                   <p class="indexTeacherFont">Klasse: @item.Class.Name <br /></p>
-                               </td>
-                           </tr>
-                        </table> 
-                        <div align="center">
-
-                            <p class="indexTeacherFont">Fächer:</p>
-                            @foreach (var item2 in item.Subjects)
-                            {
-                                <div class="indexTeacherFächer">@item2.Name</div>
-                            }
-                        </div>
- 
-                    </div>                 
-                </a>
+                @if (ViewContext.HttpContext.User.IsInRole("Tutor"))
+                 {
+                    <a style="text-decoration:none;" class="teacherButton" asp-action="EditTutor">Tutorprofil ändern</a>
+                 }
             </div>
-        }
 
-        
-       
-        @if(Model.Tutors == null || Model.Tutors.Count == 0)
-        {
-            <div style="margin:10px 10px 10px 10px;">Es wurden keine Tutoren gefunden...</div>
-        }
+        </div>
+        <form asp-action="index">
 
-    </div> 
+            <!--<div class="navMain">
+     </div>
+
+     <div id="content">
+         <a href="#openNav" class="myButton" id="openBtn"><h4 style="margin-left: -4px; margin-top: -9px;">F</h4></a>
+         <a href="#closeNav" class="myButton" id="closeBtn"><h3 style="margin-left: -5px; margin-top: -13px;">-</h3></a>
+     </div>-->
+
+            <div id="blackFilter1">
+                <h3 id="h3filterFach">Filtern:</h3>
+                <select asp-for="@Model.SelectedSubject" asp-items="@Model.Subjects"></select><br />
+                <h3 id="h3filterFach">Sortieren:</h3>
+                <select asp-for="@Model.SelectedSortProperty" asp-items="@Model.SortList"></select><br /><br />
+                <input class="btn btn-default" style="margin-bottom:5px; margin-top:5px; padding: 0px 5px 0px 5px;" type="submit" value="Filtern & Sortieren" />
+            </div>
+        </form>
+
+        <div class="col-md-6 col-sm-6 whiteBoxIndex">
+
+            @foreach (var item in @Model.Tutors)
+            {
+                <div class="teacherIndex">
+                    <a style="text-decoration: none; color: #505050;" asp-action="TutorDetails" asp-route-id="@item.Id" asp-route-filter="@Model.SelectedSubject" asp-route-sort="@Model.SelectedSortProperty">
+                        @if (String.IsNullOrEmpty(item.Image))
+                        {
+                            <div class="blankImage"><div class="indexHover">Mehr</div></div>
+                        }
+                        else
+                        {
+                            <div class="indexImage" style="background-image: url(@String.Format("data:image/jpg;base64,{0}", item.Image))"><div class="indexHover">Mehr</div></div>
+                        }
+                        <div style="margin-left:10px;">
+                            <center><h3 class="h3index">@item.FirstName @item.LastName</h3></center>
+                            <table>
+                                <tr>
+                                    <td style="width:50%; text-align: center;">
+                                        <p class="indexTeacherFont">Abteilung: @item.Department.Name <br /></p>
+                                    </td>
+                                    <td style="width: 50%; text-align:center;">
+                                        <p class="indexTeacherFont">Klasse: @item.Class.Name <br /></p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div align="center">
+
+                                <p class="indexTeacherFont">Fächer:</p>
+                                @foreach (var item2 in item.Subjects)
+                                {
+                                    <div class="indexTeacherFächer">@item2.Name</div>
+                                }
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            }
+
+
+
+            @if (Model.Tutors == null || Model.Tutors.Count == 0)
+            {
+                <div style="margin:10px 10px 10px 10px;">Es wurden keine Tutoren gefunden...</div>
+            }
+
+        </div>
 </body>

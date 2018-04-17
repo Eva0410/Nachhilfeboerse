@@ -1,0 +1,146 @@
+﻿@model TutoringMarket.WebIdentity.Models.ViewModels.StatisticsModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<nav class="navbar navbar-default" role="navigation" style="background-color:#313131">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle x collapsed" data-toggle="collapse" data-target="#navbar-collapse-x">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="color: white;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nachhilfeb&ouml;rse</a>
+    </div>
+
+    <div style="margin-top: 15px;" class="collapse navbar-collapse" id="navbar-collapse-x">
+        <ul class="nav navbar-nav navbar-right">
+            <li data-toggle="collapse" data-target="#navbar-collapse.in">@await Html.PartialAsync("_LoginPartial")</li>
+        </ul>
+        <ul>
+            <li style="margin-left: -15px; margin-top: -15px;"><a asp-action="AdministrationArea">Administrationsbereich</a></li>
+        </ul>
+    </div>
+</nav>
+<div>
+    <label>Abteilung mit den meisten Tutoren: @Model.DepartmentWithMostTutors</label> <br />
+    <label>Anzahl an Tutoren gesamt: @Model.TutorsCount</label> <br />
+    <label>Tutoren mit Bild: @Model.TutorsWithImagePercentage %</label> <br /> <br />
+    <label>Anzahl an Bewertungen (gesamt): @Model.ReviewsCount</label> <br />
+    <label>Durchschnittswert aller Bewertungen: @Model.ReviewsAverage</label> <br />
+    <label>Durchschnittsanzahl an Bewertungen pro Tutor: @Model.ReviewPerTutor</label> <br /> <br />
+    <label>Anzahl der versendeten Anfragen: @Model.RequestCount</label> <br />
+    <label>Klassen, die am meisten Anfragen versendet haben (Top 5):</label> <br />
+    <ol>
+        @foreach (var item in Model.TopFiveRequestingClasses)
+        {
+            <li>@item.Name</li>
+            <br />
+        }
+    </ol> <br />
+    @if (Model.MostRequestedTutor.FirstName == null || Model.MostRequestedTutor.LastName == null || Model.MostRequestedTutor.Class == null)
+    {
+        <label>Tutor, der am öftesten angefragt wird: - </label> <br />
+    }
+    else  
+    {
+        <label>Tutor, der am öftesten angefragt wird: @Model.MostRequestedTutor.FirstName @Model.MostRequestedTutor.LastName, @Model.MostRequestedTutor.Class.Name </label> <br />
+    }
+    <label>Lehrer, der die meisten Kommentarre abgegeben hat: @Model.TeacherWithMostComments</label> <br />
+</div>
+<div id="tutorsPerClassChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="tutorsPerGenderChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="monthsWithRequestsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="requestsOnTutorWithImageChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="acceptedTutorsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+<div id="acceptedReviewsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        var tutorperclasschart = new CanvasJS.Chart("tutorsPerClassChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Tutoren pro Klasse"
+            },
+            data: [
+                {
+                    type: "column",
+                    dataPoints:  @Html.Raw(ViewBag.TutorsPerClassDataPoints),
+                }
+            ]
+        });
+        var tutorspergenderchart = new CanvasJS.Chart("tutorsPerGenderChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Tutoren pro Geschlecht"
+            },
+            data: [
+                {                    type: "pie",
+                    dataPoints:  @Html.Raw(ViewBag.TutorsPerGenderDataPoints),
+                }
+            ]
+        });
+        var monthsWithRequestsChart = new CanvasJS.Chart("monthsWithRequestsChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Anfragen pro Monat"
+            },
+            data: [
+                {                    type: "column",
+                    dataPoints:  @Html.Raw(ViewBag.MonthsWithRequestsDataPoints),
+                }
+            ]
+        });
+        var requestsOnTutorWithImageChart = new CanvasJS.Chart("requestsOnTutorWithImageChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Anfragen an Tutoren mit Bild in Prozent"
+            },
+            data: [
+                {                    type: "pie",
+                    dataPoints:  @Html.Raw(ViewBag.RequestsOnTutorsWithImagePercentageDataPoints),
+                }
+            ]
+        });
+        var acceptedTutorsChart = new CanvasJS.Chart("acceptedTutorsChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Akzeptierte / Abgelehnte Tutoren"
+            },
+            data: [
+                {                    type: "doughnut",
+                    dataPoints:  @Html.Raw(ViewBag.AcceptedTutors),
+                }
+            ]
+        });
+        var acceptedReviewsChart = new CanvasJS.Chart("acceptedReviewsChartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Akzeptierte / Abgelehnte Bewertungen"
+            },
+            data: [
+                {                    type: "doughnut",
+                    dataPoints:  @Html.Raw(ViewBag.AcceptedReviews),
+                }
+            ]
+        });
+
+        tutorperclasschart.render();
+
+        tutorspergenderchart.render();
+
+        monthsWithRequestsChart.render();
+
+        requestsOnTutorWithImageChart.render();
+
+        acceptedTutorsChart.render();
+
+        acceptedReviewsChart.render();
+};
+</script>
