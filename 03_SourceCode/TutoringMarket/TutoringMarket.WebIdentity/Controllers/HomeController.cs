@@ -66,7 +66,9 @@ namespace TutoringMarket.WebIdentity.Controllers
                     var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                     var message = new MailMessage();
                     message.To.Add(new MailAddress("a.keck-jordan@htl-leonding.ac.at"));
-                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    //Alte E-Mail-Adresse
+                    //message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.From = new MailAddress("nachhilfeboerse@htl-leonding.ac.at");
                     message.Subject = "Anfrage!";
                     message.Body = string.Format(body, model.FromName, model.FromEmail, model.Nachricht);
                     message.IsBodyHtml = true;
@@ -75,11 +77,12 @@ namespace TutoringMarket.WebIdentity.Controllers
                     {
                         var credential = new NetworkCredential
                         {
-                            UserName = "nachhilfeboerse.info@gmail.com",
-                            Password = "5nUtWnsz"
+                            UserName = "nachhilfeboerse@htl-leonding.ac.at",
+                            Password = "passwort"
                         };
                         smtp.Credentials = credential;
-                        smtp.Host = "smtp.gmail.com";
+                        //smtp.Host = "smtp.gmail.com";
+                        smtp.Host = "mail.htl-leonding.ac.at";
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
@@ -568,7 +571,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     var message = new MailMessage();
                     message.To.Add(new MailAddress(mail));
-                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.From = new MailAddress("nachhilfeboerse@htl-leonding.ac.at"); 
                     message.Subject = subject;
                     message.Body = string.Format(messageText);
                     message.IsBodyHtml = false;
@@ -577,11 +580,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                     {
                         var credential = new NetworkCredential
                         {
-                            UserName = "nachhilfeboerse.info@gmail.com",
-                            Password = "5nUtWnsz"
+                            UserName = "nachhilfeboerse@htl-leonding.ac.at",
+                            Password = "passwort"
                         };
                         smtp.Credentials = credential;
-                        smtp.Host = "smtp.gmail.com";
+                        smtp.Host = "mail.htl-leonding.ac.at";
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
@@ -719,7 +722,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     var message = new MailMessage();
                     message.To.Add(new MailAddress(model.Tutor.EMail));
-                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.From = new MailAddress("nachhilfeboerse@htl-leonding.ac.at"); //pw: 5nUtWnsz
                     message.Subject = "Nachhilfeanfrage!";
                     message.Body = model.Message + model.Comments + model.Ending;
 
@@ -727,11 +730,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                     {
                         var credential = new NetworkCredential
                         {
-                            UserName = "nachhilfeboerse.info@gmail.com",
-                            Password = "5nUtWnsz"
+                            UserName = "nachhilfeboerse@htl-leonding.ac.at",
+                            Password = "passwort"
                         };
                         smtp.Credentials = credential;
-                        smtp.Host = "smtp.gmail.com";
+                        smtp.Host = "mail.htl-leonding.ac.at";
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);
@@ -787,7 +790,7 @@ namespace TutoringMarket.WebIdentity.Controllers
                 {
                     var message = new MailMessage();
                     message.To.Add(new MailAddress(model.Tutor.EMail));
-                    message.From = new MailAddress("nachhilfeboerse.info@gmail.com"); //pw: 5nUtWnsz
+                    message.From = new MailAddress("nachhilfeboerse@htl-leonding.ac.at"); //pw: 5nUtWnsz
                     message.Subject = "Nachricht vom Administrator der Nachhilfebörse.";
                     message.Body = string.Format(model.Nachricht);
                     message.IsBodyHtml = true;
@@ -796,11 +799,11 @@ namespace TutoringMarket.WebIdentity.Controllers
                     {
                         var credential = new NetworkCredential
                         {
-                            UserName = "nachhilfeboerse.info@gmail.com",
-                            Password = "5nUtWnsz"
+                            UserName = "nachhilfeboerse@htl-leonding.ac.at",
+                            Password = "passwort"
                         };
                         smtp.Credentials = credential;
-                        smtp.Host = "smtp.gmail.com";
+                        smtp.Host = "mail.htl-leonding.ac.at";
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
                         await smtp.SendMailAsync(message);

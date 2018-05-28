@@ -47,100 +47,63 @@
     }
     <label>Lehrer, der die meisten Kommentarre abgegeben hat: @Model.TeacherWithMostComments</label> <br />
 </div>
-<div id="tutorsPerClassChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="tutorsPerGenderChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="monthsWithRequestsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="requestsOnTutorWithImageChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="acceptedTutorsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="acceptedReviewsChartContainer" style="width: 45%; height: 300px;display: inline-block;"></div>
-
-<script type="text/javascript">
-
-    window.onload = function () {
-        var tutorperclasschart = new CanvasJS.Chart("tutorsPerClassChartContainer", {
-            theme: "theme2",
-            animationEnabled: true,
-            title: {
-                text: "Tutoren pro Klasse"
-            },
-            data: [
-                {
-                    type: "column",
-                    dataPoints:  @Html.Raw(ViewBag.TutorsPerClassDataPoints),
-                }
-            ]
-        });
-        var tutorspergenderchart = new CanvasJS.Chart("tutorsPerGenderChartContainer", {
-            theme: "theme2",
-            animationEnabled: true,
-            title: {
-                text: "Tutoren pro Geschlecht"
-            },
-            data: [
-                {                    type: "pie",
-                    dataPoints:  @Html.Raw(ViewBag.TutorsPerGenderDataPoints),
-                }
-            ]
-        });
-        var monthsWithRequestsChart = new CanvasJS.Chart("monthsWithRequestsChartContainer", {
-            theme: "theme2",
-            animationEnabled: true,
-            title: {
-                text: "Anfragen pro Monat"
-            },
-            data: [
-                {                    type: "column",
-                    dataPoints:  @Html.Raw(ViewBag.MonthsWithRequestsDataPoints),
-                }
-            ]
-        });
-        var requestsOnTutorWithImageChart = new CanvasJS.Chart("requestsOnTutorWithImageChartContainer", {
-            theme: "theme2",
-            animationEnabled: true,
-            title: {
-                text: "Anfragen an Tutoren mit Bild in Prozent"
-            },
-            data: [
-                {                    type: "pie",
-                    dataPoints:  @Html.Raw(ViewBag.RequestsOnTutorsWithImagePercentageDataPoints),
-                }
-            ]
-        });
-        var acceptedTutorsChart = new CanvasJS.Chart("acceptedTutorsChartContainer", {
-            theme: "theme2",
-            animationEnabled: true,
-            title: {
-                text: "Akzeptierte / Abgelehnte Tutoren"
-            },
-            data: [
-                {                    type: "doughnut",
-                    dataPoints:  @Html.Raw(ViewBag.AcceptedTutors),
-                }
-            ]
-        });
-        var acceptedReviewsChart = new CanvasJS.Chart("acceptedReviewsChartContainer", {
-            theme: "theme2",
-            animationEnabled: true,
-            title: {
-                text: "Akzeptierte / Abgelehnte Bewertungen"
-            },
-            data: [
-                {                    type: "doughnut",
-                    dataPoints:  @Html.Raw(ViewBag.AcceptedReviews),
-                }
-            ]
-        });
-
-        tutorperclasschart.render();
-
-        tutorspergenderchart.render();
-
-        monthsWithRequestsChart.render();
-
-        requestsOnTutorWithImageChart.render();
-
-        acceptedTutorsChart.render();
-
-        acceptedReviewsChart.render();
-};
-</script>
+<div id="tutorsPerClassChartContainer" style="width: 45%; height: 300px;display: inline-block;">
+    <h2>Tutoren pro Klasse</h2>
+        <ol>
+        @foreach (var item in Model.TutorsPerClass)
+        {
+            <li>@item.Label: @item.Y</li>
+            <br />
+        }
+    </ol> <br />
+</div>
+<div id="tutorsPerGenderChartContainer" style="width: 45%; height: 300px;display: inline-block;">
+    <h2>Tutoren pro Geschlecht</h2>
+    <ol>
+        @foreach (var item in Model.TutorsPerGender)
+        {
+            <li>@item.Label: @item.Y</li>
+            <br />
+        }
+    </ol> <br />
+</div>
+<div id="monthsWithRequestsChartContainer" style="width: 45%; height: 300px;display: inline-block;">
+    <h2>Anfragen pro Monat</h2>
+    <ol>
+        @foreach (var item in Model.MonthsWithRequests)
+        {
+            <li>@item.Label: @item.Y</li>
+            <br />
+        }
+    </ol> <br />
+</div>
+<div id="requestsOnTutorWithImageChartContainer" style="width: 45%; height: 300px;display: inline-block;">
+    <h2>Anfragen an Tutoren mit Bild</h2>
+    <ol>
+        @foreach (var item in Model.RequestsOnTutorsWithImage)
+        {
+            <li>@item.Label: @item.Y %</li>
+            <br />
+        }
+    </ol> <br />
+</div>
+<div id="acceptedTutorsChartContainer" style="width: 45%; height: 300px;display: inline-block;">
+    <h2>Akzeptierte Tutoren</h2>
+    <ol>
+        @foreach (var item in Model.AcceptedTutors)
+        {
+            <li>@item.Label: @item.Y</li>
+            <br />
+        }
+    </ol> <br />
+</div>
+<div id="acceptedReviewsChartContainer" style="width: 45%; height: 300px;display: inline-block;">
+    <h2>Akzeptierte Bewertungen</h2>
+    <ol>
+        @foreach (var item in Model.AcceptedReviews)
+        {
+            <li>@item.Label: @item.Y</li>
+            <br />
+        }
+    </ol> <br />
+</div>
